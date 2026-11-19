@@ -41,6 +41,14 @@ export type Itinerary = {
   legs: Leg[];
 };
 export type Plan = { itineraries: Itinerary[]; direct: Itinerary[] };
+export type StopDeparture = {
+  id: string;
+  time: string;
+  line: string;
+  destination: string;
+  realTime: boolean;
+  requiresReservation: boolean;
+};
 export type Poi = {
   id: string;
   name: string;

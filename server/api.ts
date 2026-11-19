@@ -1,6 +1,26 @@
 import { planWithWalkingOptions, type MotisFetch } from "./planning.js";
 import { geocode, type AddressFetch } from "./geocoding.js";
-import type { Itinerary, Plan } from "../src/types";
+import {
+  modeLabel,
+  type Itinerary,
+  type Plan,
+  type StopDeparture,
+} from "../src/types";
+
+type MotisStopTime = {
+  place: { departure?: string; scheduledDeparture?: string };
+  tripTo: { name: string };
+  tripId: string;
+  headsign: string;
+  mode: string;
+  displayName: string;
+  routeShortName: string;
+  realTime: boolean;
+  cancelled: boolean;
+  tripCancelled: boolean;
+  pickupDropoffType: "NORMAL" | "NOT_ALLOWED";
+  reservation: "NONE" | "COMPULSORY";
+};
 
 const MONTENVELO_PROVIDER = "montenvelo";
 type Services = {
@@ -135,6 +155,79 @@ export async function api(
         itineraries: body.itineraries.filter(validRentalReturn),
       });
     }
+    if (url.pathname === "/api/departures") {
+      const stop = p.get("stop") ?? "";
+      const match =
+        /^(bus|train):(region|sncf|chamonix|facilibus):([^\x00-\x1f\x7f]{1,200})$/.exec(
+          stop,
+        );
+      if (!match) return json({ error: "Arrêt invalide." }, 400);
+      const [, mode, feed, stopId] = match;
+      const params = new URLSearchParams({
+        stopId: `${feed}_${stopId}`,
+        mode: mode === "bus" ? "BUS,COACH" : "RAIL",
+        n: "8",
+        language: "fr",
+        withAlerts: "false",
+      });
+      if (mode === "bus") {
+        // MOTIS can group opposite bays by name. A one-metre radius keeps co-located bays.
+        params.set("radius", "1");
+        params.set("exactRadius", "true");
+      }
+      const r = await services.motis(
+        `/api/v6/stoptimes?${params}`,
+        request.signal,
+      );
+      if (!r.ok) {
+        await r.body?.cancel().catch(() => {});
+        return json({ error: "Horaires momentanément indisponibles." }, 502);
+      }
+      const { stopTimes } = (await r.json()) as { stopTimes: MotisStopTime[] };
+      const next = new Map<string, StopDeparture>();
+      const now = Date.now();
+      for (const event of stopTimes) {
+        if (
+          event.cancelled ||
+          event.tripCancelled ||
+          event.pickupDropoffType === "NOT_ALLOWED"
+        )
+          continue;
+        const time = event.realTime
+          ? event.place.departure
+          : event.place.scheduledDeparture || event.place.departure;
+        if (
+          !time ||
+          !Number.isFinite(Date.parse(time)) ||
+          Date.parse(time) < now
+        )
+          continue;
+        const id = `${event.tripId}:${time}`;
+        const headsign = /\p{L}/u.test(event.headsign ?? "")
+          ? event.headsign
+          : undefined;
+        const destination =
+          mode === "bus"
+            ? headsign || event.tripTo?.name
+            : event.tripTo?.name || headsign;
+        next.set(id, {
+          id,
+          time,
+          line:
+            event.routeShortName ||
+            event.displayName ||
+            modeLabel[event.mode] ||
+            (mode === "bus" ? "Bus" : "Train"),
+          destination: destination || "Destination non renseignée",
+          realTime: event.realTime === true,
+          requiresReservation: event.reservation === "COMPULSORY",
+        });
+      }
+      const departures = [...next.values()]
+        .sort((a, b) => Date.parse(a.time) - Date.parse(b.time))
+        .slice(0, 3);
+      return json({ departures });
+    }
     if (url.pathname === "/api/geocode") {
       const text = p.get("q")?.trim();
       if (!text || text.length < 2) return json([]);
@@ -176,7 +269,9 @@ export async function api(
         error:
           url.pathname === "/api/bikes"
             ? "Disponibilité momentanément indisponible."
-            : "Le moteur de calcul est indisponible. Lancez npm run setup puis npm run dev.",
+            : url.pathname === "/api/departures"
+              ? "Horaires momentanément indisponibles."
+              : "Le moteur de calcul est indisponible. Lancez npm run setup puis npm run dev.",
       },
       503,
     );

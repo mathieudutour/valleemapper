@@ -14,7 +14,7 @@ Planifiez vos trajets dans le **Pays du Mont-Blanc**, à Passy, Sallanches, Sain
 
 ## Explorer la carte
 
-L’onglet **Explorer** rassemble les arrêts, les gares et les stations MontenVélo. Activez les autres couches pour trouver les stations Citiz, les arrêts Rézo Pouce, les points de prise en charge Montenbus et les arrêts de navettes saisonnières. Sélectionnez un point pour voir ses informations ou l’utiliser comme départ ou arrivée. Le bouton **Me localiser** vous situe sur la carte après autorisation du navigateur.
+L’onglet **Explorer** rassemble les arrêts, les gares et les stations MontenVélo. Activez les autres couches pour trouver les stations Citiz, les arrêts Rézo Pouce, les points de prise en charge Montenbus et les arrêts de navettes saisonnières. Sélectionnez un point pour voir ses informations ou l’utiliser comme départ ou arrivée. Les arrêts de bus et les gares affichent les trois prochains départs et indiquent les horaires actualisés en temps réel. Le bouton **Me localiser** vous situe sur la carte après autorisation du navigateur.
 
 ## Horaires et tarifs
 

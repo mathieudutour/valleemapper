@@ -917,6 +917,117 @@ h2 {
   font-size: 20px;
   margin: 15px 0;
 }
+.stop-departures {
+  margin: 15px 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.stop-departures h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.stop-departure-next {
+  margin: 8px 0 14px;
+  padding: 13px 14px;
+  border-radius: 12px;
+  background: var(--green);
+  color: #fff;
+}
+.stop-departure-next-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 3px 10px;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.stop-departure-next-heading > strong {
+  font-size: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+.stop-departure-next-heading time {
+  margin-left: auto;
+  text-align: right;
+}
+.stop-departures .stop-departure-next time,
+.stop-departures .stop-departure-next time small,
+.stop-departure-next .stop-departure-meta,
+.stop-departure-next .live-dot {
+  color: #fff;
+}
+.stop-departure-next .mode-pill {
+  background: rgb(255 255 255 / 19%);
+  color: #fff;
+}
+.stop-departure-reservation {
+  color: #714c10;
+}
+.stop-departure-next .stop-departure-reservation {
+  color: #ffe0a8;
+}
+.stop-departures ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.stop-departures li {
+  display: grid;
+  grid-template-columns: 57px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding: 10px 0;
+}
+.stop-departures li + li {
+  border-top: 1px solid var(--line);
+}
+.stop-departures time {
+  display: grid;
+  gap: 2px;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+.stop-departures time small {
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--muted);
+}
+.stop-departure-route {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.25;
+}
+.stop-departure-route strong,
+.stop-departure-route .mode-pill {
+  overflow-wrap: anywhere;
+}
+.stop-departure-route .mode-pill {
+  flex: none;
+  max-width: 44%;
+  padding: 2px 5px;
+  font-size: 11px;
+}
+.stop-departure-meta {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 9px;
+  row-gap: 2px;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.stop-departure-meta .live-dot {
+  font-size: inherit;
+}
+.stop-departures p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
 .poi-card > p {
   font-size: 13px;
   color: #768d7b;

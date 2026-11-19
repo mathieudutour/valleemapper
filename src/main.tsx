@@ -40,6 +40,7 @@ import {
   type ValleyData,
   type RoutingPreference,
   type Itinerary,
+  type StopDeparture,
   type Leg,
 } from "./types";
 import "./style.css";
@@ -438,6 +439,135 @@ function Journey({
     </article>
   );
 }
+const departureDay = new Intl.DateTimeFormat("fr-FR", {
+  timeZone: "Europe/Paris",
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+});
+
+function DepartureDetails({ departure }: { departure: StopDeparture }) {
+  return (
+    <div>
+      <div className="stop-departure-route">
+        <span className="mode-pill">{departure.line}</span>
+        <strong>{departure.destination}</strong>
+      </div>
+      <div className="stop-departure-meta">
+        <span className={departure.realTime ? "live-dot" : undefined}>
+          {departure.realTime ? "Temps réel" : "Horaire prévu"}
+        </span>
+        {departure.requiresReservation && (
+          <span className="stop-departure-reservation">
+            Réservation obligatoire
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StopDepartures({ stop }: { stop: string }) {
+  const [state, setState] = useState<
+    StopDeparture[] | "loading" | "unavailable"
+  >("loading");
+  const [now, setNow] = useState(Date.now);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let refresh: ReturnType<typeof setTimeout>;
+    async function load() {
+      try {
+        const response = await fetch(
+          "/api/departures?" + new URLSearchParams({ stop }),
+          {
+            signal: controller.signal,
+          },
+        );
+        if (!response.ok) throw Error();
+        const { departures } = (await response.json()) as {
+          departures: StopDeparture[];
+        };
+        if (!controller.signal.aborted) setState(departures);
+      } catch {
+        if (!controller.signal.aborted) setState("unavailable");
+      } finally {
+        if (!controller.signal.aborted) refresh = setTimeout(load, 60_000);
+      }
+    }
+    load();
+    const clock = setInterval(() => setNow(Date.now()), 5_000);
+    return () => {
+      controller.abort();
+      clearTimeout(refresh);
+      clearInterval(clock);
+    };
+  }, [stop]);
+
+  const today = departureDay.format(now);
+  const [next, ...later] = Array.isArray(state)
+    ? state.filter((departure) => Date.parse(departure.time) >= now)
+    : [];
+  const nextDay = next ? departureDay.format(new Date(next.time)) : "";
+  const waitMinutes = next
+    ? Math.ceil((Date.parse(next.time) - now) / 60_000)
+    : 0;
+  const showCountdown = waitMinutes < 24 * 60;
+
+  return (
+    <section className="stop-departures" aria-label="Prochains départs">
+      <h3>{next ? "Prochain départ" : "Prochains départs"}</h3>
+      {next ? (
+        <>
+          <div className="stop-departure-next">
+            <div className="stop-departure-next-heading">
+              <strong>
+                {showCountdown
+                  ? waitMinutes === 0
+                    ? "Maintenant"
+                    : `Dans ${duration(waitMinutes * 60).trim()}`
+                  : nextDay}
+              </strong>
+              <time dateTime={next.time}>
+                <strong>{time(next.time)}</strong>
+                {showCountdown && nextDay !== today && <small>{nextDay}</small>}
+              </time>
+            </div>
+            <DepartureDetails departure={next} />
+          </div>
+          {later.length > 0 && (
+            <>
+              <h3>Ensuite</h3>
+              <ul>
+                {later.map((departure) => {
+                  const day = departureDay.format(new Date(departure.time));
+                  return (
+                    <li key={departure.id}>
+                      <time dateTime={departure.time}>
+                        <strong>{time(departure.time)}</strong>
+                        {day !== today && <small>{day}</small>}
+                      </time>
+                      <DepartureDetails departure={departure} />
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          )}
+        </>
+      ) : (
+        <p role="status">
+          {state === "loading"
+            ? "Chargement des départs…"
+            : state === "unavailable"
+              ? "Horaires momentanément indisponibles."
+              : "Aucun départ à venir trouvé."}
+        </p>
+      )}
+    </section>
+  );
+}
+
 const transportOptions = [
   { value: "all", label: "Tout", icon: Route },
   { value: "transit", label: "Transports", icon: BusFront },
@@ -940,6 +1070,9 @@ function App() {
                     </button>
                   </div>
                   <h2>{poi.name}</h2>
+                  {(poi.mode === "bus" || poi.mode === "train") && (
+                    <StopDepartures key={poi.id} stop={poi.id} />
+                  )}
                   {poi.mode === "montenvelo" && (
                     <>
                       <div className="availability">
