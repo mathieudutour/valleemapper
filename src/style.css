@@ -68,6 +68,7 @@
 }
 body {
   margin: 0;
+  overscroll-behavior: none;
 }
 button,
 input,
@@ -193,8 +194,9 @@ h2 {
   flex-direction: column;
   box-shadow: 3px 0 18px rgb(25 62 64 / 7%);
 }
+/* Vertical only: iOS rubber-bands an overflow: auto element sideways even when nothing overflows. */
 .sidebar-scroll {
-  overflow: auto;
+  overflow: hidden auto;
   flex: 1;
   scrollbar-width: thin;
   overscroll-behavior: contain;
@@ -463,9 +465,15 @@ h2 {
   gap: 10px;
   margin: 16px 0 10px;
 }
+/* Without appearance: none, iOS sizes the date field to its text and ignores width. */
 .when input[type="datetime-local"] {
   grid-column: 1 / -1;
+  display: block;
+  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
+  min-width: 0;
+  text-align: left;
   min-height: 44px;
   font-size: 16px;
   font-weight: 550;
@@ -474,6 +482,9 @@ h2 {
   border-radius: 10px;
   color: var(--ink);
   background: var(--surface);
+}
+.when input[type="datetime-local"]::-webkit-date-and-time-value {
+  text-align: left;
 }
 .when-mode {
   display: flex;
@@ -1714,8 +1725,12 @@ h2 {
     padding: 4px 20px 12px 21px;
     font-size: 10px;
   }
+  .app.mobile .sidebar {
+    overflow: hidden;
+  }
   .app.mobile .sidebar-scroll {
     padding-bottom: calc(var(--sheet-hidden) + env(safe-area-inset-bottom));
+    touch-action: pan-y pinch-zoom;
   }
   .planner,
   .results,
