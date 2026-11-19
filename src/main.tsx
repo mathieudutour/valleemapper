@@ -615,13 +615,11 @@ function App() {
     <main className={"app " + (mobileMap ? "show-map" : "")}>
       <aside className="sidebar">
         <header className="brand">
-          <a href="/" className="wordmark" aria-label="Vallée, accueil">
+          <a href="/" className="wordmark" aria-label="ValléeMapper, accueil">
             <span className="brand-mark">
               <Mountain size={25} />
             </span>
-            <span>
-              vallée<span className="brand-period">.</span>
-            </span>
+            <span>ValléeMapper</span>
           </a>
           <button
             className="icon-button"

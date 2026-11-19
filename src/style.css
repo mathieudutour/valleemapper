@@ -116,9 +116,6 @@ h2 {
   background: var(--green);
   color: #fff;
 }
-.brand-period {
-  color: #c28a34;
-}
 .icon-button {
   width: 32px;
   height: 32px;
@@ -1195,7 +1192,7 @@ h2 {
     padding-top: 17px;
   }
   .wordmark {
-    font-size: 31px;
+    font-size: clamp(24px, 8vw, 31px);
   }
   .brand-mark {
     width: 35px;
