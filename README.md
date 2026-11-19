@@ -8,13 +8,13 @@ Planifiez vos trajets dans le **Pays du Mont-Blanc**, à Passy, Sallanches, Sain
 
 ## Préparer un trajet
 
-- Saisissez une adresse, un arrêt ou une gare. Choisissez votre heure de départ, puis comparez les trajets avec **Arriver au plus tôt**, **Plus court** ou **Moins de marche**. **Plus court** privilégie la durée totale à partir du départ proposé.
+- Saisissez une adresse, un arrêt ou une gare. L’heure de départ est réglée sur l’heure actuelle. Ouvrez les **Paramètres d’itinéraire** pour comparer les trajets selon l’arrivée la plus tôt, la durée la plus courte ou le temps de marche.
 - Consultez les horaires des Cars Région, des trains SNCF, des bus de Chamonix et de Facilibus. Le Valléen et l’ascenseur des Thermes peuvent aussi faire partie d’un trajet.
 - Choisissez **Vélo personnel** ou **MontenVélo**. Les trajets MontenVélo indiquent où prendre et rendre le vélo. Vérifiez la disponibilité des vélos et des places de retour avant de partir.
 
 ## Explorer la carte
 
-L’onglet **Explorer** rassemble les arrêts, les gares et les stations MontenVélo. Activez les autres couches pour trouver les stations Citiz, les arrêts Rézo Pouce, les points de prise en charge Montenbus et les arrêts de navettes saisonnières. Sélectionnez un point pour voir ses informations ou l’utiliser comme départ ou arrivée.
+L’onglet **Explorer** rassemble les arrêts, les gares et les stations MontenVélo. Activez les autres couches pour trouver les stations Citiz, les arrêts Rézo Pouce, les points de prise en charge Montenbus et les arrêts de navettes saisonnières. Sélectionnez un point pour voir ses informations ou l’utiliser comme départ ou arrivée. Le bouton **Me localiser** vous situe sur la carte après autorisation du navigateur.
 
 ## Horaires et tarifs
 

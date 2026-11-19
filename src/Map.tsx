@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import type * as GeoJSON from "geojson";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -29,6 +29,7 @@ export default function ValleyMap({
   onPoi: (p: Poi) => void;
   selected?: Poi;
 }) {
+  const [locationMessage, setLocationMessage] = useState("");
   const container = useRef<HTMLDivElement>(null),
     map = useRef<maplibregl.Map | undefined>(undefined),
     ready = useRef(false),
@@ -106,8 +107,24 @@ export default function ValleyMap({
       maxZoom: 18,
       minZoom: 8,
       attributionControl: { compact: true },
+      locale: {
+        "GeolocateControl.FindMyLocation": "Me localiser",
+        "GeolocateControl.LocationNotAvailable": "Localisation indisponible",
+      },
     });
     map.current = m;
+    const geolocate = new maplibregl.GeolocateControl({
+      positionOptions: { enableHighAccuracy: true, timeout: 12_000 },
+    });
+    geolocate.on("geolocate", () => setLocationMessage(""));
+    geolocate.on("error", (error) =>
+      setLocationMessage(
+        error.code === 1
+          ? "Autorisez la localisation dans les réglages du navigateur."
+          : "Position introuvable. Réessayez dans un instant.",
+      ),
+    );
+    m.addControl(geolocate, "bottom-right");
     m.addControl(
       new maplibregl.NavigationControl({ showCompass: false }),
       "bottom-right",
@@ -257,10 +274,15 @@ export default function ValleyMap({
     }
   }, [journey]);
   return (
-    <div
-      ref={container}
-      className="map"
-      aria-label="Carte des transports du Pays du Mont-Blanc"
-    />
+    <>
+      <div
+        ref={container}
+        className="map"
+        aria-label="Carte des transports du Pays du Mont-Blanc"
+      />
+      <p className="map-location-status" role="status">
+        {locationMessage}
+      </p>
+    </>
   );
 }

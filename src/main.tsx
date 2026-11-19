@@ -20,6 +20,7 @@ import {
   ChevronDown,
   ExternalLink,
   Info,
+  Settings,
   LoaderCircle,
   Check,
   RefreshCw,
@@ -71,11 +72,9 @@ const duration = (s: number) => {
     : `${m} min`;
 };
 const coord = (p: Place) => `${p.lat},${p.lon}`;
-function tomorrow() {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  d.setHours(9, 0, 0, 0);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}T09:00`;
+function localDateTime(date: Date) {
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000);
+  return local.toISOString().slice(0, 16);
 }
 function PlaceInput({
   label,
@@ -440,13 +439,17 @@ function Journey({
 }
 function App() {
   const sidebarScroll = useRef<HTMLDivElement>(null);
+  const settingsDialog = useRef<HTMLDialogElement>(null);
   const activeSearch = useRef<AbortController | null>(null);
   const [data, setData] = useState<ValleyData>(),
     [error, setError] = useState(""),
     [view, setView] = useState<"planner" | "explore">("planner"),
     [from, setFrom] = useState<Place>(),
     [to, setTo] = useState<Place>(),
-    [date, setDate] = useState(tomorrow),
+    [departure, setDeparture] = useState(() => {
+      const instant = new Date();
+      return { value: localDateTime(instant), instant };
+    }),
     [mode, setMode] = useState("all"),
     [bike, setBike] = useState<BikeChoice>("personal"),
     [preference, setPreference] = useState<RoutingPreference>("faster"),
@@ -459,7 +462,6 @@ function App() {
     [bikeState, setBikeState] = useState<any>(),
     [bikeError, setBikeError] = useState(false),
     [info, setInfo] = useState(false),
-    [router, setRouter] = useState(false),
     [mobileMap, setMobileMap] = useState(false);
   useEffect(() => {
     fetch("/data/valley.json")
@@ -470,12 +472,6 @@ function App() {
         setTo(d.places[1]);
       })
       .catch(() => setError("Impossible de charger les données locales."));
-    const c = new AbortController();
-    fetch("/api/health", { signal: c.signal })
-      .then((r) => r.json())
-      .then((x) => setRouter(x.router === "ready"))
-      .catch(() => {});
-    return () => c.abort();
   }, []);
   async function bikes() {
     setBikeError(false);
@@ -504,6 +500,7 @@ function App() {
   useEffect(() => () => activeSearch.current?.abort(), []);
 
   async function search() {
+    if (!departure.value) return;
     if (!from || !to) {
       setError(
         "Sélectionnez un départ et une destination dans les suggestions.",
@@ -521,7 +518,7 @@ function App() {
       const q = new URLSearchParams({
         from: coord(from),
         to: coord(to),
-        time: new Date(date).toISOString(),
+        time: departure.instant.toISOString(),
         mode,
         bike,
         preference,
@@ -548,7 +545,6 @@ function App() {
         [...unique.values()].sort((a, b) => compareJourneys(a, b, preference)),
       );
       setChosen(0);
-      setRouter(true);
     } catch (e) {
       if (controller.signal.aborted) return;
       setError(e instanceof Error ? e.message : "Le calcul a échoué.");
@@ -621,13 +617,24 @@ function App() {
             </span>
             <span>ValléeMapper</span>
           </a>
-          <button
-            className="icon-button"
-            aria-label="À propos des données"
-            onClick={() => setInfo(true)}
-          >
-            <Info size={21} />
-          </button>
+          <div className="brand-actions">
+            <button
+              className="icon-button"
+              aria-label="À propos des données"
+              onClick={() => setInfo(true)}
+            >
+              <Info size={21} />
+            </button>
+            <button
+              className="icon-button"
+              aria-label="Paramètres d’itinéraire"
+              title="Paramètres d’itinéraire"
+              aria-haspopup="dialog"
+              onClick={() => settingsDialog.current?.showModal()}
+            >
+              <Settings size={21} />
+            </button>
+          </div>
         </header>
         <div className="region-label">
           <span />
@@ -717,101 +724,14 @@ function App() {
                       aria-label="Date et heure de départ"
                       type="datetime-local"
                       required
-                      value={date}
+                      value={departure.value}
                       onChange={(e) => {
                         resetSearch();
-                        setDate(e.target.value);
+                        const value = e.currentTarget.value;
+                        setDeparture({ value, instant: new Date(value) });
                       }}
                     />
                   </label>
-                  <div
-                    className="transport-modes"
-                    aria-label="Modes de transport"
-                  >
-                    {[
-                      ["transit", "Transports", BusFront],
-                      ["bike", "Vélo", Bike],
-                      ["all", "Tout", Route],
-                    ].map(([id, label, C]) => (
-                      <button
-                        key={String(id)}
-                        type="button"
-                        className={mode === id ? "active" : ""}
-                        aria-pressed={mode === id}
-                        onClick={() => {
-                          if (mode === id) return;
-                          resetSearch();
-                          setMode(String(id));
-                        }}
-                      >
-                        {React.createElement(C as typeof Bike, { size: 16 })}
-                        {String(label)}
-                      </button>
-                    ))}
-                  </div>
-                  {mode !== "transit" && (
-                    <label className="bike-field">
-                      <Bike size={17} aria-hidden="true" />
-                      <span>Type de vélo</span>
-                      <select
-                        value={bike}
-                        onChange={(e) => {
-                          resetSearch();
-                          setBike(e.target.value as BikeChoice);
-                        }}
-                      >
-                        <option value="personal">Vélo personnel</option>
-                        <option value="montenvelo">MontenVélo</option>
-                      </select>
-                    </label>
-                  )}
-                  {mode !== "bike" && (
-                    <div className="preference-section">
-                      <div
-                        className="preference-controls"
-                        role="group"
-                        aria-label="Priorité de l’itinéraire"
-                      >
-                        <button
-                          type="button"
-                          disabled={busy}
-                          aria-pressed={preference === "faster"}
-                          className={preference === "faster" ? "active" : ""}
-                          onClick={() => setPreference("faster")}
-                        >
-                          <Clock size={16} />
-                          Arriver au plus tôt
-                        </button>
-                        <button
-                          type="button"
-                          disabled={busy}
-                          aria-pressed={preference === "shorter"}
-                          className={preference === "shorter" ? "active" : ""}
-                          onClick={() => setPreference("shorter")}
-                        >
-                          <Route size={16} />
-                          Plus court
-                        </button>
-                        <button
-                          type="button"
-                          disabled={busy}
-                          aria-pressed={preference === "less-walk"}
-                          className={preference === "less-walk" ? "active" : ""}
-                          onClick={() => setPreference("less-walk")}
-                        >
-                          <Footprints size={16} />
-                          Moins de marche
-                        </button>
-                      </div>
-                      <p>
-                        {preference === "faster"
-                          ? "Arriver au plus tôt."
-                          : preference === "shorter"
-                            ? "Durée de trajet minimale, quitte à partir ou arriver plus tard."
-                            : "Réduire la marche, même si le trajet est plus long."}
-                      </p>
-                    </div>
-                  )}
                   <button
                     className="search-button"
                     disabled={busy}
@@ -1149,10 +1069,6 @@ function App() {
           )}
         </div>
         <footer className="sidebar-footer">
-          <span className={router ? "status ready" : "status"}>
-            <i />
-            {router ? "Calcul local connecté" : "Prototype local"}
-          </span>
           <button onClick={() => setInfo(true)}>Sources & limites</button>
         </footer>
       </aside>
@@ -1195,17 +1111,79 @@ function App() {
             </button>
           ))}
         </div>
-        <div className="map-note">
-          <span className="legend-line" />
-          Valléen & Thermes
-          <span className="note-separator" />
-          Données au 18 nov. 2026
-        </div>
       </section>
       <button className="mobile-toggle" onClick={() => setMobileMap((m) => !m)}>
         {mobileMap ? <Route size={17} /> : <Compass size={17} />}{" "}
         {mobileMap ? "Voir les trajets" : "Voir la carte"}
       </button>
+      <dialog
+        ref={settingsDialog}
+        className="route-settings"
+        aria-labelledby="route-settings-title"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) e.currentTarget.close();
+        }}
+      >
+        <div className="route-settings-content">
+          <header className="route-settings-heading">
+            <h2 id="route-settings-title">Paramètres d’itinéraire</h2>
+            <button
+              className="icon-button"
+              aria-label="Fermer les paramètres"
+              onClick={() => settingsDialog.current?.close()}
+            >
+              <X size={21} />
+            </button>
+          </header>
+          <div className="route-settings-fields">
+            <label>
+              <span>Mode de transport</span>
+              <select
+                value={mode}
+                onChange={(e) => {
+                  resetSearch();
+                  setMode(e.currentTarget.value);
+                }}
+              >
+                <option value="all">Tout</option>
+                <option value="transit">Transports en commun</option>
+                <option value="bike">Vélo</option>
+              </select>
+            </label>
+            {mode !== "transit" && (
+              <label>
+                <span>Type de vélo</span>
+                <select
+                  value={bike}
+                  onChange={(e) => {
+                    resetSearch();
+                    setBike(e.currentTarget.value as BikeChoice);
+                  }}
+                >
+                  <option value="personal">Vélo personnel</option>
+                  <option value="montenvelo">MontenVélo</option>
+                </select>
+              </label>
+            )}
+            {mode !== "bike" && (
+              <label>
+                <span>Priorité du trajet</span>
+                <select
+                  value={preference}
+                  disabled={busy}
+                  onChange={(e) =>
+                    setPreference(e.currentTarget.value as RoutingPreference)
+                  }
+                >
+                  <option value="faster">Arriver au plus tôt</option>
+                  <option value="shorter">Durée la plus courte</option>
+                  <option value="less-walk">Moins de marche</option>
+                </select>
+              </label>
+            )}
+          </div>
+        </div>
+      </dialog>
       {info && (
         <div className="modal-backdrop" onClick={() => setInfo(false)}>
           <section
