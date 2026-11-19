@@ -1,0 +1,635 @@
+{
+  "research_date": "2026-11-18",
+  "method": "Direct public feed downloads; counts are file records, not daily departures. Protobuf decoded with minimal read-only wire decoder; not a full conformance validation.",
+  "gtfs": {
+    "hs": {
+      "routes": 24,
+      "stop_records": 1641,
+      "stop_points": 1149,
+      "trips": 1149,
+      "files": [
+        "agency.txt",
+        "calendar.txt",
+        "calendar_dates.txt",
+        "feed_info.txt",
+        "routes.txt",
+        "shapes.txt",
+        "stops.txt",
+        "stop_times.txt",
+        "transfers.txt",
+        "trips.txt"
+      ],
+      "feed_info": [
+        {
+          "feed_publisher_name": "Région Auvergne-Rhône-Alpes",
+          "feed_start_date": "20261111",
+          "feed_end_date": "20270831",
+          "feed_version": "20261111",
+          "feed_lang": "fr",
+          "feed_publisher_url": "https://www.oura.com/"
+        }
+      ],
+      "calendar_range": [
+        "20261111",
+        "20270831"
+      ],
+      "routes_serving_a_stop_in_catchment": [
+        {
+          "route_id": "HAUTExSAVOIE:Line:1007016:LOC",
+          "route_short_name": "Y81",
+          "route_long_name": "CHAMONIX > CLUSES",
+          "route_type": "200"
+        },
+        {
+          "route_id": "HAUTExSAVOIE:Line:1007017:LOC",
+          "route_short_name": "Y82",
+          "route_long_name": "CHAMONIX > PRAZ-SUR-ARLY",
+          "route_type": "200"
+        },
+        {
+          "route_id": "HAUTExSAVOIE:Line:1007018:LOC",
+          "route_short_name": "Y83",
+          "route_long_name": "SALLANCHES > PRAZ > FLUMET",
+          "route_type": "200"
+        },
+        {
+          "route_id": "HAUTExSAVOIE:Line:1007019:LOC",
+          "route_short_name": "Y84",
+          "route_long_name": "SALLANCHES > CONTAMINES",
+          "route_type": "200"
+        },
+        {
+          "route_id": "HAUTExSAVOIE:Line:1007020:LOC",
+          "route_short_name": "Y85",
+          "route_long_name": "SALLANCHES > PASSY",
+          "route_type": "200"
+        },
+        {
+          "route_id": "HAUTExSAVOIE:Line:1007021:LOC",
+          "route_short_name": "Y86",
+          "route_long_name": "SALLANCHES > CORDON",
+          "route_type": "200"
+        },
+        {
+          "route_id": "HAUTExSAVOIE:Line:1007028:LOC",
+          "route_short_name": "274",
+          "route_long_name": "SALLANCHES > GENEVE-AEROPORT",
+          "route_type": "200"
+        },
+        {
+          "route_id": "HAUTExSAVOIE:Line:1008465:LOC",
+          "route_short_name": "N-ARAVISBUS",
+          "route_long_name": "NAVETTES - ARAVIS BUS",
+          "route_type": "200"
+        }
+      ]
+    },
+    "chx": {
+      "routes": 23,
+      "stop_records": 516,
+      "stop_points": 258,
+      "trips": 3760,
+      "files": [
+        "agency.txt",
+        "calendar.txt",
+        "calendar_dates.txt",
+        "routes.txt",
+        "shapes.txt",
+        "stop_times.txt",
+        "stops.txt",
+        "trips.txt"
+      ],
+      "feed_info": [],
+      "calendar_range": [
+        "20260807",
+        "20261218"
+      ],
+      "routes_serving_a_stop_in_catchment": [
+        {
+          "route_id": "01",
+          "route_short_name": "01",
+          "route_long_name": "Les Houches Le Prarion / Chamonix Les Praz Flégère",
+          "route_type": "3"
+        },
+        {
+          "route_id": "02",
+          "route_short_name": "02",
+          "route_long_name": "Chamonix Le Tour / Chamonix Glacier des Bossons",
+          "route_type": "3"
+        },
+        {
+          "route_id": "03",
+          "route_short_name": "03",
+          "route_long_name": "Servoz  / Chamonix-Mont-Blanc Sud",
+          "route_type": "3"
+        },
+        {
+          "route_id": "04",
+          "route_short_name": "04",
+          "route_long_name": "Navette Le Mulet",
+          "route_type": "3"
+        },
+        {
+          "route_id": "05",
+          "route_short_name": "05",
+          "route_long_name": "Vallorcine Barberine / Le  Buet",
+          "route_type": "3"
+        },
+        {
+          "route_id": "06",
+          "route_short_name": "06",
+          "route_long_name": "Les Houches La Villiaz / Servoz Gare",
+          "route_type": "715"
+        },
+        {
+          "route_id": "07",
+          "route_short_name": "07",
+          "route_long_name": "Maison Neuve / les Houches Gare",
+          "route_type": "3"
+        },
+        {
+          "route_id": "08",
+          "route_short_name": "08",
+          "route_long_name": " Les Houches Le Guret /  La Chapelle du Pont",
+          "route_type": "3"
+        },
+        {
+          "route_id": "09",
+          "route_short_name": "09",
+          "route_long_name": "Le Mont / Chamonix Sud",
+          "route_type": "3"
+        },
+        {
+          "route_id": "10",
+          "route_short_name": "10",
+          "route_long_name": "Chamonix Sud / Gare Chamonix / Chamonix Sud",
+          "route_type": "3"
+        },
+        {
+          "route_id": "11",
+          "route_short_name": "11",
+          "route_long_name": "Les Praz Flégère / Lanchettes / Îlettes / Les Praz",
+          "route_type": "3"
+        },
+        {
+          "route_id": "13",
+          "route_short_name": "13",
+          "route_long_name": "Servoz La Côte / Chamonix-Mont-Blanc Sud",
+          "route_type": "3"
+        },
+        {
+          "route_id": "21",
+          "route_short_name": "21",
+          "route_long_name": "Les Chosalets / Col des Montets",
+          "route_type": "3"
+        },
+        {
+          "route_id": "A",
+          "route_short_name": "A",
+          "route_long_name": "Circuit Sco Servoz Le Mont - Ecole de Servoz",
+          "route_type": "3"
+        },
+        {
+          "route_id": "B",
+          "route_short_name": "B",
+          "route_long_name": "Circuit Sco La Flatière / Ecole des Houches",
+          "route_type": "3"
+        },
+        {
+          "route_id": "C",
+          "route_short_name": "C",
+          "route_long_name": "Circuit Sco La Frasse / Ecole J.d'Arc",
+          "route_type": "3"
+        },
+        {
+          "route_id": "D",
+          "route_short_name": "D",
+          "route_long_name": "Circuit Sco Le Lavancher - Ecole d'Argentière",
+          "route_type": "3"
+        },
+        {
+          "route_id": "E",
+          "route_short_name": "E",
+          "route_long_name": "Circuit Sco La Flatière Le Coupeau / Ecole J.d'Arc",
+          "route_type": "3"
+        },
+        {
+          "route_id": "N1",
+          "route_short_name": "N1",
+          "route_long_name": "Les Houches Le  Prarion / Chamonix Sud",
+          "route_type": "3"
+        },
+        {
+          "route_id": "N3",
+          "route_short_name": "N3",
+          "route_long_name": "Argentière La Fis / Vallorcine Barberine",
+          "route_type": "715"
+        },
+        {
+          "route_id": "N4",
+          "route_short_name": "N4",
+          "route_long_name": "Les Houches Mairie / Servoz La Côte",
+          "route_type": "715"
+        },
+        {
+          "route_id": "V1",
+          "route_short_name": "V1",
+          "route_long_name": "Chamonix Sud / Les Houches Le Prarion",
+          "route_type": "3"
+        },
+        {
+          "route_id": "V2",
+          "route_short_name": "V2",
+          "route_long_name": "Chamonix Place Mt Blanc/ Le Tour",
+          "route_type": "3"
+        }
+      ]
+    },
+    "sncf": {
+      "routes": 725,
+      "stop_records": 8633,
+      "stop_points": 5210,
+      "trips": 59788,
+      "files": [
+        "routes.txt",
+        "stop_times.txt",
+        "transfers.txt",
+        "calendar_dates.txt",
+        "stops.txt",
+        "agency.txt",
+        "trips.txt",
+        "feed_info.txt"
+      ],
+      "feed_info": [
+        {
+          "feed_id": "0",
+          "feed_publisher_name": "SNCF",
+          "feed_publisher_url": "http://www.sncf.com",
+          "feed_lang": "fr",
+          "feed_start_date": "20261118",
+          "feed_end_date": "20270430",
+          "feed_version": "2026-11-18",
+          "conv_rev": "1.179",
+          "plan_rev": "1795035080"
+        }
+      ],
+      "calendar_range": [
+        "20261118",
+        "20270430"
+      ],
+      "routes_serving_a_stop_in_catchment": [
+        {
+          "route_id": "FR:Line::05262D94-C964-4568-8E04-C711D058B31D:",
+          "route_short_name": "C13",
+          "route_long_name": "Annecy - St-Gervais Les Bains Le Fayet",
+          "route_type": "2"
+        },
+        {
+          "route_id": "FR:Line::17ec14e3-7470-4a7d-9739-1cc0df566193:",
+          "route_short_name": "E01",
+          "route_long_name": "RE Chamonix / Grenoble",
+          "route_type": "3"
+        },
+        {
+          "route_id": "FR:Line::2239CF74-2DDE-4ECF-9A3F-022E65221125:",
+          "route_short_name": "621I",
+          "route_long_name": "Paris - Arves TGV",
+          "route_type": "2"
+        },
+        {
+          "route_id": "FR:Line::84DC7868-DB96-46DB-B9DE-470D51CED21C:",
+          "route_short_name": "P52",
+          "route_long_name": "St-Gervais Les Bains - Chamonix - Vallorcine",
+          "route_type": "2"
+        },
+        {
+          "route_id": "FR:Line::9a389d3e-5e46-456a-bb0c-d67842aae6ac:",
+          "route_short_name": "E04",
+          "route_long_name": "RE Chamonix / Lyon",
+          "route_type": "3"
+        },
+        {
+          "route_id": "FR:Line::B34D17D8-9A2E-4606-8190-AAA5336821FA:",
+          "route_short_name": "K43",
+          "route_long_name": "Lyon Part Dieu - St-Gervais Les Bains",
+          "route_type": "2"
+        },
+        {
+          "route_id": "FR:Line::DBB29EA6-8495-479C-B033-926E252847F8:",
+          "route_short_name": "C43",
+          "route_long_name": "Bellegarde - St-Gervais Les Bains",
+          "route_type": "2"
+        },
+        {
+          "route_id": "FR:Line::E0963513-61D7-4A56-B1CD-F346C024AB89:",
+          "route_short_name": "081G",
+          "route_long_name": "Atlantique - Alpes TGV",
+          "route_type": "2"
+        },
+        {
+          "route_id": "FR:Line::E937D19D-BA51-4EC8-9C8E-6B20FD5D6FF3:",
+          "route_short_name": "L3",
+          "route_long_name": "ST-GERVAIS - COPPET",
+          "route_type": "2"
+        },
+        {
+          "route_id": "FR:Line::b1e7c34d-e7c3-4390-9a23-d7f42145f42d:",
+          "route_short_name": "E12",
+          "route_long_name": "RE Chamonix / Chambéry",
+          "route_type": "3"
+        },
+        {
+          "route_id": "FR:Line::dffdce04-2fb4-46ec-a32b-18a9ab5fce57:",
+          "route_short_name": "P252",
+          "route_long_name": "St-Gervais Les Bains - Vallorcine - Martigny",
+          "route_type": "2"
+        }
+      ]
+    },
+    "express": {
+      "routes": 13,
+      "stop_records": 159,
+      "stop_points": 159,
+      "trips": 450,
+      "files": [
+        "agency.txt",
+        "calendar.txt",
+        "calendar_dates.txt",
+        "feed_info.txt",
+        "routes.txt",
+        "shapes.txt",
+        "stops.txt",
+        "stop_times.txt",
+        "transfers.txt",
+        "trips.txt"
+      ],
+      "feed_info": [
+        {
+          "feed_publisher_name": "Région Auvergne-Rhône-Alpes",
+          "feed_start_date": "20261116",
+          "feed_end_date": "20270214",
+          "feed_version": "20261116",
+          "feed_lang": "fr",
+          "feed_publisher_url": "https://www.oura.com/"
+        }
+      ],
+      "calendar_range": [
+        "20261116",
+        "20270214"
+      ],
+      "routes_serving_a_stop_in_catchment": []
+    }
+  },
+  "realtime": {
+    "chamonix": {
+      "bytes": 192038,
+      "header_timestamp_utc": "2026-11-18T20:58:31+00:00",
+      "entities": 336,
+      "entity_types": {
+        "vehicle_positions": 1,
+        "trip_updates": 237,
+        "service_alerts": 1
+      },
+      "static_trip_matches": {
+        "vehicle_positions_trip_id_present_in_static": 0,
+        "trip_updates_trip_id_present_in_static": 0
+      },
+      "local_catchment_entities": [],
+      "identifier_examples": {
+        "rt_trip_id": "IAW3544573",
+        "rt_route_id": "1001",
+        "static_trip_id_example": "3532788-CHAMX_2026-ETESCO-L-Ma-J-V-86",
+        "static_route_id_example": "N1"
+      }
+    },
+    "sncf": {
+      "bytes": 346776,
+      "header_timestamp_utc": "2026-11-18T20:58:13+00:00",
+      "entities": 540,
+      "entity_types": {
+        "trip_updates": 540
+      },
+      "static_trip_matches": {
+        "trip_updates_trip_id_present_in_static": 448
+      },
+      "local_catchment_entities": [
+        {
+          "type": "trip_updates",
+          "trip_id": "OCESN34509R1187_R:CTE:FR:Line::DBB29EA6-8495-479C-B033-926E252847F8::87745000:87746479:7:2256:20261210",
+          "route_id": "",
+          "trip_start_date": "20261118",
+          "commercial_train_number": ""
+        },
+        {
+          "type": "trip_updates",
+          "trip_id": "OCESN34513R1187_R:CTE:FR:Line::DBB29EA6-8495-479C-B033-926E252847F8::87745000:87746784:7:2350:20261209",
+          "route_id": "",
+          "trip_start_date": "20261118",
+          "commercial_train_number": ""
+        }
+      ]
+    }
+  },
+  "citiz": {
+    "stations": 5,
+    "local_vehicle_records": [
+      {
+        "vehicle_id": "1763",
+        "last_reported": "2026-11-06T18:56:06.1751736+01:00",
+        "lat": 45.938541412353516,
+        "lon": 6.706418991088867,
+        "is_reserved": true,
+        "is_disabled": false,
+        "vehicle_type_id": "2",
+        "current_range_meters": 300000,
+        "current_fuel_percent": 0.48,
+        "station_id": "1622",
+        "vehicle_equipment": [],
+        "home_station_id": "1622"
+      },
+      {
+        "vehicle_id": "2553",
+        "last_reported": "2026-11-17T14:09:42.3851928+01:00",
+        "lat": 45.90584182739258,
+        "lon": 6.700502872467041,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "3",
+        "current_range_meters": 300000,
+        "current_fuel_percent": 0.75,
+        "station_id": "1623",
+        "vehicle_equipment": [],
+        "home_station_id": "1623"
+      },
+      {
+        "vehicle_id": "2554",
+        "last_reported": "2026-11-14T14:10:48.2722713+01:00",
+        "lat": 45.937843322753906,
+        "lon": 6.629597187042236,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "3",
+        "current_range_meters": 300000,
+        "current_fuel_percent": 0.95,
+        "station_id": "1554",
+        "vehicle_equipment": [],
+        "home_station_id": "1554"
+      },
+      {
+        "vehicle_id": "2555",
+        "last_reported": "2026-11-18T12:38:20.3694928+01:00",
+        "lat": 45.93651580810547,
+        "lon": 6.6360859870910645,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "3",
+        "current_range_meters": 300000,
+        "current_fuel_percent": 0.89,
+        "station_id": "1553",
+        "vehicle_equipment": [],
+        "home_station_id": "1553"
+      },
+      {
+        "vehicle_id": "2556",
+        "last_reported": "2026-11-17T18:33:35.948059+01:00",
+        "lat": 45.89591598510742,
+        "lon": 6.644198894500732,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "3",
+        "current_range_meters": 300000,
+        "current_fuel_percent": 1,
+        "station_id": "1698",
+        "vehicle_equipment": [],
+        "home_station_id": "1698"
+      },
+      {
+        "vehicle_id": "2557",
+        "last_reported": "2026-11-17T17:51:09.8824169+01:00",
+        "lat": 45.90583419799805,
+        "lon": 6.700516223907471,
+        "is_reserved": false,
+        "is_disabled": true,
+        "vehicle_type_id": "3",
+        "current_range_meters": 300000,
+        "current_fuel_percent": 0.92,
+        "station_id": "1623",
+        "vehicle_equipment": [],
+        "home_station_id": "1623"
+      }
+    ],
+    "local_station_status_records": [
+      {
+        "station_id": "1553",
+        "num_vehicles_available": 1,
+        "vehicle_types_available": [
+          {
+            "vehicle_type_id": "3",
+            "count": 1
+          }
+        ],
+        "num_docks_available": 0,
+        "is_installed": true,
+        "is_renting": true,
+        "is_returning": true,
+        "last_reported": "2026-11-12T12:38:11.3826463+01:00"
+      },
+      {
+        "station_id": "1554",
+        "num_vehicles_available": 1,
+        "vehicle_types_available": [
+          {
+            "vehicle_type_id": "3",
+            "count": 1
+          }
+        ],
+        "num_docks_available": 0,
+        "is_installed": true,
+        "is_renting": true,
+        "is_returning": true,
+        "last_reported": "2026-11-12T12:38:08.9631172+01:00"
+      },
+      {
+        "station_id": "1622",
+        "num_vehicles_available": 1,
+        "vehicle_types_available": [
+          {
+            "vehicle_type_id": "2",
+            "count": 1
+          }
+        ],
+        "num_docks_available": 0,
+        "is_installed": true,
+        "is_renting": true,
+        "is_returning": true,
+        "last_reported": "2026-09-28T13:32:50.4137837+02:00"
+      },
+      {
+        "station_id": "1623",
+        "num_vehicles_available": 2,
+        "vehicle_types_available": [
+          {
+            "vehicle_type_id": "3",
+            "count": 2
+          }
+        ],
+        "num_docks_available": 0,
+        "is_installed": true,
+        "is_renting": true,
+        "is_returning": true,
+        "last_reported": "2026-11-12T12:38:16.2844596+01:00"
+      },
+      {
+        "station_id": "1698",
+        "num_vehicles_available": 1,
+        "vehicle_types_available": [
+          {
+            "vehicle_type_id": "3",
+            "count": 1
+          }
+        ],
+        "num_docks_available": 0,
+        "is_installed": true,
+        "is_renting": true,
+        "is_returning": true,
+        "last_reported": "2026-11-12T12:38:14.0036993+01:00"
+      }
+    ],
+    "catalogue_license": "lov2",
+    "feed_license": "CC0-1.0"
+  },
+  "montenvelo": {
+    "station_records": 23,
+    "vehicle_records": 129,
+    "malformed_station_rental_uris": 23
+  },
+  "rezo_pouce": {
+    "operator_current_map_count": 92,
+    "bnlc_count": 92,
+    "passy_count": 25,
+    "bnlc_coordinates_equal_current_operator_map": true,
+    "by_commune": {
+      "Les Contamines-Montjoie": 13,
+      "Sallanches": 10,
+      "Passy": 25,
+      "Praz-sur-Arly": 6,
+      "Megève": 10,
+      "Domancy": 4,
+      "Demi-Quartier": 5,
+      "Cordon": 4,
+      "Combloux": 7,
+      "Saint-Gervais-les-Bains": 8
+    },
+    "record_date_range": [
+      "2022-06-02",
+      "2024-01-03"
+    ]
+  },
+  "followup": {
+    "checked_on": "2026-11-18",
+    "chamonix_initial_mismatch_resolved": true,
+    "evidence": "followup-inspection.json",
+    "matching_static_url": "https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs/pub",
+    "note": "Initial comparison above is retained as a historical snapshot; matching operator GTFS was verified in the follow-up."
+  }
+}

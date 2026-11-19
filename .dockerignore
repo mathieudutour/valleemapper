@@ -1,0 +1,9 @@
+*
+!var/
+var/*
+!var/motis/
+var/motis/*
+!var/motis/feeds/
+!var/motis/feeds/**
+!var/motis/haute-savoie.osm.pbf
+!var/motis/config.yml

@@ -1,0 +1,296 @@
+{
+  "checked_on": "2026-11-18",
+  "purpose": "Manually curated research seed for a Pays du Mont-Blanc journey planner.",
+  "currency": "EUR",
+  "status": "Research observations and published products; not a complete fare engine, booking system or live purchase quote.",
+  "interpretation": {
+    "null_effective_dates": "No explicit validity date established; null does not imply unlimited validity.",
+    "membership": "Membership prices are prerequisites or existing entitlements, not a charge to add to every ride.",
+    "unknown_prices": "Unknown prices must not be displayed as zero.",
+    "transfers": "Do not infer cross-network transfer rights or add every leg price without checking the relevant product conditions.",
+    "source_conflicts": "Conflicts below require confirmation before automated pricing."
+  },
+  "feed_inspection": {
+    "gtfs_fare_files": {
+      "haute_savoie": [],
+      "chamonix": [],
+      "sncf": []
+    },
+    "haute_savoie_netex": {
+      "xml_files_inspected": 27,
+      "fare_frames_or_tables_found": false,
+      "tags_checked": ["FareFrame", "FareTable", "Tariff", "FareProduct", "PreassignedFareProduct", "SalesOfferPackage", "FareStructureElement", "DistanceMatrixElement", "TariffZone", "FareZone"],
+      "source_url": "https://api.oura3.cityway.fr/dataflow/offre-tc/download?provider=HAUTE_SAVOIE&dataFormat=NETEX&dataProfil=OPENDATA"
+    },
+    "limitation": "Findings concern the downloaded feed versions; they do not establish that no other tariff dataset exists."
+  },
+  "services": [
+    {
+      "id": "cars_region_y81_y86",
+      "routes": ["Y81", "Y82", "Y83", "Y84", "Y85", "Y86"],
+      "effective_from": "2026-03-01",
+      "effective_to": null,
+      "sources": [
+        "https://storage.googleapis.com/is-wp-170-prod/uploads-prod/2026/08/cars_region_haute_savoie_tarifs_MAJ-septembre_2026_Y13-03-04-81-82-83-84-85-86-91-92-93-94.pdf",
+        "https://www.laregionvoustransporte.fr/cars-region/cars-region-de-haute-savoie/infos-et-services-cars-region-de-haute-savoie/titres-et-tarifs-de-haute-savoie/"
+      ],
+      "products": [
+        {"id": "standard_single", "journeys": 1, "amount": 1.70},
+        {"id": "standard_two_journeys", "journeys": 2, "amount": 3.40},
+        {"id": "standard_ten_journeys", "journeys": 10, "amount": 13.50},
+        {"id": "standard_30_day", "validity_days": 30, "amount": 33.00},
+        {"id": "reduced_single", "journeys": 1, "amount": 0.80, "prerequisite": "Eligible published reduced or Déclic entitlement."},
+        {"id": "reduced_two_journeys", "journeys": 2, "amount": 1.60, "prerequisite": "Eligible published reduced or Déclic entitlement."},
+        {"id": "reduced_ten_journeys", "journeys": 10, "amount": 6.70, "prerequisite": "Eligible published reduced or Déclic entitlement."},
+        {"id": "reduced_30_day", "validity_days": 30, "amount": 16.50, "prerequisite": "Eligible published 50% entitlement; do not automatically apply the under-26 single/ticket-book rule to this pass."},
+        {"id": "under_six", "amount": 0, "prerequisite": "Child under six, under the regional free-travel rules."}
+      ],
+      "prerequisites": [
+        "Under-26 Déclic reduction on single and ten-journey products requires identity evidence.",
+        "Children under ten have a published reduced single on these routes; under-six free travel takes precedence.",
+        "CMI or illico Mobilité entitlement and accompanying-person provisions need profile-specific handling."
+      ],
+      "uncertainties": [
+        "The dated PDF permits tariff changes during the year.",
+        "Older Passy tourism pages quote EUR 1.60; use the dated regional EUR 1.70 source.",
+        "Published reduced amounts include rounding; do not replace EUR 0.80 with 50% of EUR 1.70.",
+        "No complete transfer-validity rule or supported public fare-quote API established."
+      ]
+    },
+    {
+      "id": "cars_region_274_sallanches_geneva_example",
+      "routes": ["274"],
+      "origin": "Sallanches",
+      "destination": "Geneva",
+      "effective_from": "2026-08-31",
+      "effective_to": "2026-12-12",
+      "sources": [
+        "https://storage.googleapis.com/is-wp-170-prod/uploads-prod/2026/08/cars_region_haute_savoie_horaires_274_rentree_2026-nouvel-horaire.pdf",
+        "https://www.lemanpass.com/faq/"
+      ],
+      "products": [
+        {"id": "adult_route_only_single", "amount": 11.40, "scope": "Published Sallanches-Geneva route-only product."},
+        {"id": "adult_route_and_zone10_single", "amount": 14.60, "scope": "Published Sallanches-Geneva route plus Geneva urban zone 10."},
+        {"id": "young_route_and_zone10_single", "amount": 7.90, "prerequisite": "Léman Pass young ticket age band, 6-15 inclusive."},
+        {"id": "adult_route_and_zone10_daily", "amount": 29.20}
+      ],
+      "uncertainties": [
+        "Examples cover this origin-destination pair only; France-only journeys have a separate zone matrix.",
+        "Do not apply the Y81-Y86 flat fare to route 274.",
+        "Bus 274 and Léman Express train tickets are not interchangeable.",
+        "Exact expiry/activation and available sales channels must be attached to the selected product."
+      ]
+    },
+    {
+      "id": "chamonix_mobilite",
+      "effective_from": "2026-07-01",
+      "effective_to": null,
+      "sources": [
+        "https://www.chamonix.com/sites/default/files/media/brochures/Tarifs-Cham-Ete2026.pdf",
+        "https://www.chamonix.com/infos-et-services/la-carte-d-hote"
+      ],
+      "products": [
+        {"id": "day_single_online_or_kiosk", "amount": 1.70, "validity_minutes": 60, "purchase_channel": ["website", "ticket_kiosk"]},
+        {"id": "day_single_agency_or_onboard_card", "amount": 2.20, "validity_minutes": 60, "purchase_channel": ["agency", "onboard_card_validator"]},
+        {"id": "day_single_cash", "amount": 2.70, "validity_minutes": 60, "purchase_channel": ["onboard_cash"]},
+        {"id": "solidarity_single", "amount": 0.85, "prerequisite": "Approved solidarity entitlement."},
+        {"id": "day_ticket", "amount": 5.00, "operating_time_scope": "05:10-21:00"},
+        {"id": "day_group_3_to_5", "amount": 10.00, "traveller_count_min": 3, "traveller_count_max": 5, "operating_time_scope": "05:10-21:00"},
+        {"id": "three_day", "amount": 9.00, "validity_days": 3, "operating_time_scope": "05:10-21:00 each day"},
+        {"id": "weekly", "amount": 19.00, "validity_days": 7, "operating_time_scope": "Daytime"},
+        {"id": "monthly", "amount": 29.00, "validity": "Rolling monthly product; daytime"},
+        {"id": "annual", "amount": 290.00, "validity": "Annual", "night_included": true},
+        {"id": "night_single_card", "amount": 4.50, "validity_minutes": 60},
+        {"id": "night_single_cash", "amount": 5.00, "validity_minutes": 60},
+        {"id": "viacham_annual", "amount": 50.00, "night_included": true, "prerequisite": "Approved ViaCham eligibility and subscription."},
+        {"id": "viacham_annual_under18_or_75plus", "amount": 0, "prerequisite": "Eligible ViaCham holder under 18 or age 75+, under the published conditions."},
+        {"id": "under_four", "amount": 0, "prerequisite": "Child under four."},
+        {"id": "guest_two_day", "amount": 5.00, "validity_days": 2, "prerequisite": "Valid individual guest card and acquired discounted ticket; daytime only."},
+        {"id": "guest_three_day", "amount": 6.00, "validity_days": 3, "prerequisite": "Valid individual guest card and acquired discounted ticket; daytime only."},
+        {"id": "guest_four_day", "amount": 7.00, "validity_days": 4, "prerequisite": "Valid individual guest card and acquired discounted ticket; daytime only."},
+        {"id": "guest_five_day", "amount": 8.00, "validity_days": 5, "prerequisite": "Valid individual guest card and acquired discounted ticket; daytime only."},
+        {"id": "guest_six_day", "amount": 9.00, "validity_days": 6, "prerequisite": "Valid individual guest card and acquired discounted ticket; daytime only."},
+        {"id": "guest_weekly", "amount": 10.00, "validity_days": 7, "prerequisite": "Valid individual guest card and acquired discounted ticket; daytime only."},
+        {"id": "guest_fourteen_day", "amount": 20.00, "validity_days": 14, "prerequisite": "Valid individual guest card and acquired discounted ticket; check restricted sales channel."}
+      ],
+      "separate_media_costs": [
+        {"id": "physical_ticket_medium", "amount": 0.50},
+        {"id": "physical_card_medium", "amount": 3.00}
+      ],
+      "prerequisites": [
+        "A guest card is not itself a bus ticket; discounted products must be acquired using the card identifier.",
+        "Guest-card discounts do not apply to the ordinary single or night services.",
+        "Only specifically eligible valid ski/lift passes confer bus access."
+      ],
+      "uncertainties": [
+        "Older tourist-page comparisons still quote a EUR 18 ordinary weekly pass; the dated July 2026 sheet states EUR 19.",
+        "No fare files in inspected GTFS or verified supported public tariff API.",
+        "Not every route-specific exception or eligible lift-pass product is encoded here."
+      ]
+    },
+    {
+      "id": "rail_ter_leman_express_mont_blanc_express",
+      "effective_from": null,
+      "effective_to": null,
+      "sources": [
+        "https://www.chamonix.com/sites/default/files/media/brochures/AFFICHE%20PDF%20INFOS%20ETE%202026%20A4.pdf",
+        "https://www.cc-valleedechamonixmontblanc.fr/demarches/se-deplacer/transports-en-commun/",
+        "https://www.ter.sncf.com/auvergne-rhone-alpes/tarifs-cartes/billets-leman-express/leman-pass",
+        "https://www.lemanpass.com/faq/",
+        "https://www.ter.sncf.com/auvergne-rhone-alpes/tarifs-cartes/cartes-reduction/illico-liberte"
+      ],
+      "products": [
+        {"id": "local_standard_rail_price", "amount": null, "scope": "Chedde, Le Fayet, Sallanches and other local rail journeys", "status": "No current verified public OD price matrix or supported live purchase-quote API established."},
+        {"id": "guest_or_viacham_internal_servoz_vallorcine", "amount": 0, "scope": "Journey entirely within Servoz-Vallorcine", "prerequisite": "Valid eligible carte d'hôte or ViaCham; entitlement conditions apply."},
+        {"id": "illico_liberte_membership", "amount": 30.00, "validity": "One year", "benefits": "25% reduction weekdays; 50% weekends/public holidays, with eligible accompanying-person rules."}
+      ],
+      "rules": [
+        "A through journey outside Servoz-Vallorcine, such as Chamonix-Saint-Gervais or Chamonix-Martigny, requires a ticket for the entire journey under the official guest-card flyer; do not subtract an internal free segment.",
+        "Chedde and Le Fayet are outside the internal Servoz-Vallorcine free-travel scope.",
+        "Léman Pass cross-border fares depend on OD, zones, class and age. Typical published validity is 90 minutes for border multizone products or 180 minutes for longer route products, with immediate activation in the TER sales channel.",
+        "Léman Pass single-ticket young band is ages 6-15; subscription young band is ages 6-25. Under-six cross-border travel is free under the published conditions.",
+        "Léman Express bicycle carriage is free for France-only journeys but requires a bicycle ticket for cross-border train journeys under the Léman Pass rules; operator conditions still apply."
+      ],
+      "uncertainties": [
+        "The checked SNCF GTFS contains no fare files.",
+        "SNCF TGV/OUIGO open min/max price ranges are not a local TER tariff or live quote.",
+        "Older SNCF public dataset references bareme-de-prix-national-ter and tarifs-ter-aura returned HTTP 404 at checked v2.1 catalogue endpoints.",
+        "Rail discounts require a verified base fare and route-specific entitlement before a price can be calculated."
+      ]
+    },
+    {
+      "id": "montenbus",
+      "effective_from": null,
+      "effective_to": null,
+      "regulation_decision_date": "2026-01-19",
+      "sources": ["https://www.montenbus.fr/reglement-montenbus/", "https://www.montenbus.fr/"],
+      "products": [
+        {"id": "annual_standard", "amount": 40.00, "validity_months": 12},
+        {"id": "monthly_standard", "amount": 20.00, "validity_days": 30},
+        {"id": "annual_reduced", "amount": 10.00, "validity_months": 12, "prerequisite": "Under 25, over 70 or an eligible published social category, with evidence."},
+        {"id": "annual_pmr_or_under_five", "amount": 0, "prerequisite": "Approved eligible PMR applicant or child under five; application and evidence conditions apply."}
+      ],
+      "rules": [
+        "Subscriptions are individual; operator advertises up to 30 journeys per month subject to capacity.",
+        "Do not add the annual or monthly membership price to each individual ride.",
+        "Eligible PMR accompanying-person free travel requires the published justification."
+      ],
+      "uncertainties": ["No verified public machine-readable tariff or trip-quote API; service eligibility and prior booking still govern actual travel."]
+    },
+    {
+      "id": "montenvelo",
+      "effective_from": null,
+      "effective_to": null,
+      "sources": [
+        "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/system_pricing_plans.json",
+        "https://montenvelo.fr/home-2/abonnements-tarifs/",
+        "https://montenvelo.zendesk.com/hc/en-us/articles/21300567054236-Subscriptions"
+      ],
+      "gbfs_observation": {
+        "plans_count": 1,
+        "pay_as_you_go_plan_id": "of_d2qn1m592fguujvhhpig",
+        "subscription_products_in_feed": false,
+        "published_tiers": [
+          {"start": 0, "end": 30, "interval": 30, "rate": 0.50},
+          {"start": 31, "end": 240, "interval": 30, "rate": 1.00},
+          {"start": 241, "end": null, "interval": 30, "rate": 2.00}
+        ],
+        "tier_units": "Minutes, preserved as published rather than interpreted as a complete pricing algorithm."
+      },
+      "products": [
+        {"id": "monthly_standard_membership", "amount": 6.00, "validity": "Monthly; auto-renewing"},
+        {"id": "annual_standard_membership", "amount": 30.00, "validity": "Annual; auto-renewing"},
+        {"id": "monthly_reduced_membership", "amount": 3.00, "prerequisite": "Published eligible age/social/disability group", "validity": "Monthly; auto-renewing"},
+        {"id": "annual_reduced_membership", "amount": 15.00, "prerequisite": "Published eligible age/social/disability group", "validity": "Annual; auto-renewing"}
+      ],
+      "published_ride_examples": [
+        {"duration_minutes": 30, "pay_as_you_go_amount": 0.50, "subscriber_amount": 0},
+        {"duration_minutes": 60, "pay_as_you_go_amount": 1.50, "subscriber_amount": 0.50},
+        {"duration_minutes": 120, "pay_as_you_go_amount": 3.50, "subscriber_amount": 1.50}
+      ],
+      "separate_financial_prerequisites": [{"type": "Preauthorisation, not ordinary ride charge", "amount": 25.00}],
+      "uncertainties": [
+        "GBFS provides pay-as-you-go only; membership and subscriber pricing require additional rules.",
+        "The subscriber 4h30 website row states EUR 4, conflicting with the site's note and support statement of EUR 2 per half-hour after four hours. Do not extrapolate that range without clarification.",
+        "Reduced memberships include under-25s, over-70s and specified employment/social/disability groups under the official conditions."
+      ]
+    },
+    {
+      "id": "citiz_aura",
+      "effective_from": null,
+      "effective_to": null,
+      "sources": [
+        "https://aura.citiz.coop/tarifs/",
+        "https://aura.citiz.coop/tarifs/formule-particuliers-sans-abonnement/",
+        "https://aura.citiz.coop/tarifs/abonnement-standard/",
+        "https://backend.citiz.fr/public/provider/5/gbfs/v3.0/system_pricing_plans.json",
+        "https://aura.citiz.coop/2026/11/11/evolution-des-tarifs-kilometriques-au-1er-decembre-2026/"
+      ],
+      "published_standard_examples_before_december_change": [
+        {"category": "S", "membership": "None", "hourly_amount": 5.00, "daily_cap": 40.00, "weekly_cap": 180.00},
+        {"category": "M", "membership": "None", "hourly_amount": 6.00, "daily_cap": 45.00, "weekly_cap": 210.00},
+        {"category": "L", "membership": "None", "hourly_amount": 7.00, "daily_cap": 55.00, "weekly_cap": 240.00},
+        {"category": "S", "membership": "Standard EUR 16/month", "hourly_amount": 3.00, "daily_cap": 22.00, "weekly_cap": 120.00},
+        {"category": "M", "membership": "Standard EUR 16/month", "hourly_amount": 3.50, "daily_cap": 27.00, "weekly_cap": 150.00},
+        {"category": "L", "membership": "Standard EUR 16/month", "hourly_amount": 4.00, "daily_cap": 33.00, "weekly_cap": 180.00}
+      ],
+      "distance_rates_before_december_change": [
+        {"categories": ["S", "M", "L"], "first_100_km_rate": 0.44, "beyond_100_km_rate": 0.24},
+        {"categories": ["XL", "XXL"], "first_100_km_rate": 0.54, "beyond_100_km_rate": 0.29}
+      ],
+      "products": [{"id": "standard_monthly_membership", "amount": 16.00, "validity": "Monthly"}],
+      "announced_change": {
+        "effective_from": "2026-12-01",
+        "effective_to": null,
+        "amount_added_per_km": 0.02,
+        "scope": "All vehicle categories and distance tiers",
+        "application_rule": "Applies to rentals starting on or after the date, regardless of when the reservation was made."
+      },
+      "gbfs_observation": {
+        "plans_count": 16,
+        "problem_plan_ids": ["393_78", "393_79", "393_80"],
+        "defect": "Observed standard subscribed S/M/L plans publish zero time rate through 14401 minutes, contradicting the official hourly prices.",
+        "membership_fee_limitation": "The feed base price of zero does not include or establish a zero monthly membership fee."
+      },
+      "rules": [
+        "Pricing depends on reservation duration, distance, vehicle category, membership, caps and insurance options; travel time alone is insufficient.",
+        "Operator says time charges are free from 23:00 to 07:00 while distance charges still apply.",
+        "Registration is required; refundable deposit and potential registration fee are distinct from ride cost."
+      ],
+      "uncertainties": ["Do not use inconsistent GBFS prices as a binding quote; verify with the operator reservation system."]
+    },
+    {
+      "id": "valleen",
+      "effective_from": null,
+      "effective_to": null,
+      "sources": [
+        "https://www.ski-saintgervais.com/fr/tarifs-valleen",
+        "https://www.saintgervais.com/mairie/au-quotidien/transports-mobilite/pass-saintgair/",
+        "https://www.saintgervais.com/mairie/actualites/la-commune-de-saint-gervais-reconduit-l-operation-pour-l-annee-2026-2027/"
+      ],
+      "products": [
+        {"id": "single", "amount": 2.50},
+        {"id": "two_passages", "amount": 5.00, "passages": 2},
+        {"id": "twelve_passages", "amount": 25.00, "reduced_amount": 22.50, "passages": 12},
+        {"id": "seven_day", "amount": 25.00, "reduced_amount": 22.50, "validity_days": 7},
+        {"id": "thirty_day", "amount": 60.00, "reduced_amount": 54.00, "validity_days": 30},
+        {"id": "annual", "amount": 240.00, "reduced_amount": 216.00, "validity": "Annual"},
+        {"id": "under_five", "amount": 0, "prerequisite": "Child under five accompanied under the operator's conditions."},
+        {"id": "pass_saintgair_2026_2027", "amount": 0, "effective_from": "2026-08-18", "effective_to": "2027-09-15", "prerequisite": "Eligible permanent Saint-Gervais resident, including published residence-duration and evidence conditions; approved personal pass required."}
+      ],
+      "prerequisites": [
+        "Published reduced groups include ages 5-14, age 65+, eligible disability and groups of 20+, under the operator's conditions.",
+        "Pass SaintGair is an eligibility-based entitlement, not universal free travel; parent report retains detailed eligibility and acquisition requirements."
+      ],
+      "uncertainties": ["No standard public machine-readable tariff feed or supported fare quote API established.", "Do not infer operator timetable/closure validity from the fare product dates."]
+    },
+    {
+      "id": "ascenseur_des_thermes",
+      "effective_from": null,
+      "effective_to": null,
+      "sources": ["https://www.saintgervais.com/app/uploads/saint-gervais/2026/08/Saint-Gervais-Mont-Blanc_Depliant-Facilibus-Automne-2026.pdf"],
+      "products": [{"id": "ordinary_passage", "amount": 0}],
+      "uncertainties": ["Free fare does not establish that the lift is open at the requested time; timetable and closures require separate validation."]
+    }
+  ]
+}

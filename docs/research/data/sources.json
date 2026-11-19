@@ -1,0 +1,223 @@
+{
+  "checked_on": "2026-11-18",
+  "catchment_bbox_wgs84": [
+    6.48,
+    45.7,
+    7.05,
+    46.02
+  ],
+  "core_commune_codes": [
+    "74083",
+    "74085",
+    "74089",
+    "74099",
+    "74103",
+    "74173",
+    "74208",
+    "74215",
+    "74236",
+    "74256"
+  ],
+  "sources": [
+    {
+      "id": "haute_savoie",
+      "title": "Cars Région Haute-Savoie",
+      "catalogue_url": "https://transport.data.gouv.fr/datasets/reseau-interurbain-cars-region-haute-savoie-74",
+      "licence": "ODbL with PAN specific conditions",
+      "endpoints": {
+        "gtfs": "https://api.oura3.cityway.fr/dataflow/offre-tc/download?provider=HAUTE_SAVOIE&dataFormat=GTFS&dataProfil=OPENDATA",
+        "netex": "https://api.oura3.cityway.fr/dataflow/offre-tc/download?provider=HAUTE_SAVOIE&dataFormat=NETEX&dataProfil=OPENDATA",
+        "catalogue_api": "https://www.data.gouv.fr/api/1/datasets/607861844a84ad655a94f8c5/"
+      },
+      "access_observed": "Public GET without API key on 2026-11-18",
+      "notes": "GTFS downloaded and inspected. NeTEx URL catalogued, not downloaded. No public matching regional bus realtime feed verified."
+    },
+    {
+      "id": "sncf",
+      "title": "SNCF TGV Intercités TER and relevant coaches",
+      "catalogue_url": "https://transport.data.gouv.fr/datasets/horaires-sncf",
+      "licence": "ODbL with PAN specific conditions",
+      "endpoints": {
+        "gtfs": "https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip",
+        "trip_updates": "https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-trip-updates",
+        "service_alerts": "https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-service-alerts",
+        "siri_lite_et": "https://proxy.transport.data.gouv.fr/resource/sncf-siri-lite-estimated-timetable",
+        "siri_lite_sx": "https://proxy.transport.data.gouv.fr/resource/sncf-siri-lite-situation-exchange",
+        "catalogue_api": "https://www.data.gouv.fr/api/1/datasets/6853c089b3ed5781f6adfdf7/"
+      },
+      "access_observed": "Public GET without API key on 2026-11-18",
+      "notes": "GTFS and GTFS-RT TripUpdates downloaded. Other live endpoints catalogued, not decoded. Local/TER realtime completeness not guaranteed."
+    },
+    {
+      "id": "chamonix",
+      "title": "Chamonix Mobilité",
+      "catalogue_url": "https://transport.data.gouv.fr/datasets/gtfs-reseau-chamonix-mobilite",
+      "licence": "Licence Ouverte 2.0",
+      "endpoints": {
+        "gtfs_resource": "https://www.data.gouv.fr/api/1/datasets/r/83a2f241-a0a4-4901-b77b-8a71572a9f6a",
+        "realtime": "https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs-rt",
+        "catalogue_api": "https://www.data.gouv.fr/api/1/datasets/6569e1dd21f63c926518143b/",
+        "matching_published_gtfs": "https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs/pub"
+      },
+      "access_observed": "Public GET without API key on 2026-11-18",
+      "notes": "Follow-up resolved the initial catalogue/live ID mismatch: all 237 sampled TripUpdates and 4,856 stop updates match Pysae published GTFS, valid 3 September–18 December 2026. Pair this export with its live feed and revalidate seasonal changes."
+    },
+    {
+      "id": "montenvelo",
+      "title": "MontenVélo",
+      "catalogue_url": "https://transport.data.gouv.fr/datasets/flux-gbfs-montenvelo",
+      "licence": "ODbL; PAN catalogue indicates specific conditions",
+      "endpoints": {
+        "gbfs": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/gbfs.json",
+        "catalogue_api": "https://www.data.gouv.fr/api/1/datasets/68c3bb25418640eafa599eb4/"
+      },
+      "access_observed": "Public GET without API key on 2026-11-18",
+      "notes": "Follow GBFS discovery. 60s TTL, 23 station records observed. Malformed station rental URIs; use separate tested booking handoff."
+    },
+    {
+      "id": "citiz",
+      "title": "Citiz Auvergne Rhône Alpes",
+      "catalogue_url": "https://transport.data.gouv.fr/datasets/citiz-autopartage-auvergne-rhone-alpes",
+      "licence": "Catalogue: Licence Ouverte 2.0; system_information: CC0-1.0; discrepancy unresolved",
+      "endpoints": {
+        "gbfs": "https://backend.citiz.fr/public/provider/5/gbfs/3.0/gbfs.json",
+        "catalogue_api": "https://www.data.gouv.fr/api/1/datasets/678e69be93b3f9e17df18b70/"
+      },
+      "access_observed": "Public GET without API key on 2026-11-18",
+      "notes": "Follow discovery to /v3.0/ companions. 300s TTL. Regional feed filtered by catchment bbox, manually verified five sites in CCPMB. Station vs vehicle availability conflict; Passy temporary relocation notice."
+    },
+    {
+      "id": "rezo_bnlc",
+      "title": "Rézo Pouce via consolidated BNLC",
+      "catalogue_url": "https://transport.data.gouv.fr/datasets/base-nationale-des-lieux-de-covoiturage/",
+      "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+      "endpoints": {
+        "csv_resource": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "resolved_csv_snapshot": "https://static.data.gouv.fr/resources/base-nationale-des-lieux-de-covoiturage/20261113-170038/bnlc.csv",
+        "operator_comparison_geojson": "https://www.rezopouce.fr/data/arrets.geojson",
+        "operator_territory": "https://www.rezopouce.fr/territoires/pays-du-mont-blanc/"
+      },
+      "access_observed": "Public GET without API key on 2026-11-18",
+      "notes": "Filter source 810157982 and ten INSEE commune codes in refresh script. All 92 local coordinates match current operator map. Operator standalone CSV licence unspecified; exported locations use consolidated BNLC."
+    },
+    {
+      "id": "montenbus_map",
+      "title": "Montenbus public stop map",
+      "catalogue_url": "https://www.montenbus.fr/",
+      "licence": "No explicit reuse licence verified for operator map",
+      "endpoints": {
+        "embedded_map": "https://www.google.com/maps/d/embed?mid=1eESrNKd1YaPciAGd5PIWw5HeWGrr01z9",
+        "kml": "https://www.google.com/maps/d/kml?mid=1eESrNKd1YaPciAGd5PIWw5HeWGrr01z9&forcekml=1",
+        "booking_handoff": "https://montenbus.app.ridewithvia.com/"
+      },
+      "access_observed": "Public GET without API key on 2026-11-18",
+      "notes": "KML linked indirectly from official homepage downloaded: 392 records,391 coordinate pairs. No stable stop IDs or current booking inventory established. Booking handoff researched, no account flow executed."
+    },
+    {
+      "id": "cars_region_express",
+      "title": "Cars Région Express additional coverage check",
+      "catalogue_url": "https://transport.data.gouv.fr/datasets/reseau-interurbain-cars-region-express",
+      "licence": "ODbL with PAN specific conditions",
+      "endpoints": {
+        "gtfs": "https://api.oura3.cityway.fr/dataflow/offre-tc/download?provider=CARS_REGION_EXPRESS&dataFormat=GTFS&dataProfil=OPENDATA"
+      },
+      "access_observed": "Public GET without API key on 2026-11-18",
+      "notes": "Downloaded feed had no served stop in audit catchment bbox. Relevant E01/E04/E12 coaches appeared instead in SNCF feed."
+    },
+    {
+      "id": "shuttle_saint-gervais",
+      "title": "Facilibus",
+      "catalogue_url": "https://api.pysae.com/api/v4/pub-groups?feature=display_info",
+      "licence": "Explicit local reuse licence not verified; documented anonymous public download.",
+      "endpoints": {
+        "gtfs": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "gtfs_rt": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs-rt"
+      },
+      "access_observed": "Anonymous GET checked on 18 November 2026",
+      "notes": "Current autumn 2026 calendar and matching real-time trip updates."
+    },
+    {
+      "id": "shuttle_meg-bus",
+      "title": "Meg-Bus",
+      "catalogue_url": "https://api.pysae.com/api/v4/pub-groups?feature=display_info",
+      "licence": "Explicit local reuse licence not verified; documented anonymous public download.",
+      "endpoints": {
+        "gtfs": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "gtfs_rt": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs-rt"
+      },
+      "access_observed": "Anonymous GET checked on 18 November 2026",
+      "notes": "Published timetable is expired summer 2026; November real-time sample empty. Exclude private/deactivated routes."
+    },
+    {
+      "id": "shuttle_combloux",
+      "title": "Combloux shuttle",
+      "catalogue_url": "https://api.pysae.com/api/v4/pub-groups?feature=display_info",
+      "licence": "Explicit local reuse licence not verified; documented anonymous public download.",
+      "endpoints": {
+        "gtfs": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "gtfs_rt": "https://api.pysae.com/api/v4/groups/combloux/gtfs-rt"
+      },
+      "access_observed": "Anonymous GET checked on 18 November 2026",
+      "notes": "Published timetable is expired summer 2026; November real-time sample empty."
+    },
+    {
+      "id": "shuttle_praz",
+      "title": "Praz shuttle",
+      "catalogue_url": "https://api.pysae.com/api/v4/pub-groups?feature=display_info",
+      "licence": "Explicit local reuse licence not verified; documented anonymous public download.",
+      "endpoints": {
+        "gtfs": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "gtfs_rt": "https://api.pysae.com/api/v4/groups/praz/gtfs-rt"
+      },
+      "access_observed": "Anonymous GET checked on 18 November 2026",
+      "notes": "Published timetable is expired summer 2026; November real-time sample empty. Exclude private/deactivated routes."
+    },
+    {
+      "id": "contamines_zenbus",
+      "title": "Les Contamines shuttle",
+      "catalogue_url": "https://www.lescontamines.com/hiver/pratique/acces-et-se-deplacer/navettes",
+      "licence": "Not verified",
+      "endpoints": {
+        "gtfs": "https://zenbus.net/gtfs/static/download.zip?dataset=contamines",
+        "gtfs_rt": "https://zenbus.net/gtfs/rt/poll.proto?dataset=contamines"
+      },
+      "notes": "Anonymous downloads work, but the current off-season static feed has zero routes, stops and trips."
+    },
+    {
+      "id": "sallanches_summer_gis",
+      "title": "Sallanches summer shuttle GIS",
+      "catalogue_url": "https://www.sallanchesmontblanc.com/navette-estivale-gratuite",
+      "licence": "ArcGIS licenseInfo null; clarify with commune",
+      "endpoints": {
+        "stops_geojson": "https://services2.arcgis.com/wCCJgOJ77NBdYbmT/arcgis/rest/services/Arrets_navette2024/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson",
+        "route_geojson": "https://services2.arcgis.com/wCCJgOJ77NBdYbmT/arcgis/rest/services/Circuit_navette/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson"
+      },
+      "notes": "16 stops with departure strings and 154 segments; layer named 2024 requires comparison against the dated 2026 PDF."
+    },
+    {
+      "id": "valleen_lumiplay",
+      "title": "Valléen public operating data",
+      "catalogue_url": "https://www.ski-saintgervais.com/fr/tarifs-valleen",
+      "licence": "No explicit public reuse licence verified",
+      "endpoints": {
+        "configuration": "https://public.lumiplay.link/interactive-map/v1/map/name/evasion-mont-blanc-saint-gervais",
+        "static": "https://public.lumiplay.link/interactive-map/v1/map/19564192-c5ad-45be-a4ca-bbaba136d0bd/staticPoiData?lang=fr",
+        "dynamic": "https://public.lumiplay.link/interactive-map/v1/map/19564192-c5ad-45be-a4ca-bbaba136d0bd/dynamicPoiData?lang=fr",
+        "join_id": 70821
+      },
+      "notes": "Anonymous GET; join ID 70821; structured hours, duration and status. Thermal lift absent from this map JSON."
+    },
+    {
+      "id": "vertical_links_osm",
+      "title": "Valléen and thermal lift geometry",
+      "catalogue_url": "https://www.openstreetmap.org/copyright",
+      "licence": "ODbL-1.0; © OpenStreetMap contributors",
+      "endpoints": {
+        "valleen_way": "https://www.openstreetmap.org/way/1160485041",
+        "thermal_way": "https://www.openstreetmap.org/way/1230812180"
+      },
+      "notes": "Downloaded line and terminal coordinates; not surveyed or tested with a route engine."
+    }
+  ],
+  "followup_report": "../shuttles-lifts-fares.md"
+}

@@ -1,0 +1,2363 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.651955,
+          45.82043
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Altiport",
+        "name": "Altiport",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.651924,
+          45.8205
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Altiport_R",
+        "name": "Altiport",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.618383,
+          45.858859
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Autogare",
+        "name": "Autogare",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.619847,
+          45.86377
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Chemin des Anes",
+        "name": "Chemin des Anes",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.653713,
+          45.818555
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Cote 2000",
+        "name": "Cote 2000",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.600687,
+          45.844101
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Croix du Bouchet",
+        "name": "Croix du Bouchet",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.608908,
+          45.847722
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Faucigny",
+        "name": "Faucigny",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.609082,
+          45.847703
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Faucigny_R",
+        "name": "Faucigny",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.629974,
+          45.863295
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Hameau B_R",
+        "name": "Hameau Bas",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.630322,
+          45.863459
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Hameau Bas",
+        "name": "Hameau Bas",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.631334,
+          45.862728
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Hameau H_R",
+        "name": "Hameau Haut",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.631183,
+          45.862699
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Hameau Haut",
+        "name": "Hameau Haut",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.636572,
+          45.842636
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "L'Angne",
+        "name": "L'Angne",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.636732,
+          45.842544
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "L'Angne_R",
+        "name": "L'Angne",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.634242,
+          45.849213
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "La Gouna",
+        "name": "La Gouna",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.634218,
+          45.849342
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "La Gouna_R",
+        "name": "La Gouna",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.641478,
+          45.836014
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "La Livraz",
+        "name": "La Livraz",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.641506,
+          45.836153
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "La Livraz_R",
+        "name": "La Livraz",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.616606,
+          45.858129
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "La Poste",
+        "name": "La Poste",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.600452,
+          45.843555
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Le Bouchet_R",
+        "name": "Croix du Bouchet",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.615104,
+          45.859887
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Le Coin",
+        "name": "Le Coin",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.647243,
+          45.828456
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Le Perit Lay_R",
+        "name": "Le Petit Lay",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.647208,
+          45.828305
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Le Petit Lay",
+        "name": "Le Petit Lay",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.636458,
+          45.845761
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Le Planellet",
+        "name": "Le Planellet",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.636873,
+          45.845812
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Le Planellet_R",
+        "name": "Le Planellet",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.633056,
+          45.865271
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Les Choseaux",
+        "name": "Les Choseaux",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.633512,
+          45.865901
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Les Choseaux_R",
+        "name": "Les Choseaux",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.649911,
+          45.824201
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Les Drets",
+        "name": "Les Drets",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.64999,
+          45.824258
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Les Drets_R",
+        "name": "Les Drets",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.630657,
+          45.859858
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Les Pettorreaux",
+        "name": "Les Pettoreaux",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.630546,
+          45.860064
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Les Pettorreaux_R",
+        "name": "Les Pettoreaux",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.604358,
+          45.846186
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Les Poches",
+        "name": "Les Poches",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.604851,
+          45.846189
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Les Poches_R",
+        "name": "les Poches",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.616651,
+          45.855092
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Office de Tourisme",
+        "name": "Office de Tourisme",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.616666,
+          45.855467
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Office de Tourisme_R",
+        "name": "Office de Tourisme",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.619178,
+          45.860708
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Palais des Sports",
+        "name": "Palais des Sports",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.619293,
+          45.860458
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Palais des Sports_R",
+        "name": "Palais des Sports",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.620657,
+          45.857665
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Patinoire Centrale",
+        "name": "Patinoire Centrale",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.619898,
+          45.85909
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Patinoire Centrale_R",
+        "name": "Patinoire Centrale",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.615373,
+          45.852914
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Route des Torrents",
+        "name": "Route des Torrents",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.615741,
+          45.852409
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Route des Torrents_R",
+        "name": "Route des Torrents",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.623897,
+          45.858459
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Route des Tremplins",
+        "name": "Route des Tremplins",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.624102,
+          45.858732
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Route des Tremplins_R",
+        "name": "Route des Tremplins",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.627401,
+          45.860797
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Route du Gollet",
+        "name": "Route du Gollet",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.627442,
+          45.860912
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Route du Gollet_R",
+        "name": "Route du Gollet",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.618006,
+          45.864205
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Télécabine du Jaillet",
+        "name": "Télécabine du Jaillet",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.631698,
+          45.853197
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Télécabine du Mont d'Arbois",
+        "name": "Télécabine du Mont d'Arbois ",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.631845,
+          45.853373
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Télécabine du Mont d'Arbois_R",
+        "name": "Télécabine du Mont d'Arbois ",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.614632,
+          45.850055
+        ]
+      },
+      "properties": {
+        "network": "meg-bus",
+        "source_stop_id": "Téléphérique de Rochebrune",
+        "name": "Téléphérique de Rochebrune",
+        "source_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.714422,
+          45.887355
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "COTE DU PARC",
+        "name": "LA CÔTE DU PARC",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7130274,
+          45.891087
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "Comtesse",
+        "name": "LA COMTESSE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.70726,
+          45.890476
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "DMC",
+        "name": "TÉLÉCABINE DE SAINT GERVAIS/LE CHATELET",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.722724,
+          45.854716
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "EGLISE",
+        "name": "EGLISE DE SAINT NICOLAS",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.722622,
+          45.854837
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "EGLISE_R",
+        "name": "EGLISE DE SAINT NICOLAS",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.705833,
+          45.870926
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LA COMBE",
+        "name": "LA COMBE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.705418,
+          45.870964
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LA COMBE_R",
+        "name": "LA COMBE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.714508,
+          45.887341
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LA COTE DU PARC_R",
+        "name": "LA CÔTE DU PARC",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.715257,
+          45.884213
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LA PISCINE",
+        "name": "PISCINE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.703848,
+          45.883816
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LA PLANCHETTE",
+        "name": "LA PLANCHETTE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.703922,
+          45.884082
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LA PLANCHETTE_R",
+        "name": "LA PLANCHETTE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.706655,
+          45.869411
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LACHAT",
+        "name": "LACHAT",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.706367,
+          45.869245
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LACHAT_R",
+        "name": "LACHAT",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.701667,
+          45.889277
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LE CHATEAU",
+        "name": "LE CHATEAU",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.701802,
+          45.88912
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LE CHATEAU_R",
+        "name": "LE CHATEAU",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.703946,
+          45.873793
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LE GOLLET",
+        "name": "LE GOLLET",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.703449,
+          45.873235
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LE GOLLET_R",
+        "name": "LE GOLLET",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.70962,
+          45.889068
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LE NEREY_R",
+        "name": "LE NEREY",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.717622,
+          45.862071
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LES CHATTRIX",
+        "name": "LES CHATTRIX",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.717739,
+          45.861958
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LES CHATTRIX_R",
+        "name": "LES CHATTRIX",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.715524,
+          45.865851
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LES PLANS",
+        "name": "LES PLANS",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.715792,
+          45.865761
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LES PLANS_R",
+        "name": "LES PLANS",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7103291,
+          45.868004
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LES VINCENTS",
+        "name": "LES VINCENTS",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.710197,
+          45.868047
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "LES VINCENTS_R",
+        "name": "LES VINCENTS",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.71376,
+          45.89002
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "MJC",
+        "name": "MJC-ASSOMPTION",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.713666,
+          45.890359
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "MJC_R",
+        "name": "MJC-ASSOMPTION",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.721046,
+          45.858244
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "NANT BLANCHET",
+        "name": "NANT BLANCHET",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.721123,
+          45.858255
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "NANT BLANCHET_R",
+        "name": "NANT BLANCHET",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.709595,
+          45.889024
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "NEREY",
+        "name": "LE NEREY",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.704645,
+          45.877958
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "ORSIN",
+        "name": "ORSIN",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.704751,
+          45.878157
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "ORSIN_R",
+        "name": "ORSIN",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.713141,
+          45.889957
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "PATINOIRE",
+        "name": "PARTINOIRE-ASSOMPTION",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.713035,
+          45.889974
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "PATINOIRE_R",
+        "name": "PATINOIRE-ASSOMPTION",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7161655,
+          45.882659
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "PISCINE",
+        "name": "LES PRATZ-SPORTING CLUB",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.702592,
+          45.8869
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "PISTE ROUGE",
+        "name": "PISTE ROUGE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.702648,
+          45.886928
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "PISTE ROUGE_R",
+        "name": "PISTE ROUGE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7236114,
+          45.850894
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "ROUTE DE LA CROIX",
+        "name": "ROUTE DE LA CROIX",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.723823,
+          45.852668
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "SAINT NICOLAS DE VEROCE",
+        "name": "SAINT NICOLAS DE VEROCE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.723908,
+          45.852533
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "SAINT NICOLAS_R",
+        "name": "SAINT NICOLAS DE VEROCE",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6992998,
+          45.893652
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "ST MARTIN",
+        "name": "ST MARTIN",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.699545,
+          45.893645
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "ST MARTIN_R",
+        "name": "ST MARTIN",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.72359,
+          45.853718
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "Télésiège du Centre A",
+        "name": "Télésiège du centre",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.723638,
+          45.853729
+        ]
+      },
+      "properties": {
+        "network": "saint-gervais",
+        "source_stop_id": "Télésiège du Centre R",
+        "name": "Télésiège du centre",
+        "source_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "validity_note": "Autumn2026 current",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.639599,
+          45.900681
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "CHERES",
+        "name": "LES CHERES",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.641406,
+          45.89548
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "COIN SAVOYARD",
+        "name": "COIN SAVOYARD A",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.631809,
+          45.892489
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "COLOMB",
+        "name": "COLOMB SKIBUS A",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.631819,
+          45.892444
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "COLOMB SKIBUS R",
+        "name": "COLOMB SKIBUS",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.622473,
+          45.888616
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "CUCHET",
+        "name": "CUCHET",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.625387,
+          45.888267
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "FONTAINE DESIR",
+        "name": "FONTAINE DESIR",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.646627,
+          45.899084
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "GRANITEURS",
+        "name": "GRANITEURS",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.626015,
+          45.892915
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "LA CRY",
+        "name": "LA CRY A",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.626065,
+          45.892891
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "LA CRY R",
+        "name": "LA CRY R",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.641383,
+          45.895421
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "LE COIN SAVOYARD R",
+        "name": "LE COIN SAVOYARD",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.64435,
+          45.895636
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "LES CRISTAUX",
+        "name": "LES CRISTAUX",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.629694,
+          45.892002
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "LES RENARDIERES",
+        "name": "LES RENARDIERES A",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.62965,
+          45.891978
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "LES RENARDIERES R",
+        "name": "LES RENARDIERES R",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.628444,
+          45.892914
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "LES ROCHES BLANCHES",
+        "name": "LES ROCHES BLANCHES",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.640144,
+          45.897019
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "LOUPARC",
+        "name": "LOUPARC",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.643236,
+          45.894962
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "MAISON DES ASSOCIATIONS R",
+        "name": "MAISON DES ASSOS R",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.643288,
+          45.895018
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "MAISON DES ASSOS",
+        "name": "MAISON DES ASSOS A",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6293585,
+          45.893402
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "MANOIR DES BRONS",
+        "name": "MANOIR DES BRONS",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.644944,
+          45.89485
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "OT COMBLOUX",
+        "name": "OFFICE DE TOURISME ",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.641865,
+          45.900321
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "PERRET",
+        "name": "PERRET",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6350126,
+          45.89133
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "ROUTE D'ORMARET",
+        "name": "ROUTE D'ORMARET A",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.634978,
+          45.891152
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "ROUTE D'ORMARET R",
+        "name": "ROUTE D'ORMARET R",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.63836,
+          45.894714
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "ROUTE DU BOUCHET",
+        "name": "ROUTE DU BOUCHET A",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.638221,
+          45.894665
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "ROUTE DU BOUCHET R",
+        "name": "ROUTE DU BOUCHET R",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.634963,
+          45.894286
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "SAINT BERNARD R",
+        "name": "SAINT BERNARD ",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.634885,
+          45.894249
+        ]
+      },
+      "properties": {
+        "network": "combloux",
+        "source_stop_id": "ST BERNARD",
+        "name": "SAINT BERNARD A",
+        "source_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.564521,
+          45.839204
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "LE REON_R",
+        "name": "LE REON",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.577436,
+          45.838811
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "LES BELLES-PLAN D'EAU A",
+        "name": "LES BELLES-PLAN D'EAU",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.577395,
+          45.838855
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "LES BELLES-PLAN D'EAU R",
+        "name": "LES BELLES-PLAN D'EAU",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.566909,
+          45.835889
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "PRAZ-PKME",
+        "name": "PARKING DES MEURETS",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.569276,
+          45.837061
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "PRAZ_AUB",
+        "name": "LES AUBRINES",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.572997,
+          45.838332
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "PRAZ_BLV",
+        "name": "BELLEVARDE",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.572008,
+          45.838044
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "PRAZ_CHL",
+        "name": "MAIRIE/CHEF-LIEU",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.55911,
+          45.835764
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "PRAZ_ESSERT",
+        "name": "LES ESSERTETS",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.570399,
+          45.834007
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "PRAZ_PIST",
+        "name": "PARKING DES PISTES",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.564769,
+          45.839263
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "PRAZ_REO",
+        "name": "LE REON",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.556437,
+          45.840341
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "PRAZ_TON",
+        "name": "LA TONNAZ",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.573918,
+          45.83653
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "PRZ_Parking de l'ile",
+        "name": "PARKING DE L'ILE R",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.573966,
+          45.836535
+        ]
+      },
+      "properties": {
+        "network": "praz",
+        "source_stop_id": "Parking de l'ile A",
+        "name": "PARKING DE L'ILE",
+        "source_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "validity_note": "Historical summer2026; expired",
+        "reuse_licence": "Not verified; public API access only"
+      }
+    }
+  ]
+}

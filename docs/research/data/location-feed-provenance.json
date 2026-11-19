@@ -1,0 +1,98 @@
+{
+  "observed_at": "2026-11-18T21:04:46.421305+00:00",
+  "feeds": [
+    {
+      "mode": "montenvelo",
+      "discovery_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/gbfs.json",
+      "system_information": {
+        "data": {
+          "attribution_organization_name": "",
+          "attribution_url": "",
+          "email": "support@montenvelo.fr",
+          "feed_contact_email": "gbfs@fifteen.eu",
+          "language": "en",
+          "license_id": "ODbL-1.0",
+          "license_url": "https://spdx.org/licenses/ODbL-1.0.html",
+          "name": "MontenVélo (Mont Blanc)",
+          "operator": "Fifteen",
+          "phone_number": "+33974991892",
+          "purchase_url": "https://www.ccpmb.fr/",
+          "rental_apps": {
+            "android": {
+              "discovery_uri": "",
+              "store_uri": ""
+            },
+            "ios": {
+              "discovery_uri": "",
+              "store_uri": ""
+            }
+          },
+          "short_name": "montenvelo",
+          "start_date": "2025-08-20",
+          "system_id": "montenvelo_mont_blanc",
+          "timezone": "Europe/Paris",
+          "url": "https://gbfs.partners.fifteen.eu"
+        },
+        "last_updated": 1795035855,
+        "ttl": 60,
+        "version": "2.2"
+      }
+    },
+    {
+      "mode": "citiz",
+      "discovery_url": "https://backend.citiz.fr/public/provider/5/gbfs/3.0/gbfs.json",
+      "system_information": {
+        "last_updated": "2026-11-18T22:04:47.4677983+01:00",
+        "ttl": 300,
+        "version": "3.0",
+        "data": {
+          "system_id": "citiz_auvergne_rhone_alpes",
+          "languages": [
+            "fr"
+          ],
+          "name": [
+            {
+              "text": "Citiz Auvergne Rhone Alpes",
+              "language": "fr"
+            }
+          ],
+          "short_name": [
+            {
+              "text": "Auvergne Rhone Alpes",
+              "language": "fr"
+            }
+          ],
+          "operator": [
+            {
+              "text": "Alpes Autopartage",
+              "language": "fr"
+            }
+          ],
+          "opening_hours": "Mo-Su 00:00-24:00",
+          "url": "https://aura.citiz.coop/",
+          "phone_number": "+33476245725",
+          "email": "aura@citiz.fr",
+          "feed_contact_email": "aura@citiz.fr",
+          "timezone": "Europe/Paris",
+          "license_id": "CC0-1.0",
+          "manifest_url": "https://backend.citiz.fr/public/gbfs/manifest.json",
+          "terms_url": [
+            {
+              "text": "https://backend.citiz.fr/public/cgl/cgl_reseau_citiz_20260101.pdf",
+              "language": "fr"
+            }
+          ],
+          "terms_last_updated": "2026-01-01",
+          "privacy_url": [
+            {
+              "text": "https://alpes-loire.citiz.coop/mentions-legales",
+              "language": "fr"
+            }
+          ],
+          "privacy_last_updated": "2024-01-01"
+        }
+      }
+    }
+  ],
+  "bnlc_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1"
+}

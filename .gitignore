@@ -1,0 +1,11 @@
+node_modules/
+dist/
+var/
+.wrangler/
+.env
+.DS_Store
+*.log
+.env.*
+.dev.vars*
+__pycache__/
+/public/data/valley.json

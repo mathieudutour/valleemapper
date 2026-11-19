@@ -1,0 +1,3101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.61297,
+          45.85734
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhg6mbtds7380efp0",
+        "name": "Caserne des pompiers",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 4,
+          "num_docks_available": 6,
+          "station_id": "st_d33uhg6mbtds7380efp0",
+          "vehicle_types_available": [
+            {
+              "count": 4,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.70041,
+          45.90606
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgembtds7380eg90",
+        "name": "Gare du Fayet",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 7,
+          "num_docks_available": 3,
+          "station_id": "st_d33uhgembtds7380eg90",
+          "vehicle_types_available": [
+            {
+              "count": 7,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.631611,
+          45.935639
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgmmbtds73f4kf5g",
+        "name": "Place Charles Albert",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 8,
+          "num_docks_available": 2,
+          "station_id": "st_d33uhgmmbtds73f4kf5g",
+          "vehicle_types_available": [
+            {
+              "count": 8,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.57181,
+          45.83794
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgembtds73f4kem0",
+        "name": "Mairie - Praz-sur-Arly",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 8,
+          "num_docks_available": 2,
+          "station_id": "st_d33uhgembtds73f4kem0",
+          "vehicle_types_available": [
+            {
+              "count": 8,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.70764,
+          45.89055
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgmmbtds73f4ket0",
+        "name": "Le Châtelet",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 5,
+          "num_docks_available": 5,
+          "station_id": "st_d33uhgmmbtds73f4ket0",
+          "vehicle_types_available": [
+            {
+              "count": 5,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.70647,
+          45.89818
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgmmbtds73f4kf30",
+        "name": "Ascenseur des thermes",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 6,
+          "num_docks_available": 4,
+          "station_id": "st_d33uhgmmbtds73f4kf30",
+          "vehicle_types_available": [
+            {
+              "count": 6,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.72676,
+          45.82292
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhg6mbtds73f4ke80",
+        "name": "Mairie - Les Contamines",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 4,
+          "num_docks_available": 6,
+          "station_id": "st_d33uhg6mbtds73f4ke80",
+          "vehicle_types_available": [
+            {
+              "count": 4,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.57808,
+          45.83846
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgembtds73f4kepg",
+        "name": "Base de loisirs des Belles",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 7,
+          "num_docks_available": 3,
+          "station_id": "st_d33uhgembtds73f4kepg",
+          "vehicle_types_available": [
+            {
+              "count": 7,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.63965,
+          45.88034
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhfumbtds73f4ke4g",
+        "name": "La Princesse",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 7,
+          "num_docks_available": 3,
+          "station_id": "st_d33uhfumbtds73f4ke4g",
+          "vehicle_types_available": [
+            {
+              "count": 7,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.63185,
+          45.8535
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgembtds73f4keg0",
+        "name": "Mont d'Arbois",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 1,
+          "num_docks_available": 9,
+          "station_id": "st_d33uhgembtds73f4keg0",
+          "vehicle_types_available": [
+            {
+              "count": 1,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.71175,
+          45.89278
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgmmbtds73f4kevg",
+        "name": "Maison de Saint-Gervais",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 7,
+          "num_docks_available": 4,
+          "station_id": "st_d33uhgmmbtds73f4kevg",
+          "vehicle_types_available": [
+            {
+              "count": 7,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6536,
+          45.91125
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhg6mbtds7380efj0",
+        "name": "Mairie - Domancy",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 6,
+          "num_docks_available": 4,
+          "station_id": "st_d33uhg6mbtds7380efj0",
+          "vehicle_types_available": [
+            {
+              "count": 6,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.69577,
+          45.91464
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgembtds7380eg4g",
+        "name": "Zone de l'Arve",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 5,
+          "num_docks_available": 5,
+          "station_id": "st_d33uhgembtds7380eg4g",
+          "vehicle_types_available": [
+            {
+              "count": 5,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.72339,
+          45.81197
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhg6mbtds7380eflg",
+        "name": "Le Lay",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 1,
+          "num_docks_available": 9,
+          "station_id": "st_d33uhg6mbtds7380eflg",
+          "vehicle_types_available": [
+            {
+              "count": 1,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.61824,
+          45.85987
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhg6mbtds73f4kebg",
+        "name": "Le Palais",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 4,
+          "num_docks_available": 6,
+          "station_id": "st_d33uhg6mbtds73f4kebg",
+          "vehicle_types_available": [
+            {
+              "count": 4,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.70442,
+          45.91939
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgembtds7380eg20",
+        "name": "Marlioz",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 4,
+          "num_docks_available": 6,
+          "station_id": "st_d33uhgembtds7380eg20",
+          "vehicle_types_available": [
+            {
+              "count": 4,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.62793,
+          45.94263
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgmmbtds7380egi0",
+        "name": "Gymnase du Rosay - Clé des Arts",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 6,
+          "num_docks_available": 4,
+          "station_id": "st_d33uhgmmbtds7380egi0",
+          "vehicle_types_available": [
+            {
+              "count": 6,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.71292,
+          45.91581
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgembtds73f4kehg",
+        "name": "PAE du Mont-Blanc",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 5,
+          "num_docks_available": 5,
+          "station_id": "st_d33uhgembtds73f4kehg",
+          "vehicle_types_available": [
+            {
+              "count": 5,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.71975,
+          45.92636
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgembtds7380efvg",
+        "name": "Gare de Chedde",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 8,
+          "num_docks_available": 2,
+          "station_id": "st_d33uhgembtds7380efvg",
+          "vehicle_types_available": [
+            {
+              "count": 8,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.71517,
+          45.88425
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgmmbtds7380egdg",
+        "name": "Piscine",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 3,
+          "num_docks_available": 7,
+          "station_id": "st_d33uhgmmbtds7380egdg",
+          "vehicle_types_available": [
+            {
+              "count": 3,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.64094,
+          45.93267
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgmmbtds7380egkg",
+        "name": "Cayenne - Curral",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 7,
+          "num_docks_available": 3,
+          "station_id": "st_d33uhgmmbtds7380egkg",
+          "vehicle_types_available": [
+            {
+              "count": 7,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.64341,
+          45.93911
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgmmbtds7380egm0",
+        "name": "Esplanade Saint-Martin",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 6,
+          "num_docks_available": 4,
+          "station_id": "st_d33uhgmmbtds7380egm0",
+          "vehicle_types_available": [
+            {
+              "count": 6,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.64443,
+          45.89572
+        ]
+      },
+      "properties": {
+        "mode": "montenvelo",
+        "id": "st_d33uhgumbtds73f4kfeg",
+        "name": "Parking des cristaux",
+        "address": "",
+        "source_url": "https://gbfs.partners.fifteen.eu/gbfs/2.2/mont_blanc/en/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": 1795035841,
+        "warning": "",
+        "station_status_snapshot": {
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": 1795035830,
+          "num_bikes_available": 6,
+          "num_docks_available": 4,
+          "station_id": "st_d33uhgumbtds73f4kfeg",
+          "vehicle_types_available": [
+            {
+              "count": 6,
+              "vehicle_type_id": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6358779,
+          45.936473
+        ]
+      },
+      "properties": {
+        "mode": "citiz",
+        "id": "1553",
+        "name": "SNCF Gare de Sallanches [station électrique]",
+        "address": "126, rue Jeanne d'Arc, 74700 Sallanches",
+        "source_url": "https://backend.citiz.fr/public/provider/5/gbfs/v3.0/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": "2026-11-18T22:00:56.1241196+01:00",
+        "warning": "Station and vehicle availability disagreed in the initial audit; confirm in Citiz.",
+        "station_status_snapshot": {
+          "station_id": "1553",
+          "num_vehicles_available": 1,
+          "vehicle_types_available": [
+            {
+              "vehicle_type_id": "3",
+              "count": 1
+            }
+          ],
+          "num_docks_available": 0,
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": "2026-11-12T12:38:11.3826463+01:00"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.629606,
+          45.93788
+        ]
+      },
+      "properties": {
+        "mode": "citiz",
+        "id": "1554",
+        "name": "Parking Antoine Pissard [station électrique]",
+        "address": "26, rue François Gex à Sallanches (Parling Antoine Pissard)",
+        "source_url": "https://backend.citiz.fr/public/provider/5/gbfs/v3.0/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": "2026-11-18T22:00:56.1241196+01:00",
+        "warning": "Station and vehicle availability disagreed in the initial audit; confirm in Citiz.",
+        "station_status_snapshot": {
+          "station_id": "1554",
+          "num_vehicles_available": 1,
+          "vehicle_types_available": [
+            {
+              "vehicle_type_id": "3",
+              "count": 1
+            }
+          ],
+          "num_docks_available": 0,
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": "2026-11-12T12:38:08.9631172+01:00"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.706525,
+          45.938592
+        ]
+      },
+      "properties": {
+        "mode": "citiz",
+        "id": "1622",
+        "name": "Plateau d'Assy",
+        "address": "Place Théophile Vallet - 74190 Passy",
+        "source_url": "https://backend.citiz.fr/public/provider/5/gbfs/v3.0/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": "2026-11-18T22:00:56.1241196+01:00",
+        "warning": "Station and vehicle availability disagreed in the initial audit; confirm in Citiz. Passy tourism announced relocation to 1118 avenue du Dr Jacques Arnaud through 2026-12-31; coordinates here are the uncorrected GBFS station.",
+        "station_status_snapshot": {
+          "station_id": "1622",
+          "num_vehicles_available": 1,
+          "vehicle_types_available": [
+            {
+              "vehicle_type_id": "2",
+              "count": 1
+            }
+          ],
+          "num_docks_available": 0,
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": "2026-09-28T13:32:50.4137837+02:00"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.700545,
+          45.90581
+        ]
+      },
+      "properties": {
+        "mode": "citiz",
+        "id": "1623",
+        "name": "SNCF Gare du Fayet [station électrique]",
+        "address": "Parking du valléen, rue des écoles, 74170 Saint-Gervais-les-Bains",
+        "source_url": "https://backend.citiz.fr/public/provider/5/gbfs/v3.0/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": "2026-11-18T22:00:56.1241196+01:00",
+        "warning": "Station and vehicle availability disagreed in the initial audit; confirm in Citiz.",
+        "station_status_snapshot": {
+          "station_id": "1623",
+          "num_vehicles_available": 2,
+          "vehicle_types_available": [
+            {
+              "vehicle_type_id": "3",
+              "count": 2
+            }
+          ],
+          "num_docks_available": 0,
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": "2026-11-12T12:38:16.2844596+01:00"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.64419,
+          45.89588
+        ]
+      },
+      "properties": {
+        "mode": "citiz",
+        "id": "1698",
+        "name": "Parking des cristaux [station électrique]",
+        "address": "Parking des Cristaux\nRte de Sallanches, 74920 Combloux",
+        "source_url": "https://backend.citiz.fr/public/provider/5/gbfs/v3.0/station_information.json",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "feed_last_updated": "2026-11-18T22:00:56.1241196+01:00",
+        "warning": "Station and vehicle availability disagreed in the initial audit; confirm in Citiz.",
+        "station_status_snapshot": {
+          "station_id": "1698",
+          "num_vehicles_available": 1,
+          "vehicle_types_available": [
+            {
+              "vehicle_type_id": "3",
+              "count": 1
+            }
+          ],
+          "num_docks_available": 0,
+          "is_installed": true,
+          "is_renting": true,
+          "is_returning": true,
+          "last_reported": "2026-11-12T12:38:14.0036993+01:00"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7268675,
+          45.8222584
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-14228",
+        "name": "Office de tourisme",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7291796,
+          45.8442647
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-14230",
+        "name": "Tresse",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.729523,
+          45.8439658
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-14231",
+        "name": "Tresse",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7235443,
+          45.818947
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-14236",
+        "name": "Nivorin",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7235656,
+          45.8190199
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-14237",
+        "name": "Nivorin",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.723484,
+          45.8122769
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-14238",
+        "name": "Le Lay",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7235632,
+          45.8126434
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-14239",
+        "name": "Le Lay",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7202586,
+          45.8004135
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-14241",
+        "name": "Télécabine de la Gorge",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7173215,
+          45.795227
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-14242",
+        "name": "Notre Dame de la Gorge",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6303095,
+          45.9617588
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19760",
+        "name": "Aire de covoiturage",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6099821,
+          45.9576689
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19761",
+        "name": "Burzier",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6025145,
+          45.9372211
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19762",
+        "name": "Phiterne",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6298199,
+          45.9399445
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19763",
+        "name": "Quatre Têtes",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6295182,
+          45.9357615
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19764",
+        "name": "Place de la Grenette",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.632826,
+          45.932749
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19765",
+        "name": "Place du Midi",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6435953,
+          45.9394893
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19766",
+        "name": "Saint-Martin",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.652191,
+          45.9318692
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19767",
+        "name": "La Charlotte",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6523448,
+          45.9318823
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19768",
+        "name": "La Charlotte",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6395175,
+          45.9561622
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74256-19769",
+        "name": "Les Ilettes",
+        "commune": "Sallanches",
+        "insee": "74256",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7103853,
+          45.9068751
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19770",
+        "name": "Abbaye",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.705352,
+          45.908535
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19771",
+        "name": "Parking Mattel",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.707039,
+          45.908716
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19772",
+        "name": "Chamonix",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7092508,
+          45.9144613
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19773",
+        "name": "Aérodrome",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7037454,
+          45.9159495
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19774",
+        "name": "Grande Platiere",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6941929,
+          45.9162882
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19775",
+        "name": "Mountain Store",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7010807,
+          45.9178603
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19776",
+        "name": "L'Etoile",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7038002,
+          45.9184938
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19777",
+        "name": "Marlioz Ecole",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7197811,
+          45.9273713
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19778",
+        "name": "Chedde Centre",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7237079,
+          45.9281064
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19779",
+        "name": "Chedde",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7162137,
+          45.9315418
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19780",
+        "name": "La Motte",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.716541,
+          45.9318823
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19781",
+        "name": "La Motte",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6859197,
+          45.9235111
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19782",
+        "name": "Mairie",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6859921,
+          45.9234803
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19783",
+        "name": "Chef-Lieu",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6865405,
+          45.9235288
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19784",
+        "name": "Ecole",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6864708,
+          45.9235755
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19785",
+        "name": "Ecole",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.678286,
+          45.9317517
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19786",
+        "name": "Bay",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6781881,
+          45.9317526
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19787",
+        "name": "Bay",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7092388,
+          45.9358986
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19788",
+        "name": "Place Neuve",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.711885,
+          45.938165
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19789",
+        "name": "L'Ugine",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7065941,
+          45.9389148
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19790",
+        "name": "Plateau d'Assy Centre",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7074791,
+          45.9394837
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19791",
+        "name": "Place du Plateau d'Assy",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.721514,
+          45.9454877
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19792",
+        "name": "Praz Coutant",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.736561,
+          45.9505184
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19793",
+        "name": "Plaine Joux",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6677463,
+          45.9187559
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74208-19795",
+        "name": "Lac de Passy",
+        "commune": "Passy",
+        "insee": "74208",
+        "record_updated": "2022-06-14",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.5777596,
+          45.8394682
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74215-19796",
+        "name": "Les Belles",
+        "commune": "Praz-sur-Arly",
+        "insee": "74215",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.5774189,
+          45.8388002
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74215-19797",
+        "name": "Base de loisirs",
+        "commune": "Praz-sur-Arly",
+        "insee": "74215",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.5719485,
+          45.8380621
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74215-19798",
+        "name": "Centre-Ville",
+        "commune": "Praz-sur-Arly",
+        "insee": "74215",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.5668134,
+          45.8358916
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74215-19799",
+        "name": "Meuret",
+        "commune": "Praz-sur-Arly",
+        "insee": "74215",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.5662044,
+          45.8356542
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74215-19800",
+        "name": "Meuret",
+        "commune": "Praz-sur-Arly",
+        "insee": "74215",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.5584419,
+          45.8326417
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74215-19801",
+        "name": "Jorrax",
+        "commune": "Praz-sur-Arly",
+        "insee": "74215",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6249182,
+          45.8635009
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19802",
+        "name": "Supermarché",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6245373,
+          45.8630059
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19803",
+        "name": "Supermarché",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6204966,
+          45.8639361
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19804",
+        "name": "Jaillet",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6199118,
+          45.8638166
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19805",
+        "name": "Jaillet",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6199024,
+          45.8590656
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19806",
+        "name": "Oberstdorf",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6143274,
+          45.8509039
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19807",
+        "name": "Rochebrune",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6144562,
+          45.8510001
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19808",
+        "name": "Rochebrune",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6317846,
+          45.8533989
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19809",
+        "name": "Mont d'Arbois",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6367909,
+          45.8457903
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19810",
+        "name": "Le Planellet",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.60993,
+          45.8577151
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74173-19811",
+        "name": "Le Cruet",
+        "commune": "Megève",
+        "insee": "74173",
+        "record_updated": "2022-06-09",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.647882,
+          45.917127
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74103-19812",
+        "name": "Lepigny",
+        "commune": "Domancy",
+        "insee": "74103",
+        "record_updated": "2022-06-03",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.648175,
+          45.916704
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74103-19813",
+        "name": "Lepigny",
+        "commune": "Domancy",
+        "insee": "74103",
+        "record_updated": "2022-06-03",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.654496,
+          45.9105442
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74103-19814",
+        "name": "Cimetière",
+        "commune": "Domancy",
+        "insee": "74103",
+        "record_updated": "2022-06-03",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.684097,
+          45.9048454
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74103-19815",
+        "name": "Intermarché",
+        "commune": "Domancy",
+        "insee": "74103",
+        "record_updated": "2022-06-03",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6349456,
+          45.8853603
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74099-19816",
+        "name": "Ormaret",
+        "commune": "Demi-Quartier",
+        "insee": "74099",
+        "record_updated": "2022-08-18",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6348357,
+          45.8851838
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74099-19817",
+        "name": "Ormaret",
+        "commune": "Demi-Quartier",
+        "insee": "74099",
+        "record_updated": "2022-08-18",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6397981,
+          45.8805831
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74099-19818",
+        "name": "Demi-Lune",
+        "commune": "Demi-Quartier",
+        "insee": "74099",
+        "record_updated": "2022-08-18",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6388616,
+          45.8801182
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74099-19819",
+        "name": "Demi-Lune",
+        "commune": "Demi-Quartier",
+        "insee": "74099",
+        "record_updated": "2022-08-18",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6294443,
+          45.8703992
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74099-19820",
+        "name": "Centre",
+        "commune": "Demi-Quartier",
+        "insee": "74099",
+        "record_updated": "2022-08-18",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.607781,
+          45.918022
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74089-19821",
+        "name": "Mairie",
+        "commune": "Cordon",
+        "insee": "74089",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.610226,
+          45.921999
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74089-19822",
+        "name": "Office de tourisme",
+        "commune": "Cordon",
+        "insee": "74089",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.610876,
+          45.922215
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74089-19823",
+        "name": "Eglise",
+        "commune": "Cordon",
+        "insee": "74089",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.612801,
+          45.925855
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74089-19824",
+        "name": "La Pusaz",
+        "commune": "Cordon",
+        "insee": "74089",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.639328,
+          45.891912
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74083-19827",
+        "name": "Colomb",
+        "commune": "Combloux",
+        "insee": "74083",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.640656,
+          45.896539
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74083-19828",
+        "name": "Ecole",
+        "commune": "Combloux",
+        "insee": "74083",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.645174,
+          45.894775
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74083-19829",
+        "name": "Office de tourisme",
+        "commune": "Combloux",
+        "insee": "74083",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.644598,
+          45.895691
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74083-19830",
+        "name": "Centre",
+        "commune": "Combloux",
+        "insee": "74083",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.647378,
+          45.8983937
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74083-19831",
+        "name": "Plan de Mouille",
+        "commune": "Combloux",
+        "insee": "74083",
+        "record_updated": "2022-06-03",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6467717,
+          45.8989864
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74083-19832",
+        "name": "Plan de Mouille",
+        "commune": "Combloux",
+        "insee": "74083",
+        "record_updated": "2022-06-03",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7136698,
+          45.8903815
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74236-19833",
+        "name": "Miage",
+        "commune": "Saint-Gervais-les-Bains",
+        "insee": "74236",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7233485,
+          45.8543096
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74236-19834",
+        "name": "Saint-Nicolas",
+        "commune": "Saint-Gervais-les-Bains",
+        "insee": "74236",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7137878,
+          45.8900016
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74236-19835",
+        "name": "Assomption",
+        "commune": "Saint-Gervais-les-Bains",
+        "insee": "74236",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7064869,
+          45.8897431
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74236-19836",
+        "name": "Mont d'Arbois",
+        "commune": "Saint-Gervais-les-Bains",
+        "insee": "74236",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.693656,
+          45.904011
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74236-19837",
+        "name": "Le Fayet",
+        "commune": "Saint-Gervais-les-Bains",
+        "insee": "74236",
+        "record_updated": "2023-07-31",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.705141,
+          45.9056395
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74236-19838",
+        "name": "Notre Dame des Alpes",
+        "commune": "Saint-Gervais-les-Bains",
+        "insee": "74236",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7151033,
+          45.8844034
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74236-19839",
+        "name": "Piscine Municipale",
+        "commune": "Saint-Gervais-les-Bains",
+        "insee": "74236",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6887132,
+          45.8741828
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74236-19840",
+        "name": "Le Bettex",
+        "commune": "Saint-Gervais-les-Bains",
+        "insee": "74236",
+        "record_updated": "2022-06-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6350351,
+          45.8942198
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74083-19843",
+        "name": "Colomb",
+        "commune": "Combloux",
+        "insee": "74083",
+        "record_updated": "2022-06-03",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7280424,
+          45.8171057
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-22282",
+        "name": "Pont des loyers",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-03",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7269158,
+          45.8261153
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-22283",
+        "name": "ZAC de plane",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-03",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7290947,
+          45.8315352
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-22284",
+        "name": "la Favière",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.72893,
+          45.8312661
+        ]
+      },
+      "properties": {
+        "mode": "rezo_pouce",
+        "id": "74085-22285",
+        "name": "la Favière",
+        "commune": "Les Contamines-Montjoie",
+        "insee": "74085",
+        "record_updated": "2024-01-02",
+        "open_as_published": "true",
+        "source_url": "https://www.data.gouv.fr/api/1/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1",
+        "observed_at": "2026-11-18T21:04:46.421305+00:00",
+        "licence": "ODbL with PAN specific conditions (consolidated BNLC)",
+        "warning": "Designated hitchhiking stop; no guaranteed departure or arrival time."
+      }
+    }
+  ]
+}

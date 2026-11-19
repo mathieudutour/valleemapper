@@ -1,0 +1,94 @@
+{
+  "checked_on": "2026-11-18",
+  "chamonix_resolution": {
+    "static_url": "https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs/pub",
+    "static_sha256": "0a6e68165cd9ece66be52e3cf6a92c7d3ba34f1d81713ea1741d2d95d61ba59c",
+    "routes": 23,
+    "stop_records": 258,
+    "trip_records": 2739,
+    "calendar_range": [
+      "2026-09-03",
+      "2026-12-18"
+    ],
+    "comparison_to_initial_rt_sample": {
+      "trip_updates": 237,
+      "matched_trip_ids": 237,
+      "stop_updates": 4856,
+      "matched_stop_ids": 4856
+    },
+    "initial_rt_header_utc": "2026-11-18T20:58:31+00:00"
+  },
+  "fare_input_check": {
+    "gtfs_fare_files": {
+      "haute_savoie": [],
+      "sncf": [],
+      "chamonix_catalogue": [],
+      "chamonix_pysae": []
+    },
+    "regional_netex_xml_files": 27,
+    "regional_netex_fare_tag_counts": {
+      "FareFrame": 0,
+      "FareTable": 0,
+      "Tariff": 0,
+      "FareProduct": 0,
+      "PreassignedFareProduct": 0,
+      "SalesOfferPackage": 0,
+      "FareStructureElement": 0,
+      "DistanceMatrixElement": 0,
+      "TariffZone": 0,
+      "FareZone": 0
+    }
+  },
+  "shuttle_realtime_samples": [
+    {
+      "group_id": "meg-bus",
+      "static_zip_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+      "realtime_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs-rt",
+      "header_timestamp_utc": "2026-11-18T21:11:18+00:00",
+      "entity_counts": {},
+      "trip_matches": {}
+    },
+    {
+      "group_id": "saint-gervais",
+      "static_zip_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+      "realtime_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs-rt",
+      "header_timestamp_utc": "2026-11-18T21:11:19+00:00",
+      "entity_counts": {
+        "trip_update": 50,
+        "alert": 1
+      },
+      "trip_matches": {
+        "trip_update_static_match": 50
+      }
+    },
+    {
+      "group_id": "combloux",
+      "static_zip_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+      "realtime_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs-rt",
+      "header_timestamp_utc": "2026-11-18T21:11:19+00:00",
+      "entity_counts": {},
+      "trip_matches": {}
+    },
+    {
+      "group_id": "praz",
+      "static_zip_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+      "realtime_url": "https://api.pysae.com/api/v4/groups/praz/gtfs-rt",
+      "header_timestamp_utc": "2026-11-18T21:11:19+00:00",
+      "entity_counts": {},
+      "trip_matches": {}
+    },
+    {
+      "group_id": "autocars-borini",
+      "static_zip_url": "https://api.pysae.com/api/v4/groups/autocars-borini/gtfs/pub",
+      "realtime_url": "https://api.pysae.com/api/v4/groups/autocars-borini/gtfs-rt",
+      "header_timestamp_utc": "2026-11-18T21:11:19+00:00",
+      "entity_counts": {},
+      "trip_matches": {}
+    }
+  ],
+  "lumiplay_valleen": {
+    "id": 70821,
+    "openingStatus": "FORECAST",
+    "operating": true
+  }
+}

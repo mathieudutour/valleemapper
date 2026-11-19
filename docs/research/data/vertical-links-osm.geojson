@@ -1,0 +1,165 @@
+{
+  "type": "FeatureCollection",
+  "attribution": "© OpenStreetMap contributors",
+  "licence": "https://opendatacommons.org/licenses/odbl/1-0/",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.6998251,
+            45.9059848
+          ],
+          [
+            6.6999645,
+            45.9057367
+          ],
+          [
+            6.7007605,
+            45.9043185
+          ],
+          [
+            6.7013625,
+            45.9032461
+          ],
+          [
+            6.7028888,
+            45.9005059
+          ],
+          [
+            6.7040693,
+            45.8983768
+          ],
+          [
+            6.7072835,
+            45.892592
+          ],
+          [
+            6.7077727,
+            45.8917114
+          ],
+          [
+            6.7080595,
+            45.8911953
+          ],
+          [
+            6.7082205,
+            45.8909264
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Le Valléen",
+        "osm_way_id": "1160485041",
+        "source_url": "https://www.openstreetmap.org/way/1160485041",
+        "source": "OpenStreetMap contributors",
+        "licence": "ODbL-1.0",
+        "checked_on": "2026-11-18",
+        "validation": "Mapped geometry, not surveyed or route-engine tested here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.6998251,
+          45.9059848
+        ]
+      },
+      "properties": {
+        "name": "Le Fayet",
+        "link_name": "Le Valléen",
+        "osm_node_id": "10793161750",
+        "source_url": "https://www.openstreetmap.org/node/10793161750",
+        "source": "OpenStreetMap contributors",
+        "licence": "ODbL-1.0",
+        "checked_on": "2026-11-18"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7082205,
+          45.8909264
+        ]
+      },
+      "properties": {
+        "name": "Saint-Gervais",
+        "link_name": "Le Valléen",
+        "osm_node_id": "13189170923",
+        "source_url": "https://www.openstreetmap.org/node/13189170923",
+        "source": "OpenStreetMap contributors",
+        "licence": "ODbL-1.0",
+        "checked_on": "2026-11-18"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.7065859,
+            45.8980722
+          ],
+          [
+            6.7088591,
+            45.8973703
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Ascenseur des Thermes",
+        "osm_way_id": "1230812180",
+        "source_url": "https://www.openstreetmap.org/way/1230812180",
+        "source": "OpenStreetMap contributors",
+        "licence": "ODbL-1.0",
+        "checked_on": "2026-11-18",
+        "validation": "Mapped geometry, not surveyed or route-engine tested here."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7065859,
+          45.8980722
+        ]
+      },
+      "properties": {
+        "name": "Les Thermes",
+        "link_name": "Ascenseur des Thermes",
+        "osm_node_id": "11414484146",
+        "source_url": "https://www.openstreetmap.org/node/11414484146",
+        "source": "OpenStreetMap contributors",
+        "licence": "ODbL-1.0",
+        "checked_on": "2026-11-18"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7088591,
+          45.8973703
+        ]
+      },
+      "properties": {
+        "name": "Ascenseur des Thermes",
+        "link_name": "Ascenseur des Thermes",
+        "osm_node_id": "11414484147",
+        "source_url": "https://www.openstreetmap.org/node/11414484147",
+        "source": "OpenStreetMap contributors",
+        "licence": "ODbL-1.0",
+        "checked_on": "2026-11-18"
+      }
+    }
+  ]
+}

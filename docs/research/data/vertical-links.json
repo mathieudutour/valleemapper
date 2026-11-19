@@ -1,0 +1,124 @@
+{
+  "checked_on": "2026-11-18",
+  "timezone": "Europe/Paris",
+  "licence": "No explicit reuse licence verified for public Lumiplay endpoint.",
+  "links": [
+    {
+      "id": "valleen",
+      "name": "Le Valléen",
+      "mode": "gondola",
+      "from": "Le Fayet SNCF station",
+      "to": "Saint-Gervais Le Châtelet / Alpin lower terminal",
+      "hours": {
+        "days": "daily",
+        "opens": "07:00",
+        "closes": "20:30"
+      },
+      "duration_minutes": 5,
+      "bike_carriage": "allowed",
+      "sources": [
+        "https://www.ski-saintgervais.com/fr/tarifs-valleen",
+        "https://www.saintgervais.com/mairie/actualites/telecabine-le-valleen-une-maintenance-prevue-du-2-au-15-novembre-inclus/"
+      ],
+      "public_api": {
+        "configuration": "https://public.lumiplay.link/interactive-map/v1/map/name/evasion-mont-blanc-saint-gervais",
+        "static": "https://public.lumiplay.link/interactive-map/v1/map/19564192-c5ad-45be-a4ca-bbaba136d0bd/staticPoiData?lang=fr",
+        "dynamic": "https://public.lumiplay.link/interactive-map/v1/map/19564192-c5ad-45be-a4ca-bbaba136d0bd/dynamicPoiData?lang=fr",
+        "join_id": 70821
+      },
+      "static_record": {
+        "id": 70821,
+        "name": "LE VALLEEN",
+        "type": "LIFT",
+        "openingTimesTheoretic": [
+          {
+            "beginTime": "07:00",
+            "endTime": "20:30"
+          }
+        ],
+        "liftType": "GONDOLA",
+        "arrivalAltitude": 807.0,
+        "departureAltitude": 586.0,
+        "duration": 5.0,
+        "uphillCapacity": 1250
+      },
+      "dynamic_snapshot": {
+        "id": 70821,
+        "openingStatus": "FORECAST",
+        "operating": true
+      },
+      "status_caveat": "FORECAST and operating=true do not prove the service is open now; no per-record timestamp in this response.",
+      "known_closures": [
+        {
+          "from": "2026-11-02",
+          "through": "2026-11-15"
+        }
+      ],
+      "geometry_caveat": "OSM terminal coordinates and line are exported separately under ODbL. Walking access and route-engine connectivity remain untested.",
+      "osm_terminals": [
+        {
+          "osm_node_id": "10793161750",
+          "name": "Le Fayet",
+          "longitude": 6.6998251,
+          "latitude": 45.9059848
+        },
+        {
+          "osm_node_id": "13189170923",
+          "name": "Saint-Gervais",
+          "longitude": 6.7082205,
+          "latitude": 45.8909264
+        }
+      ]
+    },
+    {
+      "id": "thermal_lift",
+      "name": "Ascenseur des Thermes",
+      "mode": "inclined_lift",
+      "from": "Parc Thermal, Le Fayet",
+      "to": "Saint-Gervais village",
+      "hours": {
+        "days": "daily",
+        "opens": "06:00",
+        "closes": "23:30"
+      },
+      "duration_minutes": 3,
+      "fare_eur": 0,
+      "bike_carriage": "allowed in autumn2026 brochure",
+      "sources": [
+        "https://www.saintgervais.com/jai-envie/activites/ascenseur-des-thermes-saint-gervais-les-bains-fr-5130287/",
+        "https://www.saintgervais.com/app/uploads/saint-gervais/2026/08/Saint-Gervais-Mont-Blanc_Depliant-Facilibus-Automne-2026.pdf",
+        "https://www.saintgervais.com/app/uploads/saint-gervais/2024/09/Press-Pack-Winter-24-25.pdf"
+      ],
+      "status_html": "https://bulletinv3.lumiplan.pro/bulletin.php?isSoir=false&lang=fr&station=saint-gervais",
+      "not_in_checked_lumiplay_json": true,
+      "closure_rules": [
+        {
+          "rule": "First Monday of each month until at least March2027, per official listing.",
+          "source": "https://www.saintgervais.com/jai-envie/activites/ascenseur-des-thermes-saint-gervais-les-bains-fr-5130287/"
+        },
+        {
+          "from": "2026-11-02",
+          "through": "2026-11-06",
+          "reopens_at": "17:00",
+          "source": "https://www.saintgervais.com/mairie/actualites/ascenseur-des-thermes-une-maintenance-semestrielle-prevue-du-2-au-6-novembre-2026-inclus/",
+          "note": "Specific later notice supersedes earlier tourism Nov2–4 alert."
+        }
+      ],
+      "geometry_caveat": "OSM terminal coordinates and line are exported separately under ODbL. Walking access and route-engine connectivity remain untested.",
+      "osm_terminals": [
+        {
+          "osm_node_id": "11414484146",
+          "name": "Les Thermes",
+          "longitude": 6.7065859,
+          "latitude": 45.8980722
+        },
+        {
+          "osm_node_id": "11414484147",
+          "name": "Ascenseur des Thermes",
+          "longitude": 6.7088591,
+          "latitude": 45.8973703
+        }
+      ]
+    }
+  ]
+}

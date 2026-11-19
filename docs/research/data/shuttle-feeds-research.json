@@ -1,0 +1,358 @@
+{
+  "checked_on": "2026-11-18",
+  "feeds": [
+    {
+      "group_id": "meg-bus",
+      "gtfs_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+      "gtfs_rt_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs-rt",
+      "anonymous_access_checked": true,
+      "reuse_licence": "No explicit local licence verified.",
+      "all_route_records": [
+        {
+          "agency_id": "1",
+          "route_color": "e40428",
+          "route_id": "1",
+          "route_long_name": "Ligne 1 MEGEVE - ROCHEBRUNE - JAILLET",
+          "route_short_name": "1",
+          "route_text_color": "ffffff",
+          "route_type": "3"
+        },
+        {
+          "agency_id": "1",
+          "route_color": "008000",
+          "route_id": "2",
+          "route_long_name": "LIGNE 2 MEGEVE - COTE 2000 - JAILLET",
+          "route_short_name": "2",
+          "route_text_color": "ffffff",
+          "route_type": "3"
+        },
+        {
+          "agency_id": "1",
+          "route_color": "251556",
+          "route_id": "Form",
+          "route_long_name": "",
+          "route_short_name": "Form",
+          "route_text_color": "",
+          "route_type": "3"
+        }
+      ],
+      "all_stop_records": 70,
+      "all_trip_records": 162,
+      "public_route_ids": [
+        "1",
+        "2"
+      ],
+      "realtime_sample": {
+        "group_id": "meg-bus",
+        "static_zip_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub",
+        "realtime_url": "https://api.pysae.com/api/v4/groups/meg-bus/gtfs-rt",
+        "header_timestamp_utc": "2026-11-18T21:11:18+00:00",
+        "entity_counts": {},
+        "trip_matches": {}
+      },
+      "public_service_from": "2026-07-04",
+      "public_service_through": "2026-08-30",
+      "calendar_status_as_of_2026_11_18": "expired summer timetable"
+    },
+    {
+      "group_id": "saint-gervais",
+      "gtfs_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+      "gtfs_rt_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs-rt",
+      "anonymous_access_checked": true,
+      "reuse_licence": "No explicit local licence verified.",
+      "all_route_records": [
+        {
+          "agency_id": "Facilibus",
+          "route_color": "228947",
+          "route_id": "L1",
+          "route_long_name": "Télécabines/Le Châtelet - Saint Nicolas de Véroce",
+          "route_short_name": "1",
+          "route_text_color": "ffffff",
+          "route_type": "3"
+        },
+        {
+          "agency_id": "Facilibus",
+          "route_color": "e72438",
+          "route_id": "L2",
+          "route_long_name": "Télécabines/Le Châtelet - Les Pratz/Sporting Club",
+          "route_short_name": "2",
+          "route_text_color": "ffffff",
+          "route_type": "3"
+        }
+      ],
+      "all_stop_records": 63,
+      "all_trip_records": 54,
+      "public_route_ids": [
+        "L1",
+        "L2"
+      ],
+      "realtime_sample": {
+        "group_id": "saint-gervais",
+        "static_zip_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub",
+        "realtime_url": "https://api.pysae.com/api/v4/groups/saint-gervais/gtfs-rt",
+        "header_timestamp_utc": "2026-11-18T21:11:19+00:00",
+        "entity_counts": {
+          "trip_update": 50,
+          "alert": 1
+        },
+        "trip_matches": {
+          "trip_update_static_match": 50
+        }
+      },
+      "public_service_from": "2026-08-31",
+      "public_service_through": "2026-12-18",
+      "calendar_status_as_of_2026_11_18": "current"
+    },
+    {
+      "group_id": "combloux",
+      "gtfs_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+      "gtfs_rt_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs-rt",
+      "anonymous_access_checked": true,
+      "reuse_licence": "No explicit local licence verified.",
+      "all_route_records": [
+        {
+          "agency_id": "borini",
+          "route_color": "A569BD",
+          "route_id": "COMBLOUX",
+          "route_long_name": "NAVETTE ETE COMBLOUX",
+          "route_short_name": "CBX",
+          "route_type": "3"
+        }
+      ],
+      "all_stop_records": 34,
+      "all_trip_records": 30,
+      "public_route_ids": [
+        "COMBLOUX"
+      ],
+      "realtime_sample": {
+        "group_id": "combloux",
+        "static_zip_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs/pub",
+        "realtime_url": "https://api.pysae.com/api/v4/groups/combloux/gtfs-rt",
+        "header_timestamp_utc": "2026-11-18T21:11:19+00:00",
+        "entity_counts": {},
+        "trip_matches": {}
+      },
+      "public_service_from": "2026-07-04",
+      "public_service_through": "2026-08-30",
+      "calendar_status_as_of_2026_11_18": "expired summer timetable"
+    },
+    {
+      "group_id": "praz",
+      "gtfs_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+      "gtfs_rt_url": "https://api.pysae.com/api/v4/groups/praz/gtfs-rt",
+      "anonymous_access_checked": true,
+      "reuse_licence": "No explicit local licence verified.",
+      "all_route_records": [
+        {
+          "agency_id": "BORINI",
+          "route_color": "A1E4EF",
+          "route_id": "PRAZ",
+          "route_long_name": "PRAZ-SUR ARLY ",
+          "route_short_name": "PRAZ",
+          "route_type": "3"
+        },
+        {
+          "agency_id": "BORINI",
+          "route_color": "023545",
+          "route_id": "Praz Formation",
+          "route_long_name": "Formation Praz-sur-Arly",
+          "route_short_name": "Form",
+          "route_type": "3"
+        }
+      ],
+      "all_stop_records": 16,
+      "all_trip_records": 84,
+      "public_route_ids": [
+        "PRAZ"
+      ],
+      "realtime_sample": {
+        "group_id": "praz",
+        "static_zip_url": "https://api.pysae.com/api/v4/groups/praz/gtfs/pub",
+        "realtime_url": "https://api.pysae.com/api/v4/groups/praz/gtfs-rt",
+        "header_timestamp_utc": "2026-11-18T21:11:19+00:00",
+        "entity_counts": {},
+        "trip_matches": {}
+      },
+      "public_service_from": "2026-07-03",
+      "public_service_through": "2026-08-28",
+      "calendar_status_as_of_2026_11_18": "expired summer timetable"
+    },
+    {
+      "group_id": "autocars-borini",
+      "gtfs_url": "https://api.pysae.com/api/v4/groups/autocars-borini/gtfs/pub",
+      "gtfs_rt_url": "https://api.pysae.com/api/v4/groups/autocars-borini/gtfs-rt",
+      "anonymous_access_checked": true,
+      "reuse_licence": "No explicit local licence verified.",
+      "all_route_records": [
+        {
+          "agency_id": "GAVOT TOURISME",
+          "route_color": "ed7f8a",
+          "route_id": "C",
+          "route_long_name": "COLLEGE RIVES DU LEMAN - GOLF",
+          "route_short_name": "COLLEGE",
+          "route_text_color": "ffffff",
+          "route_type": "3"
+        },
+        {
+          "agency_id": "GAVOT TOURISME",
+          "route_color": "fed698",
+          "route_id": "CDL",
+          "route_long_name": "PUBLIER AMPHION CITÉ DE L'EAU ",
+          "route_short_name": "AMPHION",
+          "route_text_color": "FFFFFF",
+          "route_type": "3"
+        },
+        {
+          "agency_id": "GAVOT TOURISME",
+          "route_color": "a8306d",
+          "route_id": "VILLE",
+          "route_long_name": "GARE SNCF -EMBARCADÈRE - OFFICE DE TOURISME",
+          "route_short_name": "CENTRE VILLE",
+          "route_text_color": "FFFFFF",
+          "route_type": "3"
+        }
+      ],
+      "all_stop_records": 6,
+      "all_trip_records": 254,
+      "public_route_ids": [
+        "C",
+        "CDL",
+        "VILLE"
+      ],
+      "realtime_sample": {
+        "group_id": "autocars-borini",
+        "static_zip_url": "https://api.pysae.com/api/v4/groups/autocars-borini/gtfs/pub",
+        "realtime_url": "https://api.pysae.com/api/v4/groups/autocars-borini/gtfs-rt",
+        "header_timestamp_utc": "2026-11-18T21:11:19+00:00",
+        "entity_counts": {},
+        "trip_matches": {}
+      },
+      "calendar_status_as_of_2026_11_18": "reject: unrelated Evian/Publier golf-event data, not Cordon",
+      "geographic_validation": "Coordinates around46.39latitude outside local catchment."
+    },
+    {
+      "network": "Les Contamines",
+      "gtfs_url": "https://zenbus.net/gtfs/static/download.zip?dataset=contamines",
+      "gtfs_rt_url": "https://zenbus.net/gtfs/rt/poll.proto?dataset=contamines",
+      "all_stop_records": 0,
+      "all_route_records": 0,
+      "all_trip_records": 0,
+      "feed_from": "2026-09-01",
+      "feed_through": "2026-12-13",
+      "status": "Empty off-season placeholder; no routable service in this feed.",
+      "reuse_licence": "Not verified"
+    },
+    {
+      "network": "Sallanches summer shuttle",
+      "stops_geojson": "https://services2.arcgis.com/wCCJgOJ77NBdYbmT/arcgis/rest/services/Arrets_navette2024/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson",
+      "route_geojson": "https://services2.arcgis.com/wCCJgOJ77NBdYbmT/arcgis/rest/services/Circuit_navette/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson",
+      "stop_features": 16,
+      "route_segment_features": 154,
+      "official_pdf": "https://static.apidae-tourisme.com/filestore/objets-touristiques/documents/166/241/41808294/Affiche+navette+estivale.pdf",
+      "service_from": "2026-07-04",
+      "service_through": "2026-08-30",
+      "frequency_minutes": 45,
+      "fare_eur": 0,
+      "caveat": "Layer names2024; compare departuresHd0...Hd20 and stops to dated2026PDF; licenseInfo null."
+    },
+    {
+      "network": "Passy Plaine-Joux–Lac Vert",
+      "source": "https://www.passy-mont-blanc.com/en/sejourner/se-deplacer-a-passy-mont-blanc/",
+      "dedicated_gtfs_verified": false,
+      "fare_eur": 0,
+      "frequency_minutes": 15,
+      "periods": [
+        {
+          "from": "2026-06-20",
+          "through": "2026-07-05",
+          "weekdays": [
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "windows": [
+            [
+              "10:00",
+              "13:00"
+            ],
+            [
+              "14:00",
+              "18:00"
+            ]
+          ]
+        },
+        {
+          "from": "2026-07-06",
+          "through": "2026-08-16",
+          "weekdays": "daily",
+          "windows": [
+            [
+              "09:30",
+              "18:00"
+            ]
+          ]
+        },
+        {
+          "from": "2026-08-17",
+          "through": "2026-09-13",
+          "weekdays": [
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "windows": [
+            [
+              "10:00",
+              "13:00"
+            ],
+            [
+              "14:00",
+              "18:00"
+            ]
+          ]
+        }
+      ],
+      "caveat": "Expiredsummer2026 service; ride time and boarding points not verified for GTFS conversion."
+    }
+  ],
+  "public_route_served_counts": [
+    {
+      "network": "meg-bus",
+      "public_route_ids": [
+        "1",
+        "2"
+      ],
+      "public_trip_records": 106,
+      "stops_served_by_public_routes": 49
+    },
+    {
+      "network": "saint-gervais",
+      "public_route_ids": [
+        "L1",
+        "L2"
+      ],
+      "public_trip_records": 54,
+      "stops_served_by_public_routes": 43
+    },
+    {
+      "network": "combloux",
+      "public_route_ids": [
+        "COMBLOUX"
+      ],
+      "public_trip_records": 30,
+      "stops_served_by_public_routes": 26
+    },
+    {
+      "network": "praz",
+      "public_route_ids": [
+        "PRAZ"
+      ],
+      "public_trip_records": 56,
+      "stops_served_by_public_routes": 13
+    }
+  ]
+}
