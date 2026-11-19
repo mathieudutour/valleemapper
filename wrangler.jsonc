@@ -11,6 +11,8 @@
   },
   "containers": [
     {
+      // The existing Container application keeps its name when the Worker is renamed.
+      "name": "mont-blanc-mobilite-motisrouter",
       "class_name": "MotisRouter",
       "scheduling_policy": "durable_object",
       "images": { "base": { "dockerfile": "./Dockerfile" } },
