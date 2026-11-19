@@ -1,572 +1,56 @@
-import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { createRoot } from "react-dom/client";
 import {
-  Mountain,
-  Route,
-  Compass,
+  ArrowLeft,
   ArrowUpDown,
-  Search,
-  MapPin,
-  Clock,
-  BusFront,
-  TramFront,
-  Bike,
-  CarFront,
-  Hand,
   CableCar,
-  Footprints,
-  X,
   ChevronRight,
-  ChevronDown,
-  ExternalLink,
   Info,
-  Settings,
+  Layers,
   LoaderCircle,
-  Check,
-  RefreshCw,
+  Mountain,
+  Search,
+  SlidersHorizontal,
+  TrainFront,
+  X,
+  Route,
+  BusFront,
+  Bike,
+  Clock,
+  Footprints,
   type LucideIcon,
 } from "lucide-react";
 const ValleyMap = lazy(() => import("./Map"));
+import type { Theme } from "./Map";
 import {
-  DEFAULT_LAYERS,
   compareJourneys,
   walkingSeconds,
   usesTransit,
-  modeLabel,
-  poiLabel,
   type BikeChoice,
   type Place,
   type Poi,
   type ValleyData,
   type RoutingPreference,
   type Itinerary,
-  type StopDeparture,
   type Leg,
 } from "./types";
+import { layerById } from "./layers";
+import { dayKey, formatLongDay, localDateTime, relativeDay } from "./format";
+import { localSuggestions, poiName } from "./places";
+import { readLink, writeLink, type LinkState, type TransportMode } from "./url";
+import { PlaceInput } from "./PlaceInput";
+import { Journey, JourneySummary } from "./Journey";
+import { LayerIcon, PlaceCard, type BikeStatus } from "./PlaceCard";
+import { LayersPanel } from "./LayersPanel";
 import "./style.css";
-const Icon = ({ mode, size = 18 }: { mode: string; size?: number }) => {
-  const C =
-    mode === "WALK"
-      ? Footprints
-      : mode === "BIKE" || mode === "montenvelo" || mode === "RENTAL"
-        ? Bike
-        : mode === "citiz"
-          ? CarFront
-          : mode === "rezopouce"
-            ? Hand
-            : mode === "AERIAL_LIFT" || mode === "FUNICULAR" || mode === "lift"
-              ? CableCar
-              : mode === "train" || /RAIL|TRAM|SUBURBAN/.test(mode)
-                ? TramFront
-                : BusFront;
-  return <C size={size} strokeWidth={1.8} />;
-};
-const time = (s: string) =>
-  new Date(s).toLocaleTimeString("fr-FR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/Paris",
-  });
-const duration = (s: number) => {
-  const m = Math.round(s / 60);
-  return m >= 60
-    ? `${Math.floor(m / 60)} h ${m % 60 ? String(m % 60).padStart(2, "0") : ""}`
-    : `${m} min`;
-};
-const coord = (p: Place) => `${p.lat},${p.lon}`;
-function localDateTime(date: Date) {
-  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000);
-  return local.toISOString().slice(0, 16);
-}
-function PlaceInput({
-  label,
-  value,
-  onChange,
-  places,
-}: {
-  label: string;
-  value: Place | undefined;
-  onChange: (p: Place | undefined) => void;
-  places: Place[];
-}) {
-  const [query, setQuery] = useState(value?.name || ""),
-    [focus, setFocus] = useState(false),
-    [remote, setRemote] = useState<Place[]>([]),
-    [active, setActive] = useState(0);
-  useEffect(() => {
-    if (value) setQuery(value.name);
-  }, [value]);
-  useEffect(() => {
-    setActive(0);
-    setRemote([]);
-    if (query.length < 3 || !focus) return;
-    const c = new AbortController();
-    const t = setTimeout(
-      () =>
-        fetch("/api/geocode?q=" + encodeURIComponent(query), {
-          signal: c.signal,
-        })
-          .then((r) => r.json())
-          .then((b) => {
-            if (Array.isArray(b))
-              setRemote(
-                b.map((p) => ({
-                  name:
-                    p.name +
-                    (p.areas?.[0]?.name ? " · " + p.areas[0].name : ""),
-                  detail:
-                    p.precision === "street" && /^\s*\d/.test(query)
-                      ? "Rue · numéro non confirmé"
-                      : p.source === "IGN/BAN"
-                        ? "Adresse · IGN / BAN"
-                        : undefined,
-                  lat: p.lat,
-                  lon: p.lon,
-                })),
-              );
-          })
-          .catch(() => {}),
-      350,
-    );
-    return () => {
-      clearTimeout(t);
-      c.abort();
-    };
-  }, [query, focus]);
-  const local = places
-    .filter((p) =>
-      p.name
-        .toLocaleLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .includes(
-          query
-            .toLocaleLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, ""),
-        ),
-    )
-    .slice(0, 6);
-  const results = (
-    query.length > 1 ? [...local, ...remote] : places.slice(0, 6)
-  ).slice(0, 8);
-  const choose = (p: Place) => {
-    onChange(p);
-    setQuery(p.name);
-    setFocus(false);
-  };
-  return (
-    <div className="place-field">
-      <span className="field-dot" />
-      <div className="field-content">
-        <label>
-          {label}
-          <input
-            aria-label={label}
-            role="combobox"
-            aria-expanded={focus}
-            aria-controls={"places-" + label}
-            autoComplete="off"
-            value={query}
-            placeholder="Lieu, adresse ou arrêt"
-            onFocus={() => setFocus(true)}
-            onBlur={() => setTimeout(() => setFocus(false), 150)}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              if (value) onChange(undefined);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") setFocus(false);
-              if (e.key === "ArrowDown") {
-                e.preventDefault();
-                setActive((i) => Math.min(i + 1, results.length - 1));
-              }
-              if (e.key === "ArrowUp") {
-                e.preventDefault();
-                setActive((i) => Math.max(i - 1, 0));
-              }
-              if (e.key === "Enter" && focus && results[active]) {
-                e.preventDefault();
-                choose(results[active]);
-              }
-            }}
-          />
-        </label>
-      </div>
-      {focus && (
-        <div className="place-options" role="listbox" id={"places-" + label}>
-          {results.length ? (
-            results.map((p, i) => (
-              <button
-                type="button"
-                role="option"
-                aria-selected={active === i}
-                className={active === i ? "active" : ""}
-                key={`${p.name}-${i}`}
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => choose(p)}
-              >
-                <MapPin size={16} />
-                <span>
-                  {p.name}
-                  {p.detail && (
-                    <small className="place-detail">{p.detail}</small>
-                  )}
-                </span>
-              </button>
-            ))
-          ) : (
-            <p>Aucun lieu trouvé. Essayez une adresse ou un nom d’arrêt.</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-function fares(legs: Leg[]) {
-  const f = new Set<string>();
-  for (const l of legs) {
-    if (
-      l.routeId?.startsWith("region_") &&
-      /^Y8[1-6]$/.test(l.routeShortName || "")
-    )
-      f.add("Cars Région : 1,70 € le billet simple");
-    if (l.routeId?.startsWith("chamonix_"))
-      f.add("Chamonix : dès 1,70 € selon le canal d’achat");
-    if (l.routeId?.includes("vertical_valleen"))
-      f.add("Valléen : 2,50 € le trajet, hors gratuités");
-    if (l.routeId?.includes("thermal_lift"))
-      f.add("Ascenseur des Thermes : gratuit");
-    if (/RAIL|TRAM|SUBURBAN/.test(l.mode))
-      f.add("Train : tarif à vérifier auprès de SNCF");
-    if (l.routeId?.startsWith("facilibus_")) f.add("Facilibus : gratuit");
-  }
-  return [...f];
-}
-function Journey({
-  item,
-  selected,
-  onClick,
-  lessWalking,
-}: {
-  item: Itinerary;
-  lessWalking?: boolean;
-  selected: boolean;
-  onClick: () => void;
-}) {
-  const transit = item.legs.filter((l) => l.mode !== "WALK"),
-    walk = item.legs
-      .filter((l) => l.mode === "WALK")
-      .reduce((s, l) => s + l.duration, 0),
-    lift = item.legs.some((l) => l.routeId?.startsWith("vertical_"));
-  const requiresReservation = item.legs.some(
-    (leg) => leg.reservation === "COMPULSORY",
-  );
-  return (
-    <article className={"journey " + (selected ? "selected" : "")}>
-      <button
-        className="journey-summary"
-        onClick={onClick}
-        aria-expanded={selected}
-      >
-        <div className="journey-heading">
-          <span className="journey-times">
-            {time(item.startTime)} <span>—</span> {time(item.endTime)}
-          </span>
-          <strong>{duration(item.duration)}</strong>
-        </div>
-        <div className="mode-chain">
-          {(transit.length ? item.legs : [item.legs[0]])
-            .filter(
-              (l) =>
-                l.mode !== "WALK" || l.duration >= 180 || transit.length === 0,
-            )
-            .map((l, i) => (
-              <React.Fragment key={i}>
-                {i > 0 && <ChevronRight size={13} className="chain-chevron" />}
-                <span
-                  className={"mode-pill " + (l.mode === "WALK" ? "walk" : "")}
-                >
-                  <Icon mode={l.mode} />
-                  {l.routeShortName || modeLabel[l.mode] || l.mode}
-                </span>
-              </React.Fragment>
-            ))}
-        </div>
-        <div className="journey-meta">
-          <span>
-            {transit.length && transit[0].mode !== "BIKE"
-              ? `${item.transfers === 0 ? "Direct" : `${item.transfers} correspondance${item.transfers > 1 ? "s" : ""}`} · `
-              : ""}
-            {walk ? `${duration(walk)} à pied` : "Sans marche"}
-          </span>
-          {item.legs.some((l) => l.realTime) && (
-            <span className="live-dot">Temps réel</span>
-          )}
-          {selected ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-        </div>
-        {lessWalking && (
-          <span className="walking-badge">
-            <Footprints size={14} />
-            Moins de marche
-          </span>
-        )}
-        {requiresReservation && (
-          <span className="reservation-badge">
-            <Info size={14} /> Réservation obligatoire
-          </span>
-        )}
-        {lift && (
-          <div className="estimate">
-            Liaison verticale · heures de passage estimées
-          </div>
-        )}
-      </button>
-      {selected && (
-        <div className="journey-detail">
-          <div className="timeline">
-            {item.legs.map((l, i) => (
-              <div
-                className={"leg " + (l.mode === "WALK" ? "walking" : "")}
-                key={i}
-              >
-                <div className="leg-time">{time(l.startTime)}</div>
-                <div className="leg-track">
-                  <Icon mode={l.mode} size={16} />
-                </div>
-                <div className="leg-content">
-                  <strong>{l.from.name}</strong>
-                  <div className="leg-description">
-                    {l.mode === "WALK" ? (
-                      `Marche · ${duration(l.duration)}`
-                    ) : (
-                      <>
-                        <span className="route-tag">
-                          {l.routeShortName || modeLabel[l.mode] || l.mode}
-                        </span>{" "}
-                        {l.headsign &&
-                          `vers ${/^\d+$/.test(l.headsign) ? l.to.name : l.headsign}`}
-                        <span className="muted block">
-                          {duration(l.duration)} ·{" "}
-                          {l.routeId?.startsWith("vertical_")
-                            ? "Passage estimé"
-                            : l.mode === "BIKE" || l.mode === "RENTAL"
-                              ? "Durée estimée"
-                              : l.realTime
-                                ? "Horaire actualisé"
-                                : "Horaire prévu"}
-                        </span>
-                        {l.rental?.toStationName && (
-                          <div className="rental-stations">
-                            {l.rental.fromStationName && (
-                              <div>Retrait à {l.rental.fromStationName}</div>
-                            )}
-                            <div>Retour à {l.rental.toStationName}</div>
-                          </div>
-                        )}
-                        {l.reservation === "COMPULSORY" && (
-                          <div className="reservation-detail">
-                            <strong>Réservation obligatoire</strong>
-                            {l.routeShortName === "Y85" && (
-                              <>
-                                {" · "}
-                                <a href="tel:+33480007000">04 8000 7000</a>
-                                {" · "}
-                                <a
-                                  href="https://www.laregionvoustransporte.fr/cars-region/cars-region-de-haute-savoie/ligne/y85-sallanches-passy-plaine-joux/"
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  Modalités Y85
-                                </a>
-                              </>
-                            )}
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-            <div className="leg last">
-              <div className="leg-time">{time(item.endTime)}</div>
-              <div className="leg-track destination" />
-              <div className="leg-content">
-                <strong>{item.legs.at(-1)?.to.name}</strong>
-              </div>
-            </div>
-          </div>
-          {lift && (
-            <p className="notice">
-              <Info size={16} />
-              Modèle basé sur les heures d’ouverture et la durée publiée.
-              Attente non mesurée ; ouverture à vérifier, notamment en
-              maintenance.
-            </p>
-          )}
-          {item.legs.some((leg) => leg.mode === "RENTAL") && (
-            <p className="notice">
-              <Info size={16} />
-              <span>
-                Vérifiez les vélos et les places de retour avant le départ dans{" "}
-                <a
-                  href="https://montenvelo.fr/home-2/mode-demploi/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  l’application MontenVélo
-                </a>
-                .
-              </span>
-            </p>
-          )}
-          {fares(item.legs).length > 0 && (
-            <div className="fare-box">
-              <span className="eyebrow">Repères de prix</span>
-              {fares(item.legs).map((f) => (
-                <p key={f}>{f}</p>
-              ))}
-              <small>
-                Tarifs publics relevés le 18/11/2026. Conditions et
-                correspondances à vérifier ; ces montants ne constituent pas un
-                devis.
-              </small>
-            </div>
-          )}
-        </div>
-      )}
-    </article>
-  );
-}
-const departureDay = new Intl.DateTimeFormat("fr-FR", {
-  timeZone: "Europe/Paris",
-  weekday: "short",
-  day: "numeric",
-  month: "short",
-});
-
-function DepartureDetails({ departure }: { departure: StopDeparture }) {
-  return (
-    <div>
-      <div className="stop-departure-route">
-        <span className="mode-pill">{departure.line}</span>
-        <strong>{departure.destination}</strong>
-      </div>
-      <div className="stop-departure-meta">
-        <span className={departure.realTime ? "live-dot" : undefined}>
-          {departure.realTime ? "Temps réel" : "Horaire prévu"}
-        </span>
-        {departure.requiresReservation && (
-          <span className="stop-departure-reservation">
-            Réservation obligatoire
-          </span>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function StopDepartures({ stop }: { stop: string }) {
-  const [state, setState] = useState<
-    StopDeparture[] | "loading" | "unavailable"
-  >("loading");
-  const [now, setNow] = useState(Date.now);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    let refresh: ReturnType<typeof setTimeout>;
-    async function load() {
-      try {
-        const response = await fetch(
-          "/api/departures?" + new URLSearchParams({ stop }),
-          {
-            signal: controller.signal,
-          },
-        );
-        if (!response.ok) throw Error();
-        const { departures } = (await response.json()) as {
-          departures: StopDeparture[];
-        };
-        if (!controller.signal.aborted) setState(departures);
-      } catch {
-        if (!controller.signal.aborted) setState("unavailable");
-      } finally {
-        if (!controller.signal.aborted) refresh = setTimeout(load, 60_000);
-      }
-    }
-    load();
-    const clock = setInterval(() => setNow(Date.now()), 5_000);
-    return () => {
-      controller.abort();
-      clearTimeout(refresh);
-      clearInterval(clock);
-    };
-  }, [stop]);
-
-  const today = departureDay.format(now);
-  const [next, ...later] = Array.isArray(state)
-    ? state.filter((departure) => Date.parse(departure.time) >= now)
-    : [];
-  const nextDay = next ? departureDay.format(new Date(next.time)) : "";
-  const waitMinutes = next
-    ? Math.ceil((Date.parse(next.time) - now) / 60_000)
-    : 0;
-  const showCountdown = waitMinutes < 24 * 60;
-
-  return (
-    <section className="stop-departures" aria-label="Prochains départs">
-      <h3>{next ? "Prochain départ" : "Prochains départs"}</h3>
-      {next ? (
-        <>
-          <div className="stop-departure-next">
-            <div className="stop-departure-next-heading">
-              <strong>
-                {showCountdown
-                  ? waitMinutes === 0
-                    ? "Maintenant"
-                    : `Dans ${duration(waitMinutes * 60).trim()}`
-                  : nextDay}
-              </strong>
-              <time dateTime={next.time}>
-                <strong>{time(next.time)}</strong>
-                {showCountdown && nextDay !== today && <small>{nextDay}</small>}
-              </time>
-            </div>
-            <DepartureDetails departure={next} />
-          </div>
-          {later.length > 0 && (
-            <>
-              <h3>Ensuite</h3>
-              <ul>
-                {later.map((departure) => {
-                  const day = departureDay.format(new Date(departure.time));
-                  return (
-                    <li key={departure.id}>
-                      <time dateTime={departure.time}>
-                        <strong>{time(departure.time)}</strong>
-                        {day !== today && <small>{day}</small>}
-                      </time>
-                      <DepartureDetails departure={departure} />
-                    </li>
-                  );
-                })}
-              </ul>
-            </>
-          )}
-        </>
-      ) : (
-        <p role="status">
-          {state === "loading"
-            ? "Chargement des départs…"
-            : state === "unavailable"
-              ? "Horaires momentanément indisponibles."
-              : "Aucun départ à venir trouvé."}
-        </p>
-      )}
-    </section>
-  );
-}
 
 const transportOptions = [
   { value: "all", label: "Tout", icon: Route },
@@ -575,14 +59,25 @@ const transportOptions = [
 ] as const;
 const bikeOptions = [
   { value: "personal", label: "Vélo personnel", icon: Bike },
-  { value: "montenvelo", label: "MontenVélo", icon: MapPin },
+  { value: "montenvelo", label: "MontenVélo", icon: Bike },
 ] as const;
-const priorityOptions = [
-  { value: "faster", label: "Arriver au plus tôt", icon: Clock },
-  { value: "shorter", label: "Durée la plus courte", icon: Route },
-  { value: "less-walk", label: "Moins de marche", icon: Footprints },
-] as const;
-type TransportMode = (typeof transportOptions)[number]["value"];
+const priorityLabels = (
+  arriveBy: boolean,
+): Record<RoutingPreference, string> => ({
+  faster: arriveBy ? "Partir au plus tard" : "Arriver au plus tôt",
+  shorter: "Durée la plus courte",
+  "less-walk": "Moins de marche",
+});
+const priorityIcons: Record<RoutingPreference, LucideIcon> = {
+  faster: Clock,
+  shorter: Route,
+  "less-walk": Footprints,
+};
+const modeSummary: Record<TransportMode, string> = {
+  all: "Tous les modes",
+  transit: "Transports en commun",
+  bike: "Vélo uniquement",
+};
 
 function RouteChoices<Value extends string>({
   label,
@@ -623,42 +118,165 @@ function RouteChoices<Value extends string>({
   );
 }
 
+/** Native modal dialog shared by the settings and the data notes, so both close and scroll the same way. */
+function Dialog({
+  dialogRef,
+  id,
+  eyebrow,
+  title,
+  children,
+  footer,
+}: {
+  dialogRef: React.RefObject<HTMLDialogElement | null>;
+  id: string;
+  eyebrow?: string;
+  title: ReactNode;
+  children: ReactNode;
+  footer?: ReactNode;
+}) {
+  return (
+    <dialog
+      ref={dialogRef}
+      className="dialog"
+      aria-labelledby={id}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) e.currentTarget.close();
+      }}
+    >
+      <div className="dialog-frame">
+        <header className="dialog-header">
+          <div>
+            {eyebrow && <span className="eyebrow">{eyebrow}</span>}
+            <h2 id={id} tabIndex={-1}>
+              {title}
+            </h2>
+          </div>
+          <button
+            className="icon-button round"
+            aria-label="Fermer"
+            onClick={() => dialogRef.current?.close()}
+          >
+            <X size={20} />
+          </button>
+        </header>
+        <div className="dialog-body">{children}</div>
+        {footer && <footer className="dialog-footer">{footer}</footer>}
+      </div>
+    </dialog>
+  );
+}
+const openDialog = (dialog: HTMLDialogElement | null) => {
+  dialog?.showModal();
+  dialog?.querySelector("h2")?.focus();
+};
+
+function useMedia(query: string) {
+  const [matches, setMatches] = useState(() => matchMedia(query).matches);
+  useEffect(() => {
+    const list = matchMedia(query);
+    const change = () => setMatches(list.matches);
+    list.addEventListener("change", change);
+    return () => list.removeEventListener("change", change);
+  }, [query]);
+  return matches;
+}
+function useViewportHeight() {
+  const [height, setHeight] = useState(() => innerHeight);
+  useEffect(() => {
+    const resize = () => setHeight(innerHeight);
+    addEventListener("resize", resize);
+    return () => removeEventListener("resize", resize);
+  }, []);
+  return height;
+}
+
+// Mobile bottom sheet: the map stays behind it; these are the visible heights it snaps to.
+type Snap = "peek" | "half" | "full";
+const SNAPS: Snap[] = ["peek", "half", "full"];
+const PEEK_HEIGHT = 100,
+  TOP_GAP = 56;
+const visibleHeight = (snap: Snap, viewport: number) =>
+  snap === "peek"
+    ? PEEK_HEIGHT
+    : snap === "half"
+      ? Math.round(viewport * 0.5)
+      : viewport - TOP_GAP;
+
+type FieldError = { field: "from" | "to"; message: string };
+type Departure = { value: string; now: boolean };
+
 function App() {
+  const initial = useMemo(() => readLink(), []);
+  const mobile = useMedia("(max-width: 760px)");
+  const theme: Theme = useMedia("(prefers-color-scheme: dark)")
+    ? "dark"
+    : "light";
+  const viewport = useViewportHeight();
   const sidebarScroll = useRef<HTMLDivElement>(null);
+  const sheet = useRef<HTMLElement>(null);
+  const resultsRef = useRef<HTMLElement>(null);
   const settingsDialog = useRef<HTMLDialogElement>(null);
+  const infoDialog = useRef<HTMLDialogElement>(null);
+  const fromInput = useRef<HTMLInputElement>(null);
+  const toInput = useRef<HTMLInputElement>(null);
   const activeSearch = useRef<AbortController | null>(null);
+  const settingsChanged = useRef(false);
+  const plannerScroll = useRef(0);
+  const scrollToResults = useRef(false);
   const [data, setData] = useState<ValleyData>(),
+    [loadError, setLoadError] = useState(""),
     [error, setError] = useState(""),
-    [view, setView] = useState<"planner" | "explore">("planner"),
-    [from, setFrom] = useState<Place>(),
-    [to, setTo] = useState<Place>(),
-    [departure, setDeparture] = useState(() => {
-      const instant = new Date();
-      return { value: localDateTime(instant), instant };
-    }),
-    [mode, setMode] = useState<TransportMode>("all"),
-    [bike, setBike] = useState<BikeChoice>("personal"),
-    [preference, setPreference] = useState<RoutingPreference>("faster"),
+    [fieldError, setFieldError] = useState<FieldError>(),
+    [from, setFrom] = useState<Place | undefined>(initial.from),
+    [to, setTo] = useState<Place | undefined>(initial.to),
+    [departure, setDeparture] = useState<Departure>(() =>
+      initial.time
+        ? { value: initial.time, now: false }
+        : { value: localDateTime(new Date()), now: true },
+    ),
+    [arriveBy, setArriveBy] = useState(initial.arriveBy),
+    [mode, setMode] = useState<TransportMode>(initial.mode),
+    [bike, setBike] = useState<BikeChoice>(initial.bike),
+    [preference, setPreference] = useState<RoutingPreference>(
+      initial.preference,
+    ),
     [busy, setBusy] = useState(false),
-    [searched, setSearched] = useState(false),
+    [lastSearch, setLastSearch] = useState<LinkState & { at: Date }>(),
+    [hideHero, setHideHero] = useState(Boolean(initial.from && initial.to)),
     [journeys, setJourneys] = useState<Itinerary[]>([]),
     [chosen, setChosen] = useState(0),
-    [filters, setFilters] = useState([...DEFAULT_LAYERS]),
+    [filters, setFilters] = useState(initial.layers),
     [poi, setPoi] = useState<Poi>(),
-    [bikeState, setBikeState] = useState<any>(),
+    [layersOpen, setLayersOpen] = useState(false),
+    [bikeState, setBikeState] = useState<BikeStatus>(),
     [bikeError, setBikeError] = useState(false),
-    [info, setInfo] = useState(false),
-    [mobileMap, setMobileMap] = useState(false);
+    [snap, setSnap] = useState<Snap>(
+      initial.from && initial.to ? "half" : "full",
+    );
+  const searched = Boolean(lastSearch);
+
   useEffect(() => {
     fetch("/data/valley.json")
       .then((r) => r.json())
       .then((d: ValleyData) => {
         setData(d);
-        setFrom(d.places[0]);
-        setTo(d.places[1]);
+        if (!initial.from && !initial.to) {
+          setFrom(d.places[0]);
+          setTo(d.places[1]);
+        }
+        const shared = initial.poi && d.pois.find((p) => p.id === initial.poi);
+        if (shared) {
+          setPoi(shared);
+          setSnap("half");
+        }
       })
-      .catch(() => setError("Impossible de charger les données locales."));
+      .catch(() => setLoadError("Impossible de charger les données locales."));
   }, []);
+  // A shared link with a trip runs that search once the data is in.
+  useEffect(() => {
+    if (data && initial.from && initial.to) search({ keepPlace: true });
+  }, [data]);
+
   async function bikes() {
     setBikeError(false);
     try {
@@ -674,23 +292,34 @@ function App() {
     const id = setInterval(bikes, 60000);
     return () => clearInterval(id);
   }, []);
+
   function resetSearch() {
     activeSearch.current?.abort();
     activeSearch.current = null;
     setBusy(false);
     setJourneys([]);
-    setSearched(false);
+    setLastSearch(undefined);
     setError("");
   }
-
   useEffect(() => () => activeSearch.current?.abort(), []);
 
-  async function search() {
-    if (!departure.value) return;
+  async function search({ keepPlace = false } = {}) {
+    const at = departure.now ? new Date() : new Date(departure.value);
+    if (departure.now) setDeparture({ value: localDateTime(at), now: true });
     if (!from || !to) {
-      setError(
-        "Sélectionnez un départ et une destination dans les suggestions.",
-      );
+      const field = !from ? "from" : "to";
+      setFieldError({
+        field,
+        message:
+          field === "from"
+            ? "Choisissez un départ dans les suggestions."
+            : "Choisissez une arrivée dans les suggestions.",
+      });
+      (field === "from" ? fromInput : toInput).current?.focus();
+      return;
+    }
+    if (!Number.isFinite(+at)) {
+      setError("Choisissez une date et une heure valides.");
       return;
     }
     activeSearch.current?.abort();
@@ -698,13 +327,28 @@ function App() {
     activeSearch.current = controller;
     setBusy(true);
     setError("");
-    setSearched(true);
-    setPoi(undefined);
+    setFieldError(undefined);
+    if (!keepPlace) setPoi(undefined);
+    setHideHero(true);
+    if (mobile && !keepPlace) setSnap("full");
+    // Recorded up front so the shareable URL already describes the search while it runs.
+    setLastSearch({
+      from,
+      to,
+      time: departure.now ? undefined : departure.value,
+      arriveBy,
+      mode,
+      bike,
+      preference,
+      layers: filters,
+      at,
+    });
     try {
       const q = new URLSearchParams({
-        from: coord(from),
-        to: coord(to),
-        time: departure.instant.toISOString(),
+        from: `${from.lat},${from.lon}`,
+        to: `${to.lat},${to.lon}`,
+        time: at.toISOString(),
+        arriveBy: String(arriveBy),
         mode,
         bike,
         preference,
@@ -728,12 +372,18 @@ function App() {
           i,
         );
       setJourneys(
-        [...unique.values()].sort((a, b) => compareJourneys(a, b, preference)),
+        [...unique.values()].sort((a, b) =>
+          compareJourneys(a, b, preference, arriveBy),
+        ),
       );
       setChosen(0);
+      scrollToResults.current = true;
+      if (mobile && !keepPlace) setSnap("half");
     } catch (e) {
       if (controller.signal.aborted) return;
-      setError(e instanceof Error ? e.message : "Le calcul a échoué.");
+      setError(
+        e instanceof Error && e.message ? e.message : "Le calcul a échoué.",
+      );
       setJourneys([]);
     } finally {
       if (activeSearch.current === controller) {
@@ -742,123 +392,344 @@ function App() {
       }
     }
   }
+  const latestSearch = useRef(search);
+  latestSearch.current = search;
+
   useEffect(() => {
     setJourneys((current) =>
-      [...current].sort((a, b) => compareJourneys(a, b, preference)),
+      [...current].sort((a, b) => compareJourneys(a, b, preference, arriveBy)),
     );
     setChosen(0);
+    setLastSearch((s) => s && { ...s, preference });
   }, [preference]);
+
+  // Closing the settings re-runs the current search when the transport choices changed.
+  useEffect(() => {
+    const dialog = settingsDialog.current;
+    const close = () => {
+      if (settingsChanged.current && lastSearchRef.current)
+        latestSearch.current();
+      settingsChanged.current = false;
+    };
+    dialog?.addEventListener("close", close);
+    return () => dialog?.removeEventListener("close", close);
+  }, [data]);
+  const lastSearchRef = useRef(lastSearch);
+  lastSearchRef.current = lastSearch;
+
+  useEffect(() => {
+    if (!scrollToResults.current || busy) return;
+    scrollToResults.current = false;
+    const container = sidebarScroll.current,
+      results = resultsRef.current;
+    if (!container || !results) return;
+    const offset =
+      results.getBoundingClientRect().top -
+      container.getBoundingClientRect().top;
+    if (mobile || offset > container.clientHeight * 0.45)
+      container.scrollTo({
+        top: container.scrollTop + offset + 10,
+        behavior: "smooth",
+      });
+  }, [busy, journeys]);
+
+  useEffect(() => {
+    writeLink({
+      ...(lastSearch ?? initial),
+      ...(lastSearch ? {} : { from: undefined, to: undefined }),
+      layers: filters,
+      poi: poi?.id,
+    });
+  }, [lastSearch, filters, poi]);
+
+  useEffect(() => {
+    if (poi && !filters.includes(poi.mode)) setPoi(undefined);
+  }, [filters]);
+
   function selectPoi(p: Poi) {
+    if (!poi) plannerScroll.current = sidebarScroll.current?.scrollTop ?? 0;
     setPoi(p);
-    setView("explore");
-    setMobileMap(false);
-    sidebarScroll.current?.scrollTo(0, 0);
+    setLayersOpen(false);
+    if (mobile) setSnap("half");
+    requestAnimationFrame(() => {
+      sidebarScroll.current?.scrollTo(0, 0);
+      document.getElementById("poi-title")?.focus({ preventScroll: true });
+    });
+  }
+  function closePoi() {
+    setPoi(undefined);
+    requestAnimationFrame(() =>
+      sidebarScroll.current?.scrollTo(0, plannerScroll.current),
+    );
+  }
+  function choosePlace(set: (p: Place) => void, place: Place) {
+    resetSearch();
+    set(place);
+    setPoi(undefined);
+    setFieldError(undefined);
+    if (mobile) setSnap("full");
+    requestAnimationFrame(() => sidebarScroll.current?.scrollTo(0, 0));
   }
   const toggle = (m: string) =>
     setFilters((f) => (f.includes(m) ? f.filter((x) => x !== m) : [...f, m]));
+
+  function openLayers() {
+    setLayersOpen(true);
+    if (mobile) setSnap("peek");
+  }
+
+  // Sheet dragging, applied directly to the element and settled into a snap on release.
+  const sheetHeight = viewport - TOP_GAP;
+  const hidden = sheetHeight - visibleHeight(snap, viewport);
+  // The part of the map the sheet covers; a full sheet is treated as half so routes stay framed.
+  const mapInset = mobile
+    ? visibleHeight(snap === "full" ? "half" : snap, viewport)
+    : 0;
+  const suppressClick = useRef(false);
+  // Moves are followed on the window: the pointer leaves the small grab area as soon as the drag starts.
+  function startDrag(e: React.PointerEvent) {
+    if (
+      (e.target as Element).closest(
+        "a, input, button:not(.sheet-grab, .sheet-peek)",
+      )
+    )
+      return;
+    const element = sheet.current;
+    if (!element) return;
+    const startY = e.clientY,
+      start = hidden,
+      initialSnap = snap;
+    let moved = false,
+      lastY = startY,
+      lastT = e.timeStamp,
+      velocity = 0;
+    const move = (ev: PointerEvent) => {
+      const dy = ev.clientY - startY;
+      if (!moved && Math.abs(dy) < 6) return;
+      moved = true;
+      velocity = (ev.clientY - lastY) / Math.max(1, ev.timeStamp - lastT);
+      lastY = ev.clientY;
+      lastT = ev.timeStamp;
+      element.classList.add("dragging");
+      element.style.transform = `translateY(${Math.min(Math.max(start + dy, 0), sheetHeight - PEEK_HEIGHT)}px)`;
+    };
+    const end = (ev: PointerEvent) => {
+      removeEventListener("pointermove", move);
+      removeEventListener("pointerup", end);
+      removeEventListener("pointercancel", end);
+      element.classList.remove("dragging");
+      element.style.transform = "";
+      if (!moved) return;
+      suppressClick.current = true;
+      setTimeout(() => (suppressClick.current = false), 400);
+      // A fling settles on the next snap past the release point; a slow release on the nearest one.
+      const shown = sheetHeight - (start + ev.clientY - startY);
+      const heights = SNAPS.map((s) => visibleHeight(s, viewport));
+      let target =
+        SNAPS[
+          heights.reduce(
+            (best, h, i) =>
+              Math.abs(h - shown) < Math.abs(heights[best] - shown) ? i : best,
+            0,
+          )
+        ];
+      if (velocity > 0.4) {
+        const below = heights.findLastIndex((h) => h < shown);
+        target = below === -1 ? "peek" : SNAPS[below];
+      }
+      if (velocity < -0.4) {
+        const above = heights.findIndex((h) => h > shown);
+        target = above === -1 ? "full" : SNAPS[above];
+      }
+      if (target === initialSnap && Math.abs(velocity) > 0.4)
+        target =
+          SNAPS[SNAPS.indexOf(initialSnap) + (velocity > 0 ? -1 : 1)] ??
+          initialSnap;
+      setSnap(target);
+    };
+    addEventListener("pointermove", move);
+    addEventListener("pointerup", end);
+    addEventListener("pointercancel", end);
+  }
+  const sheetHandlers = mobile ? { onPointerDown: startDrag } : {};
+  // A drag that ends over the handle or the peek row must not also count as a tap.
+  const tap = (next: Snap) => () => {
+    if (suppressClick.current) {
+      suppressClick.current = false;
+      return;
+    }
+    setSnap(next);
+  };
+
+  const suggestions = useMemo(
+    () =>
+      data
+        ? localSuggestions(
+            data.places,
+            new Set(
+              data.pois.filter((p) => p.mode === "train").map((p) => p.name),
+            ),
+          )
+        : [],
+    [data],
+  );
+
   const transitWalks = journeys.filter(usesTransit).map(walkingSeconds);
   const leastWalking = Math.min(...transitWalks);
   const hasWalkingChoice = transitWalks.some(
     (seconds) => seconds > leastWalking,
   );
-  const nearbyStops =
-    poi && ["bus", "train"].includes(poi.mode)
-      ? (data?.pois || [])
-          .filter(
-            (p) =>
-              p.id !== poi.id &&
-              filters.includes(p.mode) &&
-              ["bus", "train"].includes(p.mode) &&
-              Math.hypot(
-                (p.lon - poi.lon) * Math.cos((poi.lat * Math.PI) / 180),
-                p.lat - poi.lat,
-              ) *
-                111000 <
-                60,
-          )
-          .slice(0, 5)
-      : [];
-  const selectedBike = bikeState?.stations?.find(
-      (s: any) => s.station_id === poi?.id,
-    ),
-    statusAge = bikeState
-      ? Math.max(0, (Date.now() - +new Date(bikeState.updatedAt)) / 1000)
-      : Infinity,
-    stale = statusAge > 180 || bikeError;
+  const labels = priorityLabels(arriveBy);
+  const chronological = preference === "faster" && !arriveBy;
+  const allLater =
+    lastSearch &&
+    journeys.length > 0 &&
+    journeys.every((j) => dayKey(j.startTime) !== dayKey(lastSearch.at));
+  const settingsSummary = [
+    modeSummary[mode],
+    mode !== "transit" && bike === "montenvelo" ? "MontenVélo" : undefined,
+    mode !== "bike" ? labels[preference] : undefined,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+  const selectedJourney = searched && !busy ? journeys[chosen] : undefined;
+  const statusText = busy
+    ? "Recherche en cours"
+    : searched && !error
+      ? journeys.length
+        ? `${journeys.length} possibilité${journeys.length > 1 ? "s" : ""}`
+        : "Aucun trajet trouvé"
+      : "";
+
   if (!data)
     return (
       <div className="loading">
         <Mountain size={40} />
         <p>La vallée se prépare…</p>
-        {error && <p>{error}</p>}
+        {loadError && <p>{loadError}</p>}
       </div>
     );
+
+  const peek = poi ? (
+    <>
+      <LayerIcon mode={poi.mode} />
+      <span className="peek-text">
+        <strong>{poiName(poi)}</strong>
+        <small>{layerById[poi.mode]?.label}</small>
+      </span>
+    </>
+  ) : selectedJourney ? (
+    <span className="peek-text">
+      <JourneySummary
+        item={selectedJourney}
+        day={
+          lastSearch && relativeDay(selectedJourney.startTime, lastSearch.at)
+        }
+      />
+    </span>
+  ) : (
+    <span className="peek-text">
+      <strong>
+        <Search size={17} aria-hidden="true" /> Où allez-vous ?
+      </strong>
+    </span>
+  );
+
   return (
-    <main className={"app " + (mobileMap ? "show-map" : "")}>
-      <aside className="sidebar">
-        <header className="brand">
+    <main
+      className={"app" + (mobile ? " mobile" : "")}
+      style={{ "--map-inset": `${mapInset}px` } as React.CSSProperties}
+    >
+      <aside
+        className="sidebar"
+        ref={sheet}
+        data-snap={mobile ? snap : undefined}
+        style={
+          mobile
+            ? ({
+                "--sheet-height": `${sheetHeight}px`,
+                "--sheet-hidden": `${hidden}px`,
+              } as React.CSSProperties)
+            : undefined
+        }
+      >
+        {mobile && (
+          <div className="sheet-top" {...sheetHandlers}>
+            <button
+              className="sheet-grab"
+              aria-label={
+                snap === "full" ? "Réduire le panneau" : "Agrandir le panneau"
+              }
+              onClick={tap(snap === "half" ? "full" : "half")}
+            >
+              <span />
+            </button>
+            {snap === "peek" && (
+              <button
+                className="sheet-peek"
+                onClick={tap(poi || selectedJourney ? "half" : "full")}
+              >
+                {peek}
+              </button>
+            )}
+          </div>
+        )}
+        <header className="brand" {...sheetHandlers}>
           <a href="/" className="wordmark" aria-label="ValléeMapper, accueil">
             <span className="brand-mark">
               <Mountain size={25} />
             </span>
             <span>ValléeMapper</span>
           </a>
-          <div className="brand-actions">
-            <button
-              className="icon-button"
-              aria-label="À propos des données"
-              onClick={() => setInfo(true)}
-            >
-              <Info size={21} />
-            </button>
-            <button
-              className="icon-button"
-              aria-label="Paramètres d’itinéraire"
-              title="Paramètres d’itinéraire"
-              aria-haspopup="dialog"
-              onClick={() => {
-                const dialog = settingsDialog.current;
-                dialog?.showModal();
-                dialog?.querySelector("h2")?.focus();
-              }}
-            >
-              <Settings size={21} />
-            </button>
-          </div>
+          <button
+            className="icon-button"
+            aria-label="Sources et limites des données"
+            onClick={() => openDialog(infoDialog.current)}
+          >
+            <Info size={21} />
+          </button>
         </header>
-        <div className="region-label">
-          <span />
-          PAYS DU MONT-BLANC
+        <div className="region-label" {...sheetHandlers}>
+          <span className="region-dot" />
+          Pays du Mont-Blanc
+          <span className="prototype-tag">Prototype</span>
         </div>
-        <nav className="tabs" aria-label="Vue principale">
-          <button
-            className={view === "planner" ? "active" : ""}
-            onClick={() => setView("planner")}
-          >
-            <Route size={17} />
-            Itinéraires
-          </button>
-          <button
-            className={view === "explore" ? "active" : ""}
-            onClick={() => setView("explore")}
-          >
-            <Compass size={17} />
-            Explorer
-          </button>
-        </nav>
         <div className="sidebar-scroll" ref={sidebarScroll}>
-          {view === "planner" ? (
+          {poi ? (
+            <section className="place-view">
+              <button className="back-button" onClick={closePoi}>
+                <ArrowLeft size={17} aria-hidden="true" />
+                {searched ? "Retour aux trajets" : "Retour à l’itinéraire"}
+              </button>
+              <PlaceCard
+                poi={poi}
+                pois={data.pois}
+                filters={filters}
+                bikes={bikeState}
+                bikeError={bikeError}
+                onRefreshBikes={bikes}
+                onSelect={selectPoi}
+                onGo={(place) => choosePlace(setTo, place)}
+                onStart={(place) => choosePlace(setFrom, place)}
+              />
+            </section>
+          ) : (
             <>
               <section className="planner">
-                <div className="section-heading">
-                  <h1>La vallée, à votre rythme.</h1>
-                  <p>
-                    Un trajet en train, un saut en bus.
-                    <br />
-                    Et les derniers mètres à pied.
-                  </p>
-                </div>
+                {hideHero ? (
+                  <h1 className="sr-only">Itinéraires</h1>
+                ) : (
+                  <div className="section-heading">
+                    <h1>La vallée, à votre rythme.</h1>
+                    <p>
+                      Un trajet en train, un saut en bus.
+                      <br />
+                      Et les derniers mètres à pied.
+                    </p>
+                  </div>
+                )}
                 <form
+                  noValidate
                   onSubmit={(e) => {
                     e.preventDefault();
                     search();
@@ -868,26 +739,43 @@ function App() {
                     <PlaceInput
                       label="Départ"
                       value={from}
+                      inputRef={fromInput}
+                      error={
+                        fieldError?.field === "from"
+                          ? fieldError.message
+                          : undefined
+                      }
                       onChange={(place) => {
                         resetSearch();
                         setFrom(place);
+                        if (fieldError?.field === "from")
+                          setFieldError(undefined);
                       }}
-                      places={data.places}
+                      suggestions={suggestions}
                     />
                     <div className="field-divider" />
                     <PlaceInput
                       label="Arrivée"
                       value={to}
+                      inputRef={toInput}
+                      error={
+                        fieldError?.field === "to"
+                          ? fieldError.message
+                          : undefined
+                      }
                       onChange={(place) => {
                         resetSearch();
                         setTo(place);
+                        if (fieldError?.field === "to")
+                          setFieldError(undefined);
                       }}
-                      places={data.places}
+                      suggestions={suggestions}
                     />
                     <button
                       type="button"
                       className="swap"
                       aria-label="Inverser le départ et l’arrivée"
+                      disabled={!from || !to}
                       onClick={() => {
                         resetSearch();
                         setFrom(to);
@@ -897,31 +785,76 @@ function App() {
                       <ArrowUpDown size={17} />
                     </button>
                   </div>
-                  <p className="address-source">
-                    Adresses :{" "}
-                    <a
-                      href="https://cartes.gouv.fr/aide/fr/guides-utilisateur/utiliser-les-services-de-la-geoplateforme/geocodage/"
-                      target="_blank"
-                      rel="noreferrer"
+                  {fieldError && (
+                    <p className="field-error" aria-hidden="true">
+                      <Info size={15} />
+                      {fieldError.message}
+                    </p>
+                  )}
+                  <div className="when">
+                    <fieldset className="when-mode">
+                      <legend className="sr-only">Type d’horaire</legend>
+                      {[
+                        { value: false, label: "Partir" },
+                        { value: true, label: "Arriver" },
+                      ].map((option) => (
+                        <label key={option.label}>
+                          <input
+                            type="radio"
+                            name="when"
+                            checked={arriveBy === option.value}
+                            onChange={() => {
+                              resetSearch();
+                              setArriveBy(option.value);
+                            }}
+                          />
+                          <span>{option.label}</span>
+                        </label>
+                      ))}
+                    </fieldset>
+                    <button
+                      type="button"
+                      className={
+                        "now-button" + (departure.now ? " active" : "")
+                      }
+                      aria-pressed={departure.now}
+                      onClick={() => {
+                        resetSearch();
+                        setDeparture({
+                          value: localDateTime(new Date()),
+                          now: true,
+                        });
+                      }}
                     >
-                      IGN · Base Adresse Nationale
-                    </a>
-                  </p>
-                  <label className="date-field">
-                    <Clock size={17} />
-                    <span>Partir le</span>
+                      Maintenant
+                    </button>
                     <input
-                      aria-label="Date et heure de départ"
+                      aria-label={
+                        arriveBy
+                          ? "Date et heure d’arrivée"
+                          : "Date et heure de départ"
+                      }
                       type="datetime-local"
                       required
                       value={departure.value}
                       onChange={(e) => {
                         resetSearch();
-                        const value = e.currentTarget.value;
-                        setDeparture({ value, instant: new Date(value) });
+                        setDeparture({
+                          value: e.currentTarget.value,
+                          now: false,
+                        });
                       }}
                     />
-                  </label>
+                  </div>
+                  <button
+                    type="button"
+                    className="options-button"
+                    onClick={() => openDialog(settingsDialog.current)}
+                  >
+                    <SlidersHorizontal size={16} aria-hidden="true" />
+                    <span>{settingsSummary}</span>
+                    <span className="options-link">Modifier</span>
+                  </button>
                   <button
                     className="search-button"
                     disabled={busy}
@@ -936,7 +869,10 @@ function App() {
                   </button>
                 </form>
               </section>
-              <section className="results" aria-live="polite">
+              <section className="results" ref={resultsRef}>
+                <p className="sr-only" role="status">
+                  {statusText}
+                </p>
                 {error && (
                   <p className="error">
                     <Info size={18} />
@@ -945,19 +881,20 @@ function App() {
                 )}
                 {searched && !busy && !error && (
                   <div className="results-title">
-                    <h2>
-                      {journeys.length
-                        ? `${journeys.length} possibilité${journeys.length > 1 ? "s" : ""}`
-                        : "Aucun trajet trouvé"}
-                    </h2>
+                    <h2>{statusText}</h2>
                     <span>
-                      {preference === "less-walk"
-                        ? "Marche la plus courte"
-                        : preference === "shorter"
-                          ? "Durée la plus courte"
-                          : "Arrivée la plus tôt"}
+                      {mode === "bike"
+                        ? "Durée la plus courte"
+                        : labels[preference]}
                     </span>
                   </div>
+                )}
+                {allLater && lastSearch && (
+                  <p className="notice later-notice">
+                    <Info size={16} aria-hidden="true" />
+                    Aucun départ le {formatLongDay(lastSearch.at)} après cette
+                    heure. Voici les premiers trajets suivants.
+                  </p>
                 )}
                 {busy && (
                   <div className="searching">
@@ -966,19 +903,39 @@ function App() {
                   </div>
                 )}
                 {!busy &&
-                  journeys.map((j, i) => (
-                    <Journey
-                      key={j.id || i}
-                      item={j}
-                      lessWalking={
-                        hasWalkingChoice &&
-                        usesTransit(j) &&
-                        walkingSeconds(j) === leastWalking
-                      }
-                      selected={chosen === i}
-                      onClick={() => setChosen(i)}
-                    />
-                  ))}
+                  lastSearch &&
+                  journeys.map((j, i) => {
+                    const day = relativeDay(j.startTime, lastSearch.at);
+                    const previous =
+                      i > 0
+                        ? relativeDay(journeys[i - 1].startTime, lastSearch.at)
+                        : undefined;
+                    const separator =
+                      chronological && day && day !== previous && !allLater;
+                    return (
+                      <React.Fragment key={j.id || i}>
+                        {separator && (
+                          <h3 className="day-separator">
+                            {day} · {formatLongDay(j.startTime)}
+                          </h3>
+                        )}
+                        <Journey
+                          item={j}
+                          day={day}
+                          lessWalking={
+                            hasWalkingChoice &&
+                            usesTransit(j) &&
+                            walkingSeconds(j) === leastWalking
+                          }
+                          selected={chosen === i}
+                          onClick={() => {
+                            setChosen(i);
+                            if (mobile && chosen === i) setSnap("half");
+                          }}
+                        />
+                      </React.Fragment>
+                    );
+                  })}
                 {searched && !busy && !error && !journeys.length && (
                   <p className="muted">
                     {mode === "bike" && bike === "montenvelo"
@@ -986,7 +943,7 @@ function App() {
                       : "Essayez un autre horaire. Les calendriers publiés ne couvrent pas toutes les saisons."}
                   </p>
                 )}
-                {!searched && (
+                {!searched && !busy && (
                   <>
                     <div className="suggestions-heading">
                       <h2>À essayer</h2>
@@ -1005,7 +962,7 @@ function App() {
                         sub: "Chedde → Sallanches",
                         a: 0,
                         b: 1,
-                        icon: TramFront,
+                        icon: TrainFront,
                       },
                     ].map((s) => (
                       <button
@@ -1013,30 +970,32 @@ function App() {
                         key={s.title}
                         onClick={() => {
                           resetSearch();
+                          setFieldError(undefined);
                           setFrom(data.places[s.a]);
                           setTo(data.places[s.b]);
                         }}
                       >
                         <span className="suggestion-icon">
-                          <s.icon size={22} />
+                          <s.icon size={22} aria-hidden="true" />
                         </span>
                         <span>
                           <strong>{s.title}</strong>
                           <small>{s.sub}</small>
                         </span>
-                        <ChevronRight size={17} />
+                        <ChevronRight size={17} aria-hidden="true" />
                       </button>
                     ))}
                     <div className="discovery-note">
-                      <Mountain size={27} />
+                      <Layers size={24} aria-hidden="true" />
                       <div>
                         <strong>Plusieurs façons de bouger</strong>
                         <p>
                           Retrouvez aussi les vélos, les voitures partagées et
                           les arrêts d’autostop sur la carte.
                         </p>
-                        <button onClick={() => setView("explore")}>
-                          Explorer les mobilités <ChevronRight size={15} />
+                        <button onClick={openLayers}>
+                          Afficher les couches{" "}
+                          <ChevronRight size={15} aria-hidden="true" />
                         </button>
                       </div>
                     </div>
@@ -1044,226 +1003,16 @@ function App() {
                 )}
               </section>
             </>
-          ) : (
-            <section className="explore">
-              <div className="section-heading">
-                <h1>Tout près, d’autres options.</h1>
-                <p>
-                  Choisissez une mobilité, puis un point
-                  <br />
-                  sur la carte pour en savoir plus.
-                </p>
-              </div>
-              {poi && (
-                <article className="poi-card">
-                  <div className="poi-heading">
-                    <span className={"layer-icon " + poi.mode}>
-                      <Icon mode={poi.mode} size={22} />
-                    </span>
-                    <span className="eyebrow">{poiLabel[poi.mode]}</span>
-                    <button
-                      className="icon-button"
-                      aria-label="Fermer le lieu"
-                      onClick={() => setPoi(undefined)}
-                    >
-                      <X size={18} />
-                    </button>
-                  </div>
-                  <h2>{poi.name}</h2>
-                  {(poi.mode === "bus" || poi.mode === "train") && (
-                    <StopDepartures key={poi.id} stop={poi.id} />
-                  )}
-                  {poi.mode === "montenvelo" && (
-                    <>
-                      <div className="availability">
-                        {selectedBike && !stale ? (
-                          <>
-                            <strong>
-                              {selectedBike.is_renting
-                                ? selectedBike.num_bikes_available
-                                : 0}
-                            </strong>
-                            <span>
-                              vélo
-                              {selectedBike.num_bikes_available > 1
-                                ? "s"
-                                : ""}{" "}
-                              disponible
-                              {selectedBike.num_bikes_available > 1 ? "s" : ""}
-                              <small>
-                                {selectedBike.num_docks_available} places de
-                                retour
-                              </small>
-                            </span>
-                          </>
-                        ) : (
-                          <p>Disponibilité non confirmée</p>
-                        )}
-                        <button
-                          className="icon-button"
-                          onClick={bikes}
-                          aria-label="Actualiser les vélos"
-                        >
-                          <RefreshCw size={16} />
-                        </button>
-                      </div>
-                      <p className="fine-print">
-                        {bikeState
-                          ? `Source mise à jour à ${time(bikeState.updatedAt)}${stale ? " · données anciennes ou indisponibles" : ""}`
-                          : "Connexion au réseau vélo…"}
-                      </p>
-                      <p>
-                        Dès 0,50 € les 30 premières minutes sans abonnement.
-                      </p>
-                    </>
-                  )}
-                  {poi.mode === "citiz" && (
-                    <p>
-                      Voiture à restituer à sa station de départ. Vérifiez le
-                      véhicule et le créneau dans l’application Citiz.
-                    </p>
-                  )}
-                  {poi.mode === "rezopouce" && (
-                    <p>
-                      Point d’autostop gratuit. Aucun passage ni temps d’attente
-                      garanti.
-                    </p>
-                  )}
-                  {poi.network && <p>{poi.network}</p>}
-                  {!!poi.routes?.length && (
-                    <p>
-                      <strong>Lignes :</strong> {poi.routes.join(" · ")}
-                    </p>
-                  )}
-                  {poi.note && <p>{poi.note}</p>}
-                  {poi.warning && (
-                    <p className="notice">
-                      <Info size={16} />
-                      {poi.warning}
-                    </p>
-                  )}
-                  <div className="poi-actions">
-                    <button
-                      onClick={() => {
-                        resetSearch();
-                        setTo({ name: poi.name, lat: poi.lat, lon: poi.lon });
-                        setView("planner");
-                      }}
-                    >
-                      Y aller <Route size={16} />
-                    </button>
-                    <button
-                      className="secondary-action"
-                      onClick={() => {
-                        resetSearch();
-                        setFrom({ name: poi.name, lat: poi.lat, lon: poi.lon });
-                        setView("planner");
-                      }}
-                    >
-                      Partir d’ici <MapPin size={16} />
-                    </button>
-                    {poi.url && (
-                      <a href={poi.url} target="_blank" rel="noreferrer">
-                        {poi.mode === "montenbus"
-                          ? "Réserver"
-                          : "Voir le service"}
-                        <ExternalLink size={14} />
-                      </a>
-                    )}
-                  </div>
-                  {!!nearbyStops.length && (
-                    <div className="nearby-stops">
-                      <span className="eyebrow">À proximité</span>
-                      {nearbyStops.map((p) => (
-                        <button key={p.id} onClick={() => setPoi(p)}>
-                          <Icon mode={p.mode} size={15} />
-                          <span>
-                            {poiLabel[p.mode]} · {p.name}
-                          </span>
-                          <ChevronRight size={14} />
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  <a
-                    className="source-link"
-                    href={poi.source}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Source des données <ExternalLink size={12} />
-                  </a>
-                </article>
-              )}
-              <div className="layer-list">
-                {[
-                  ...DEFAULT_LAYERS,
-                  "citiz",
-                  "rezopouce",
-                  "montenbus",
-                  "shuttle",
-                ].map((m) => (
-                  <button
-                    className={
-                      "layer-row " + (filters.includes(m) ? "enabled" : "")
-                    }
-                    onClick={() => toggle(m)}
-                    key={m}
-                    aria-pressed={filters.includes(m)}
-                  >
-                    <span className={"layer-icon " + m}>
-                      <Icon mode={m} size={22} />
-                    </span>
-                    <span>
-                      <strong>{poiLabel[m]}</strong>
-                      <small>
-                        {m === "bus"
-                          ? "Lignes régulières · arrêts GTFS"
-                          : m === "train"
-                            ? "Gares et haltes ferroviaires"
-                            : m === "montenvelo"
-                              ? "Vélos en libre-service"
-                              : m === "citiz"
-                                ? "Voitures en boucle"
-                                : m === "rezopouce"
-                                  ? "Autostop organisé"
-                                  : m === "lift"
-                                    ? "Valléen et ascenseur des Thermes"
-                                    : m === "montenbus"
-                                      ? "Transport sur réservation"
-                                      : "Arrêts de navettes · saisons variables"}
-                      </small>
-                    </span>
-                    <span className="layer-count">
-                      {data.pois.filter((p) => p.mode === m).length}
-                    </span>
-                    <span className="checkbox">
-                      {filters.includes(m) && <Check size={13} />}
-                    </span>
-                  </button>
-                ))}
-              </div>
-              {!poi && (
-                <div className="explore-tip">
-                  <MapPin size={22} />
-                  <p>
-                    Les points colorés sont interactifs.
-                    <br />
-                    Zoomez pour afficher leurs noms.
-                  </p>
-                </div>
-              )}
-              <p className="fine-print">
-                Les points de réservation et d’autostop sont des lieux de prise
-                en charge. Ils ne sont pas ajoutés aux itinéraires à horaires
-                fixes.
-              </p>
-            </section>
           )}
+          <footer className="panel-footer">
+            <button
+              className="text-link"
+              onClick={() => openDialog(infoDialog.current)}
+            >
+              Sources & limites
+            </button>
+          </footer>
         </div>
-        <footer className="sidebar-footer">
-          <button onClick={() => setInfo(true)}>Sources & limites</button>
-        </footer>
       </aside>
       <section className="map-panel">
         <Suspense
@@ -1272,177 +1021,157 @@ function App() {
           <ValleyMap
             data={data}
             filters={filters}
-            journey={journeys[chosen]}
+            journey={selectedJourney}
             onPoi={selectPoi}
+            onBackgroundClick={() => {
+              if (mobile && snap !== "peek") setSnap("peek");
+            }}
             selected={poi}
+            theme={theme}
+            bottomInset={mapInset}
           />
         </Suspense>
-        <div className="map-heading">
-          <span className="map-location">
-            <MapPin size={15} />
-            Pays du Mont-Blanc
-          </span>
-          <span className="prototype-tag">Prototype</span>
-        </div>
-        <div className="map-filters">
-          {DEFAULT_LAYERS.map((m) => (
-            <button
-              key={m}
-              className={filters.includes(m) ? "on " + m : ""}
-              aria-pressed={filters.includes(m)}
-              onClick={() => toggle(m)}
-            >
-              <Icon mode={m} size={17} />
-              {
-                {
-                  bus: "Bus",
-                  montenvelo: "MontenVélo",
-                  train: "Gares",
-                  lift: "Verticales",
-                }[m]
-              }
-            </button>
-          ))}
-        </div>
+        <LayersPanel
+          open={layersOpen}
+          onOpenChange={(open) => (open ? openLayers() : setLayersOpen(false))}
+          filters={filters}
+          onToggle={toggle}
+          pois={data.pois}
+        />
       </section>
-      <button className="mobile-toggle" onClick={() => setMobileMap((m) => !m)}>
-        {mobileMap ? <Route size={17} /> : <Compass size={17} />}{" "}
-        {mobileMap ? "Voir les trajets" : "Voir la carte"}
-      </button>
-      <dialog
-        ref={settingsDialog}
-        className="route-settings"
-        aria-labelledby="route-settings-title"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) e.currentTarget.close();
-        }}
+      <Dialog
+        dialogRef={settingsDialog}
+        id="route-settings-title"
+        title="Paramètres d’itinéraire"
+        footer={
+          <button
+            className="search-button"
+            onClick={() => settingsDialog.current?.close()}
+          >
+            {searched ? "Mettre à jour les trajets" : "Terminé"}
+          </button>
+        }
       >
-        <div className="route-settings-content">
-          <header className="route-settings-heading">
-            <h2 id="route-settings-title" tabIndex={-1}>
-              Paramètres d’itinéraire
-            </h2>
-            <button
-              className="icon-button"
-              aria-label="Fermer les paramètres"
-              onClick={() => settingsDialog.current?.close()}
-            >
-              <X size={21} />
-            </button>
-          </header>
-          <div className="route-settings-fields">
+        <div className="route-settings-fields">
+          <RouteChoices
+            label="Mode de transport"
+            name="route-mode"
+            options={transportOptions}
+            value={mode}
+            onChange={(value) => {
+              settingsChanged.current = true;
+              setMode(value);
+            }}
+          />
+          {mode !== "transit" && (
             <RouteChoices
-              label="Mode de transport"
-              name="route-mode"
-              options={transportOptions}
-              value={mode}
+              label="Type de vélo"
+              name="route-bike"
+              options={bikeOptions}
+              value={bike}
               onChange={(value) => {
-                resetSearch();
-                setMode(value);
+                settingsChanged.current = true;
+                setBike(value);
               }}
             />
-            {mode !== "transit" && (
-              <RouteChoices
-                label="Type de vélo"
-                name="route-bike"
-                options={bikeOptions}
-                value={bike}
-                onChange={(value) => {
-                  resetSearch();
-                  setBike(value);
-                }}
-              />
-            )}
-            {mode !== "bike" && (
-              <RouteChoices
-                label="Priorité du trajet"
-                name="route-priority"
-                options={priorityOptions}
-                value={preference}
-                onChange={setPreference}
-                disabled={busy}
-              />
-            )}
-          </div>
+          )}
+          {mode !== "bike" && (
+            <RouteChoices
+              label="Priorité du trajet"
+              name="route-priority"
+              options={(["faster", "shorter", "less-walk"] as const).map(
+                (value) => ({
+                  value,
+                  label: labels[value],
+                  icon: priorityIcons[value],
+                }),
+              )}
+              value={preference}
+              onChange={setPreference}
+              disabled={busy}
+            />
+          )}
         </div>
-      </dialog>
-      {info && (
-        <div className="modal-backdrop" onClick={() => setInfo(false)}>
-          <section
-            className="modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="data-title"
-            onClick={(e) => e.stopPropagation()}
+      </Dialog>
+      <Dialog
+        dialogRef={infoDialog}
+        id="data-title"
+        eyebrow="Prototype · 18 novembre 2026"
+        title={
+          <>
+            De vraies données.
+            <br />
+            Un terrain d’exploration.
+          </>
+        }
+        footer={
+          <button
+            className="search-button"
+            onClick={() => infoDialog.current?.close()}
           >
-            <button
-              className="icon-button modal-close"
-              aria-label="Fermer les informations"
-              onClick={() => setInfo(false)}
-            >
-              <X size={22} />
-            </button>
-            <span className="eyebrow">Prototype · 18 novembre 2026</span>
-            <h2 id="data-title">
-              De vraies données.
-              <br />
-              Un terrain d’exploration.
-            </h2>
-            <p>
-              Les trajets sont calculés par MOTIS sur les GTFS Cars Région,
-              SNCF, Chamonix et Facilibus, avec OpenStreetMap pour la marche et
-              le vélo personnel.
-            </p>
-            <p>
-              Les mises à jour temps réel dépendent des lignes et des sources ;
-              seul un segment effectivement actualisé porte le label « Temps
-              réel ».
-            </p>
-            <ul>
-              <li>
-                <strong>Valléen et Thermes :</strong> modèle local à la minute,
-                durée et plage d’ouverture publiées. Les départs et l’attente
-                sont estimés. Fermetures connues prises en compte jusqu’au 31
-                mars 2027 au plus tard.
-              </li>
-              <li>
-                <strong>MontenVélo :</strong> le calcul utilise la disponibilité
-                actuelle des vélos. Vérifiez les vélos et les places de retour
-                dans l’application avant de partir.
-              </li>
-              <li>
-                <strong>Citiz et Rézo Pouce :</strong> positions et liens vers
-                les services. La disponibilité Citiz n’est pas déduite du flux
-                contradictoire.
-              </li>
-              <li>
-                <strong>Navettes saisonnières :</strong> arrêts de recherche
-                uniquement ; plusieurs calendriers d’été ont expiré. Montenbus
-                nécessite une réservation.
-              </li>
-              <li>
-                <strong>Adresses :</strong> les recherches contenant un numéro
-                ou un nom de voie sont transmises au service IGN / Base Adresse
-                Nationale. Les arrêts et lieux sont recherchés dans MOTIS.
-              </li>
-              <li>
-                <strong>Tarifs :</strong> repères manuels, sans calcul du prix
-                total ni achat. Le relief et l’accessibilité ne sont pas encore
-                validés.
-              </li>
-            </ul>
-            <p className="fine-print">
-              Sources et licences détaillées dans docs/research. Certaines API
-              publiques ne disposent pas d’une licence de réutilisation
-              vérifiée. Fond de carte © OpenFreeMap / OpenMapTiles /
-              contributeurs OpenStreetMap.
-            </p>
-            <button className="search-button" onClick={() => setInfo(false)}>
-              C’est compris
-            </button>
-          </section>
+            C’est compris
+          </button>
+        }
+      >
+        <div className="prose">
+          <p>
+            Les trajets sont calculés par MOTIS sur les GTFS Cars Région, SNCF,
+            Chamonix et Facilibus, avec OpenStreetMap pour la marche, le vélo
+            personnel et le tracé des trains.
+          </p>
+          <p>
+            Les mises à jour temps réel dépendent des lignes et des sources ;
+            seul un segment effectivement actualisé porte le label « Temps réel
+            ».
+          </p>
+          <ul>
+            <li>
+              <strong>Valléen et Thermes :</strong> modèle local à la minute,
+              durée et plage d’ouverture publiées. Les départs et l’attente sont
+              estimés. Fermetures connues prises en compte jusqu’au 31 mars 2027
+              au plus tard.
+            </li>
+            <li>
+              <strong>MontenVélo :</strong> le calcul utilise la disponibilité
+              actuelle des vélos. Vérifiez les vélos et les places de retour
+              dans l’application avant de partir.
+            </li>
+            <li>
+              <strong>Citiz et Rézo Pouce :</strong> positions et liens vers les
+              services. La disponibilité Citiz n’est pas déduite du flux
+              contradictoire.
+            </li>
+            <li>
+              <strong>Navettes saisonnières :</strong> arrêts de recherche
+              uniquement ; plusieurs calendriers d’été ont expiré. Montenbus
+              nécessite une réservation.
+            </li>
+            <li>
+              <strong>Adresses :</strong> les recherches contenant un numéro ou
+              un nom de voie sont transmises au service{" "}
+              <a
+                href="https://cartes.gouv.fr/aide/fr/guides-utilisateur/utiliser-les-services-de-la-geoplateforme/geocodage/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                IGN / Base Adresse Nationale
+              </a>
+              . Les arrêts et lieux sont recherchés dans MOTIS.
+            </li>
+            <li>
+              <strong>Tarifs :</strong> repères manuels, sans calcul du prix
+              total ni achat. Le relief et l’accessibilité ne sont pas encore
+              validés.
+            </li>
+          </ul>
+          <p className="fine-print">
+            Sources et licences détaillées dans docs/research. Certaines API
+            publiques ne disposent pas d’une licence de réutilisation vérifiée.
+            Fond de carte © OpenFreeMap / OpenMapTiles / contributeurs
+            OpenStreetMap.
+          </p>
         </div>
-      )}
+      </Dialog>
     </main>
   );
 }

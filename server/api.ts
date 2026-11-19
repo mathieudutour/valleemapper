@@ -82,6 +82,9 @@ export async function api(
         preference !== "less-walk"
       )
         return json({ error: "Préférence d’itinéraire invalide." }, 400);
+      const arriveBy = p.get("arriveBy") ?? "false";
+      if (arriveBy !== "true" && arriveBy !== "false")
+        return json({ error: "Type d’horaire invalide." }, 400);
       const mode = p.get("mode");
       const bike = p.get("bike") ?? "personal";
       if (bike !== "personal" && bike !== "montenvelo") {
@@ -96,7 +99,7 @@ export async function api(
         fromPlace: p.get("from")!,
         toPlace: p.get("to")!,
         time: date.toISOString(),
-        arriveBy: "false",
+        arriveBy,
         transitModes: mode === "bike" ? "" : "TRANSIT",
         directModes:
           mode === "bike"

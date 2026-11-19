@@ -1,0 +1,344 @@
+import { useEffect, useState, type CSSProperties } from "react";
+import {
+  ChevronRight,
+  ExternalLink,
+  Info,
+  MapPin,
+  RefreshCw,
+  Route,
+} from "lucide-react";
+import type { Place, Poi, StopDeparture } from "./types";
+import { layerById } from "./layers";
+import { poiName, stopName, tidyName, townOf } from "./places";
+import { duration, formatShortDay, time } from "./format";
+
+export function LayerIcon({
+  mode,
+  size = 20,
+}: {
+  mode: string;
+  size?: number;
+}) {
+  const layer = layerById[mode];
+  const Icon = layer?.icon ?? MapPin;
+  return (
+    <span
+      className="layer-icon"
+      style={{ "--layer": layer?.color } as CSSProperties}
+    >
+      <Icon size={size} strokeWidth={1.8} aria-hidden="true" />
+    </span>
+  );
+}
+
+function DepartureDetails({ departure }: { departure: StopDeparture }) {
+  return (
+    <div>
+      <div className="stop-departure-route">
+        <span className="mode-pill">{departure.line}</span>
+        <strong>{stopName({ name: departure.destination })}</strong>
+      </div>
+      <div className="stop-departure-meta">
+        <span className={departure.realTime ? "live-dot" : undefined}>
+          {departure.realTime ? "Temps réel" : "Horaire prévu"}
+        </span>
+        {departure.requiresReservation && (
+          <span className="stop-departure-reservation">
+            Réservation obligatoire
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StopDepartures({ stop }: { stop: string }) {
+  const [state, setState] = useState<
+    StopDeparture[] | "loading" | "unavailable"
+  >("loading");
+  const [now, setNow] = useState(Date.now);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let refresh: ReturnType<typeof setTimeout>;
+    async function load() {
+      try {
+        const response = await fetch(
+          "/api/departures?" + new URLSearchParams({ stop }),
+          {
+            signal: controller.signal,
+          },
+        );
+        if (!response.ok) throw Error();
+        const { departures } = (await response.json()) as {
+          departures: StopDeparture[];
+        };
+        if (!controller.signal.aborted) setState(departures);
+      } catch {
+        if (!controller.signal.aborted) setState("unavailable");
+      } finally {
+        if (!controller.signal.aborted) refresh = setTimeout(load, 60_000);
+      }
+    }
+    load();
+    const clock = setInterval(() => setNow(Date.now()), 5_000);
+    return () => {
+      controller.abort();
+      clearTimeout(refresh);
+      clearInterval(clock);
+    };
+  }, [stop]);
+
+  const today = formatShortDay(now);
+  const [next, ...later] = Array.isArray(state)
+    ? state.filter((departure) => Date.parse(departure.time) >= now)
+    : [];
+  const nextDay = next ? formatShortDay(next.time) : "";
+  const waitMinutes = next
+    ? Math.ceil((Date.parse(next.time) - now) / 60_000)
+    : 0;
+  const showCountdown = waitMinutes < 24 * 60;
+
+  return (
+    <section className="stop-departures" aria-label="Prochains départs">
+      <h3>{next ? "Prochain départ" : "Prochains départs"}</h3>
+      {next ? (
+        <>
+          <div className="stop-departure-next">
+            <div className="stop-departure-next-heading">
+              <strong>
+                {showCountdown
+                  ? waitMinutes === 0
+                    ? "Maintenant"
+                    : `Dans ${duration(waitMinutes * 60)}`
+                  : nextDay}
+              </strong>
+              <time dateTime={next.time}>
+                <strong>{time(next.time)}</strong>
+                {showCountdown && nextDay !== today && <small>{nextDay}</small>}
+              </time>
+            </div>
+            <DepartureDetails departure={next} />
+          </div>
+          {later.length > 0 && (
+            <>
+              <h3>Ensuite</h3>
+              <ul>
+                {later.map((departure) => {
+                  const day = formatShortDay(departure.time);
+                  return (
+                    <li key={departure.id}>
+                      <time dateTime={departure.time}>
+                        <strong>{time(departure.time)}</strong>
+                        {day !== today && <small>{day}</small>}
+                      </time>
+                      <DepartureDetails departure={departure} />
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          )}
+        </>
+      ) : (
+        <p role="status">
+          {state === "loading"
+            ? "Chargement des départs…"
+            : state === "unavailable"
+              ? "Horaires momentanément indisponibles."
+              : "Aucun départ à venir trouvé."}
+        </p>
+      )}
+    </section>
+  );
+}
+
+export type BikeStatus = {
+  updatedAt: string;
+  stations: {
+    station_id: string;
+    is_renting: boolean;
+    num_bikes_available: number;
+    num_docks_available: number;
+  }[];
+};
+
+function BikeAvailability({
+  poi,
+  bikes,
+  bikeError,
+  onRefresh,
+}: {
+  poi: Poi;
+  bikes?: BikeStatus;
+  bikeError: boolean;
+  onRefresh: () => void;
+}) {
+  const station = bikes?.stations?.find((s) => s.station_id === poi.id);
+  const age = bikes
+    ? Math.max(0, (Date.now() - +new Date(bikes.updatedAt)) / 1000)
+    : Infinity;
+  const stale = age > 180 || bikeError;
+  const available = station?.is_renting ? station.num_bikes_available : 0;
+  return (
+    <>
+      <div className="availability">
+        {station && !stale ? (
+          <>
+            <strong>{available}</strong>
+            <span>
+              vélo{available > 1 ? "s" : ""} disponible
+              {available > 1 ? "s" : ""}
+              <small>{station.num_docks_available} places de retour</small>
+            </span>
+          </>
+        ) : (
+          <p>Disponibilité non confirmée</p>
+        )}
+        <button
+          className="icon-button"
+          onClick={onRefresh}
+          aria-label="Actualiser les vélos"
+        >
+          <RefreshCw size={16} />
+        </button>
+      </div>
+      <p className="fine-print">
+        {bikes
+          ? `Source mise à jour à ${time(bikes.updatedAt)}${stale ? " · données anciennes ou indisponibles" : ""}`
+          : "Connexion au réseau vélo…"}
+      </p>
+      <p>Dès 0,50 € les 30 premières minutes sans abonnement.</p>
+    </>
+  );
+}
+
+export function PlaceCard({
+  poi,
+  pois,
+  filters,
+  bikes,
+  bikeError,
+  onRefreshBikes,
+  onSelect,
+  onGo,
+  onStart,
+}: {
+  poi: Poi;
+  pois: Poi[];
+  filters: string[];
+  bikes?: BikeStatus;
+  bikeError: boolean;
+  onRefreshBikes: () => void;
+  onSelect: (p: Poi) => void;
+  onGo: (p: Place) => void;
+  onStart: (p: Place) => void;
+}) {
+  const layer = layerById[poi.mode];
+  const name = poiName(poi);
+  const place = { name, lat: poi.lat, lon: poi.lon };
+  const town = townOf(poi.id);
+  const official =
+    poi.mode === "train" && tidyName(poi.name) !== name ? poi.name : undefined;
+  const nearbyStops = ["bus", "train"].includes(poi.mode)
+    ? pois
+        .filter(
+          (p) =>
+            p.id !== poi.id &&
+            filters.includes(p.mode) &&
+            ["bus", "train"].includes(p.mode) &&
+            Math.hypot(
+              (p.lon - poi.lon) * Math.cos((poi.lat * Math.PI) / 180),
+              p.lat - poi.lat,
+            ) *
+              111000 <
+              60,
+        )
+        .slice(0, 5)
+    : [];
+  return (
+    <article className="poi-card" aria-labelledby="poi-title">
+      <div className="poi-heading">
+        <LayerIcon mode={poi.mode} size={22} />
+        <span className="eyebrow">
+          {[layer?.label, town].filter(Boolean).join(" · ")}
+        </span>
+      </div>
+      <h2 id="poi-title" tabIndex={-1}>
+        {name}
+      </h2>
+      {official && <p className="poi-official">Nom SNCF : {official}</p>}
+      <div className="poi-actions">
+        <button onClick={() => onGo(place)}>
+          Y aller <Route size={16} aria-hidden="true" />
+        </button>
+        <button className="secondary-action" onClick={() => onStart(place)}>
+          Partir d’ici <MapPin size={16} aria-hidden="true" />
+        </button>
+        {poi.url && (
+          <a href={poi.url} target="_blank" rel="noreferrer">
+            {poi.mode === "montenbus" ? "Réserver" : "Voir le service"}
+            <ExternalLink size={14} aria-hidden="true" />
+          </a>
+        )}
+      </div>
+      {(poi.mode === "bus" || poi.mode === "train") && (
+        <StopDepartures key={poi.id} stop={poi.id} />
+      )}
+      {poi.mode === "montenvelo" && (
+        <BikeAvailability
+          poi={poi}
+          bikes={bikes}
+          bikeError={bikeError}
+          onRefresh={onRefreshBikes}
+        />
+      )}
+      {poi.mode === "citiz" && (
+        <p>
+          Voiture à restituer à sa station de départ. Vérifiez le véhicule et le
+          créneau dans l’application Citiz.
+        </p>
+      )}
+      {poi.mode === "rezopouce" && (
+        <p>
+          Point d’autostop gratuit. Aucun passage ni temps d’attente garanti.
+        </p>
+      )}
+      {poi.network && <p>{poi.network}</p>}
+      {!!poi.routes?.length && (
+        <p>
+          <strong>Lignes :</strong> {poi.routes.join(" · ")}
+        </p>
+      )}
+      {poi.note && <p>{poi.note}</p>}
+      {poi.warning && (
+        <p className="notice">
+          <Info size={16} aria-hidden="true" />
+          {poi.warning}
+        </p>
+      )}
+      {!!nearbyStops.length && (
+        <div className="nearby-stops">
+          <span className="eyebrow">À proximité</span>
+          {nearbyStops.map((p) => (
+            <button key={p.id} onClick={() => onSelect(p)}>
+              <LayerIcon mode={p.mode} size={15} />
+              <span>
+                {layerById[p.mode]?.label} · {poiName(p)}
+              </span>
+              <ChevronRight size={14} aria-hidden="true" />
+            </button>
+          ))}
+        </div>
+      )}
+      <a
+        className="source-link"
+        href={poi.source}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Source des données <ExternalLink size={12} aria-hidden="true" />
+      </a>
+    </article>
+  );
+}

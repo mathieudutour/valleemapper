@@ -47,3 +47,19 @@ The Y85 stop Le Crey was present and walkable in the data. An ordinary departure
 - Default layers: bus, MontenVélo, rail stations, vertical links. Vertical-link line visibility follows its toggle. Points support origin and destination actions, with nearby interchange points selectable from their card.
 
 Browser checks for the final controls: the four default layers are checked; Le Crey opens a bus card showing Y85; Sallanches opens a rail card and its nearby bus points can be selected independently. Rail origin and bus destination actions populate the form. At 390 px, all three preference controls fit without horizontal overflow, the shortest-time description is correct, and the map button does not cover the search button.
+
+## Design review fixes · 19 November 2026
+
+The Explorer tab is replaced by a **Couches** button over the map. On phones the planner is a bottom sheet over a full-screen map. Searches, the selected place and non-default layers are kept in the page URL.
+
+- Route shapes: a scratch import with `route_shapes: missing` matched SNCF routes onto OSM tracks. P52 Chedde → Saint-Gervais grew from 2 to 71 points and P52 Saint-Gervais → Chamonix from 12 to 659. Cars Région and Chamonix bus shapes are unchanged. The local graph used by `npm run dev` needs `npm run setup` to pick this up.
+- Twenty-two API regression tests pass, including a new arrival-deadline test: `arriveBy` reaches MOTIS, invalid values are rejected and the latest departure ranks first.
+- Browser checks at 1440×900, 1280×720 and 390×664 (iPhone 14), in light and dark schemes:
+  - An automated scan found no text below WCAG AA contrast on the home, results and layer views.
+  - A 20:14 search shows next-morning trips under a "Demain · vendredi 20 novembre" heading with a **Demain** chip.
+  - Autocomplete shows a type and commune per entry ("Chef-lieu · Arrêt de bus · Passy").
+  - The selected stop has a ring on the map, and unrelated stops fade while a route is shown.
+  - Changed settings re-run the search when the dialog closes.
+  - Tab moves between fields with one suggestion list open.
+  - A missing departure marks the field and shows the message under it.
+  - On the phone, the sheet snaps by drag and tap, a tapped stop opens its card in the half sheet, and map controls stay above the sheet.

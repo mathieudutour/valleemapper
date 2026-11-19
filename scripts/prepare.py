@@ -125,6 +125,7 @@ if args.refresh or not osm.with_suffix('.json').exists():
  if not python.exists():subprocess.run([sys.executable,'-m','venv',str(ROOT/'var/python')],check=True)
  subprocess.run([str(python),'-m','pip','install','osmium==4.3.0'],check=True)
  subprocess.run([str(python),str(ROOT/'scripts/clean_osm.py'),str(raw_osm),str(osm)],check=True)
+# SNCF publishes no shapes; route_shapes matches those routes onto OSM tracks instead of stop-to-stop lines.
 config='''server:
   host: 127.0.0.1
   port: 8080
@@ -136,6 +137,8 @@ timetable:
   first_day: TODAY
   num_days: 180
   with_shapes: true
+  route_shapes:
+    mode: missing
   datasets:
 '''
 for tag in [*SOURCES,'vertical']:

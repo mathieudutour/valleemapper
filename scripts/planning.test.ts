@@ -202,6 +202,41 @@ test("shortest journey time can choose a later arrival than earliest-arrival pre
   }
 });
 
+test("arrival deadlines reach MOTIS and rank the latest departure first", async () => {
+  const deadline = new Request(
+    "http://test/api/plan?" +
+      new URLSearchParams({
+        from: "45.92,6.68",
+        to: "45.93,6.64",
+        time: "2026-11-20T09:40:00Z",
+        arriveBy: "true",
+        mode: "transit",
+        preference: "faster",
+      }),
+  );
+  const seen: URLSearchParams[] = [];
+  const response = await api(deadline, {
+    motis: async (path) => {
+      const p = new URL("http://motis" + path).searchParams;
+      seen.push(p);
+      return plan(p.get("maxPreTransitTime") === "300" ? [nearby] : [distant]);
+    },
+  });
+  const { itineraries } = await response.json();
+  assert(seen.every((p) => p.get("arriveBy") === "true"));
+  assert.deepEqual(
+    itineraries.map((j: { id: string }) => j.id),
+    [distant.id, nearby.id],
+  );
+
+  const invalid = new URL(deadline.url);
+  invalid.searchParams.set("arriveBy", "maybe");
+  const rejected = await api(new Request(invalid), {
+    motis: async () => plan([]),
+  });
+  assert.equal(rejected.status, 400);
+});
+
 test("a short walk to the bus is retained when the destination needs a longer walk", async () => {
   const longEgress = journey(
     "nearby-with-long-egress",

@@ -30,6 +30,7 @@ export type Leg = {
   agencyName?: string;
   distance?: number;
   legGeometry?: { points: string; precision: number };
+  intermediateStops?: Place[];
   cancelled?: boolean;
 };
 export type Itinerary = {
@@ -83,17 +84,6 @@ export const modeLabel: Record<string, string> = {
   FUNICULAR: "Ascenseur",
   RENTAL: "MontenVélo",
 };
-export const DEFAULT_LAYERS = ["bus", "montenvelo", "train", "lift"];
-export const poiLabel: Record<string, string> = {
-  bus: "Arrêts de bus",
-  train: "Gares",
-  montenvelo: "MontenVélo",
-  citiz: "Citiz",
-  rezopouce: "Rézo Pouce",
-  shuttle: "Navette",
-  montenbus: "Montenbus",
-  lift: "Liaisons verticales",
-};
 export function decodeLine(points: string, precision = 6): [number, number][] {
   let i = 0,
     lat = 0,
@@ -118,6 +108,14 @@ export function decodeLine(points: string, precision = 6): [number, number][] {
   return result;
 }
 
+/** A leg whose geometry only joins its stops comes from a feed without shapes. */
+export const hasApproximatePath = (leg: Leg): boolean =>
+  !["WALK", "BIKE", "RENTAL"].includes(leg.mode) &&
+  !leg.routeId?.startsWith("vertical_") &&
+  !!leg.legGeometry &&
+  decodeLine(leg.legGeometry.points, leg.legGeometry.precision).length <=
+    (leg.intermediateStops?.length ?? 0) + 2;
+
 export const walkingSeconds = (journey: Itinerary): number =>
   journey.legs
     .filter((leg) => leg.mode === "WALK")
@@ -128,16 +126,20 @@ export const usesTransit = (journey: Itinerary): boolean =>
   );
 export type BikeChoice = "personal" | "montenvelo";
 export type RoutingPreference = "faster" | "shorter" | "less-walk";
+// With an arrival deadline, the best timing is the latest departure rather than the earliest arrival.
 export function compareJourneys(
   a: Itinerary,
   b: Itinerary,
   preference: RoutingPreference = "faster",
+  arriveBy = false,
 ): number {
-  const arrival = +new Date(a.endTime) - +new Date(b.endTime);
+  const timing = arriveBy
+    ? +new Date(b.startTime) - +new Date(a.startTime)
+    : +new Date(a.endTime) - +new Date(b.endTime);
   const walking = walkingSeconds(a) - walkingSeconds(b);
   const duration = a.duration - b.duration;
-  if (preference === "shorter") return duration || arrival || walking;
+  if (preference === "shorter") return duration || timing || walking;
   return preference === "less-walk"
-    ? walking || arrival || duration
-    : arrival || duration || walking;
+    ? walking || timing || duration
+    : timing || duration || walking;
 }

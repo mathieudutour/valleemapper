@@ -101,9 +101,12 @@ export async function planWithWalkingOptions(
       ids.add(id);
       merged.push({ ...journey, id });
     }
+    const arriveBy = params.get("arriveBy") === "true";
     return Response.json({
       ...base,
-      itineraries: merged.sort((a, b) => compareJourneys(a, b, preference)),
+      itineraries: merged.sort((a, b) =>
+        compareJourneys(a, b, preference, arriveBy),
+      ),
     });
   } finally {
     if (timer !== undefined) clearTimeout(timer);

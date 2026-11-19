@@ -8,13 +8,14 @@ Planifiez vos trajets dans le **Pays du Mont-Blanc**, à Passy, Sallanches, Sain
 
 ## Préparer un trajet
 
-- Saisissez une adresse, un arrêt ou une gare. L’heure de départ est réglée sur l’heure actuelle. Ouvrez les **Paramètres d’itinéraire** pour comparer les trajets selon l’arrivée la plus tôt, la durée la plus courte ou le temps de marche.
+- Saisissez une adresse, un arrêt ou une gare. L’heure est réglée sur **Maintenant** ; choisissez **Arriver** pour donner une heure d’arrivée. Touchez **Modifier** sous l’horaire pour comparer les trajets selon l’heure, la durée la plus courte ou le temps de marche.
+- Les trajets du lendemain portent la mention **Demain**. L’adresse de la page reprend la recherche et le lieu sélectionné : partagez-la pour envoyer le même trajet.
 - Consultez les horaires des Cars Région, des trains SNCF, des bus de Chamonix et de Facilibus. Le Valléen et l’ascenseur des Thermes peuvent aussi faire partie d’un trajet.
 - Choisissez **Vélo personnel** ou **MontenVélo**. Les trajets MontenVélo indiquent où prendre et rendre le vélo. Vérifiez la disponibilité des vélos et des places de retour avant de partir.
 
 ## Explorer la carte
 
-L’onglet **Explorer** rassemble les arrêts, les gares et les stations MontenVélo. Activez les autres couches pour trouver les stations Citiz, les arrêts Rézo Pouce, les points de prise en charge Montenbus et les arrêts de navettes saisonnières. Sélectionnez un point pour voir ses informations ou l’utiliser comme départ ou arrivée. Les arrêts de bus et les gares affichent les trois prochains départs et indiquent les horaires actualisés en temps réel. Le bouton **Me localiser** vous situe sur la carte après autorisation du navigateur.
+La carte affiche les arrêts, les gares, les stations MontenVélo et les liaisons verticales. Le bouton **Couches** permet d’ajouter les stations Citiz, les arrêts Rézo Pouce, les points de prise en charge Montenbus et les arrêts de navettes saisonnières. Touchez un point pour voir ses informations ou l’utiliser comme départ ou arrivée. Sur téléphone, le panneau des trajets se glisse au-dessus de la carte. Les arrêts de bus et les gares affichent les trois prochains départs et indiquent les horaires actualisés en temps réel. Le bouton **Me localiser** vous situe sur la carte après autorisation du navigateur.
 
 ## Horaires et tarifs
 
