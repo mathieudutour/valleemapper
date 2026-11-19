@@ -1042,19 +1042,17 @@ h2 {
   padding: 0;
   border: 0;
 }
-.route-choices legend,
-.route-bike-setting > span:first-child {
+.route-choices legend {
   color: var(--ink);
   font-size: 14px;
   font-weight: 650;
-}
-.route-choices legend {
   padding: 0;
   margin-bottom: 8px;
 }
 .route-choices-tiles {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   gap: 4px;
   padding: 4px;
   border: 1px solid #e2ebe6;
@@ -1102,43 +1100,9 @@ h2 {
   opacity: 0.65;
   cursor: wait;
 }
-.route-choice input:focus-visible + .route-choice-tile,
-.route-bike-select select:focus-visible {
+.route-choice input:focus-visible + .route-choice-tile {
   outline: 2px solid #0d776d;
   outline-offset: 2px;
-}
-.route-bike-setting {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.route-bike-select {
-  position: relative;
-  flex-shrink: 0;
-  max-width: 100%;
-}
-.route-bike-select select {
-  appearance: none;
-  min-height: 44px;
-  max-width: 100%;
-  padding: 8px 36px 8px 12px;
-  border: 1px solid #dce7e2;
-  border-radius: 9px;
-  background: #fff;
-  color: var(--green);
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
-}
-.route-bike-select svg {
-  position: absolute;
-  top: 50%;
-  right: 11px;
-  transform: translateY(-50%);
-  color: #627b73;
-  pointer-events: none;
 }
 .map-location-status:not(:empty) {
   position: absolute;

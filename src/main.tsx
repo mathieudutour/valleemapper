@@ -443,6 +443,10 @@ const transportOptions = [
   { value: "transit", label: "Transports", icon: BusFront },
   { value: "bike", label: "Vélo", icon: Bike },
 ] as const;
+const bikeOptions = [
+  { value: "personal", label: "Vélo personnel", icon: Bike },
+  { value: "montenvelo", label: "MontenVélo", icon: MapPin },
+] as const;
 const priorityOptions = [
   { value: "faster", label: "Arriver au plus tôt", icon: Clock },
   { value: "shorter", label: "Durée la plus courte", icon: Route },
@@ -1205,22 +1209,16 @@ function App() {
               }}
             />
             {mode !== "transit" && (
-              <label className="route-bike-setting">
-                <span>Type de vélo</span>
-                <span className="route-bike-select">
-                  <select
-                    value={bike}
-                    onChange={(e) => {
-                      resetSearch();
-                      setBike(e.currentTarget.value as BikeChoice);
-                    }}
-                  >
-                    <option value="personal">Vélo personnel</option>
-                    <option value="montenvelo">MontenVélo</option>
-                  </select>
-                  <ChevronDown size={16} aria-hidden="true" />
-                </span>
-              </label>
+              <RouteChoices
+                label="Type de vélo"
+                name="route-bike"
+                options={bikeOptions}
+                value={bike}
+                onChange={(value) => {
+                  resetSearch();
+                  setBike(value);
+                }}
+              />
             )}
             {mode !== "bike" && (
               <RouteChoices
