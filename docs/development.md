@@ -32,14 +32,14 @@ The included architecture is **Worker + static assets → one shared Durable Obj
 
 ### Deploy with GitHub Actions
 
-Pushes to `main` and pull requests run the tests, download the routing inputs, build the site, and start a Linux MOTIS image to check it. The GitHub runner provides Docker. For the first deploy, set up a Cloudflare account with Workers Paid and an active `workers.dev` subdomain. Add the following [repository Actions secrets](https://github.com/mathieudutour/valleemapper/settings/secrets/actions).
+Pushes to `main` deploy to Cloudflare once the tests, site build and Linux MOTIS startup check pass. Pull requests run those checks for review. The workflow waits for the deployed router to respond and prints the app URL.
+
+For the first deploy, set up a Cloudflare account with Workers Paid and an active `workers.dev` subdomain. Add the following [repository Actions secrets](https://github.com/mathieudutour/valleemapper/settings/secrets/actions).
 
 - `CLOUDFLARE_ACCOUNT_ID` is the target account ID.
 - `CLOUDFLARE_API_TOKEN` is an [account API token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/) created under **Manage Account → API Tokens**. Use **Workers Admin** at the Workers product scope for the first deploy and grant write access to **Containers**. Scope the token to the account hosting ValléeMapper. Once the Worker exists, the Workers permission can be narrowed to **Editor** on `valleemapper`. See [Cloudflare’s Workers roles](https://developers.cloudflare.com/workers/authorization/workers/) and [Containers permissions](https://developers.cloudflare.com/fundamentals/api/reference/permissions/).
 
-In [Actions → Build and deploy](https://github.com/mathieudutour/valleemapper/actions/workflows/build-deploy.yml), choose **Run workflow** on `main`. Wrangler builds and pushes the image and publishes the Worker. The final step waits for the deployed router to report ready and prints the app URL. The first deployment can take a few minutes.
-
-To publish fresh static timetables, run the workflow again. The new image takes effect when the container next starts. The container uses `standard-2`, connects to the live feeds and sleeps after ten minutes of inactivity.
+To redeploy on demand or publish fresh static timetables, open [Actions → Build and deploy](https://github.com/mathieudutour/valleemapper/actions/workflows/build-deploy.yml) and choose **Run workflow** on `main`. The new image takes effect when the container next starts. The container uses `standard-2`, connects to the live feeds and sleeps after ten minutes of inactivity.
 
 ### Deploy from a local machine
 

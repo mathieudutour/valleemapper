@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -42,7 +42,8 @@ jobs:
             'http://127.0.0.1:18080/api/v1/geocode?text=Chedde&numResults=1' |
             jq -e 'type == "array" and length > 0' > /dev/null
       - name: Deploy the Worker and MOTIS image to Cloudflare
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        id: deploy
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -52,7 +53,7 @@ jobs:
           : "${CLOUDFLARE_API_TOKEN:?Add CLOUDFLARE_API_TOKEN to repository Actions secrets}"
           npx --no-install wrangler deploy
       - name: Verify the deployed router
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        if: steps.deploy.outcome == 'success'
         env:
           WRANGLER_OUTPUT_FILE_PATH: ${{ runner.temp }}/vallee-deploy.ndjson
         run: |
