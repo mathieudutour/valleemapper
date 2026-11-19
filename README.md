@@ -2,7 +2,7 @@
 
 Planifiez vos trajets dans le **Pays du Mont-Blanc**, à Passy, Sallanches, Saint-Gervais, Chamonix et dans les communes voisines. Combinez le bus, le train, la marche et le vélo.
 
-**[Ouvrir ValléeMapper](https://mont-blanc-mobilite.mathieu-3e7.workers.dev)**
+**[Ouvrir ValléeMapper](https://valleemapper.mathieu-3e7.workers.dev)**
 
 ![Itinéraire de la gare du Fayet à Saint-Gervais par le Valléen dans ValléeMapper](docs/screenshots/journey.jpg)
 

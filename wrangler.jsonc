@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "mont-blanc-mobilite",
+  "name": "valleemapper",
   "main": "cloudflare/worker.ts",
   "compatibility_date": "2026-11-18",
   "assets": {
