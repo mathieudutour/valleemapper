@@ -24,6 +24,7 @@ import {
   LoaderCircle,
   Check,
   RefreshCw,
+  type LucideIcon,
 } from "lucide-react";
 const ValleyMap = lazy(() => import("./Map"));
 import {
@@ -437,6 +438,57 @@ function Journey({
     </article>
   );
 }
+const transportOptions = [
+  { value: "all", label: "Tout", icon: Route },
+  { value: "transit", label: "Transports", icon: BusFront },
+  { value: "bike", label: "Vélo", icon: Bike },
+] as const;
+const priorityOptions = [
+  { value: "faster", label: "Arriver au plus tôt", icon: Clock },
+  { value: "shorter", label: "Durée la plus courte", icon: Route },
+  { value: "less-walk", label: "Moins de marche", icon: Footprints },
+] as const;
+type TransportMode = (typeof transportOptions)[number]["value"];
+
+function RouteChoices<Value extends string>({
+  label,
+  name,
+  options,
+  value,
+  onChange,
+  disabled,
+}: {
+  label: string;
+  name: string;
+  options: readonly { value: Value; label: string; icon: LucideIcon }[];
+  value: Value;
+  onChange: (value: Value) => void;
+  disabled?: boolean;
+}) {
+  return (
+    <fieldset className="route-choices" disabled={disabled}>
+      <legend>{label}</legend>
+      <div className="route-choices-tiles">
+        {options.map(({ value: option, label, icon: OptionIcon }) => (
+          <label className="route-choice" key={option}>
+            <input
+              type="radio"
+              name={name}
+              value={option}
+              checked={value === option}
+              onChange={() => onChange(option)}
+            />
+            <span className="route-choice-tile">
+              <OptionIcon size={19} strokeWidth={1.85} aria-hidden="true" />
+              <span>{label}</span>
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 function App() {
   const sidebarScroll = useRef<HTMLDivElement>(null);
   const settingsDialog = useRef<HTMLDialogElement>(null);
@@ -450,7 +502,7 @@ function App() {
       const instant = new Date();
       return { value: localDateTime(instant), instant };
     }),
-    [mode, setMode] = useState("all"),
+    [mode, setMode] = useState<TransportMode>("all"),
     [bike, setBike] = useState<BikeChoice>("personal"),
     [preference, setPreference] = useState<RoutingPreference>("faster"),
     [busy, setBusy] = useState(false),
@@ -630,7 +682,11 @@ function App() {
               aria-label="Paramètres d’itinéraire"
               title="Paramètres d’itinéraire"
               aria-haspopup="dialog"
-              onClick={() => settingsDialog.current?.showModal()}
+              onClick={() => {
+                const dialog = settingsDialog.current;
+                dialog?.showModal();
+                dialog?.querySelector("h2")?.focus();
+              }}
             >
               <Settings size={21} />
             </button>
@@ -1126,7 +1182,9 @@ function App() {
       >
         <div className="route-settings-content">
           <header className="route-settings-heading">
-            <h2 id="route-settings-title">Paramètres d’itinéraire</h2>
+            <h2 id="route-settings-title" tabIndex={-1}>
+              Paramètres d’itinéraire
+            </h2>
             <button
               className="icon-button"
               aria-label="Fermer les paramètres"
@@ -1136,50 +1194,43 @@ function App() {
             </button>
           </header>
           <div className="route-settings-fields">
-            <label>
-              <span>Mode de transport</span>
-              <select
-                value={mode}
-                onChange={(e) => {
-                  resetSearch();
-                  setMode(e.currentTarget.value);
-                }}
-              >
-                <option value="all">Tout</option>
-                <option value="transit">Transports en commun</option>
-                <option value="bike">Vélo</option>
-              </select>
-            </label>
+            <RouteChoices
+              label="Mode de transport"
+              name="route-mode"
+              options={transportOptions}
+              value={mode}
+              onChange={(value) => {
+                resetSearch();
+                setMode(value);
+              }}
+            />
             {mode !== "transit" && (
-              <label>
+              <label className="route-bike-setting">
                 <span>Type de vélo</span>
-                <select
-                  value={bike}
-                  onChange={(e) => {
-                    resetSearch();
-                    setBike(e.currentTarget.value as BikeChoice);
-                  }}
-                >
-                  <option value="personal">Vélo personnel</option>
-                  <option value="montenvelo">MontenVélo</option>
-                </select>
+                <span className="route-bike-select">
+                  <select
+                    value={bike}
+                    onChange={(e) => {
+                      resetSearch();
+                      setBike(e.currentTarget.value as BikeChoice);
+                    }}
+                  >
+                    <option value="personal">Vélo personnel</option>
+                    <option value="montenvelo">MontenVélo</option>
+                  </select>
+                  <ChevronDown size={16} aria-hidden="true" />
+                </span>
               </label>
             )}
             {mode !== "bike" && (
-              <label>
-                <span>Priorité du trajet</span>
-                <select
-                  value={preference}
-                  disabled={busy}
-                  onChange={(e) =>
-                    setPreference(e.currentTarget.value as RoutingPreference)
-                  }
-                >
-                  <option value="faster">Arriver au plus tôt</option>
-                  <option value="shorter">Durée la plus courte</option>
-                  <option value="less-walk">Moins de marche</option>
-                </select>
-              </label>
+              <RouteChoices
+                label="Priorité du trajet"
+                name="route-priority"
+                options={priorityOptions}
+                value={preference}
+                onChange={setPreference}
+                disabled={busy}
+              />
             )}
           </div>
         </div>
