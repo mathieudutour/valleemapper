@@ -4,6 +4,7 @@ import {
   ExternalLink,
   Info,
   MapPin,
+  Phone,
   RefreshCw,
   Route,
 } from "lucide-react";
@@ -153,6 +154,44 @@ function StopDepartures({ stop }: { stop: string }) {
   );
 }
 
+// Rules from the 2026 Montenbus regulation and CCPMB page; see docs/research/montenbus-integration.md.
+function MontenbusRules() {
+  return (
+    <section className="service-rules" aria-labelledby="montenbus-rules">
+      <h3 id="montenbus-rules">Avant de réserver</h3>
+      <ul>
+        <li>Du lundi au samedi, de 6 h 45 à 19 h 30, hors jours fériés.</li>
+        <li>
+          Réservation de 30 jours à 15 minutes avant le départ, en ligne ou au
+          numéro vert (lun.–sam. 9 h–12 h 15 et 13 h 45–17 h 30).
+        </li>
+        <li>
+          Prise en charge dans un créneau de 20 minutes ; l’horaire proposé peut
+          varier de ± 30 minutes.
+        </li>
+        <li>
+          Non réservable si un bus, un TER ou une navette fait un trajet
+          similaire dans les 15 minutes avant ou après.
+        </li>
+        <li>
+          Adhésion obligatoire : 40 € par an ou 20 € pour 30 jours, sans coût
+          par trajet.
+        </li>
+      </ul>
+      <p className="fine-print">
+        ValléeMapper ne calcule pas ces trajets.{" "}
+        <a
+          href="https://www.montenbus.fr/reglement-montenbus/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Règlement Montenbus
+        </a>
+      </p>
+    </section>
+  );
+}
+
 export type BikeStatus = {
   updatedAt: string;
   stations: {
@@ -277,11 +316,17 @@ export function PlaceCard({
         </button>
         {poi.url && (
           <a href={poi.url} target="_blank" rel="noreferrer">
-            {poi.mode === "montenbus" ? "Réserver" : "Voir le service"}
+            {poi.mode === "montenbus" ? "Réserver en ligne" : "Voir le service"}
             <ExternalLink size={14} aria-hidden="true" />
           </a>
         )}
+        {poi.mode === "montenbus" && (
+          <a href="tel:+33800201374">
+            0 800 2013 74 <Phone size={14} aria-hidden="true" />
+          </a>
+        )}
       </div>
+      {poi.mode === "montenbus" && <MontenbusRules />}
       {(poi.mode === "bus" || poi.mode === "train") && (
         <StopDepartures key={poi.id} stop={poi.id} />
       )}
@@ -310,7 +355,7 @@ export function PlaceCard({
           <strong>Lignes :</strong> {poi.routes.join(" · ")}
         </p>
       )}
-      {poi.note && <p>{poi.note}</p>}
+      {poi.note && poi.mode !== "montenbus" && <p>{poi.note}</p>}
       {poi.warning && (
         <p className="notice">
           <Info size={16} aria-hidden="true" />

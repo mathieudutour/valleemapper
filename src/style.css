@@ -1063,15 +1063,27 @@ h2 {
   background: var(--accent-soft);
   color: var(--accent-ink);
 }
-.stop-departures {
+.stop-departures,
+.service-rules {
   margin: 16px 0;
   padding-top: 14px;
   border-top: 1px solid var(--line);
 }
-.stop-departures h3 {
+.stop-departures h3,
+.service-rules h3 {
   margin: 0 0 4px;
   font-size: 15px;
   font-weight: 700;
+}
+.service-rules ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+.service-rules li {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-bottom: 6px;
 }
 .stop-departure-next {
   margin: 8px 0 14px;
