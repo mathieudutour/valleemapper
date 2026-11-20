@@ -16,9 +16,11 @@ import {
   Info,
   Layers,
   LoaderCircle,
+  Moon,
   Mountain,
   Search,
   SlidersHorizontal,
+  Sun,
   TrainFront,
   X,
   Route,
@@ -32,7 +34,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 const ValleyMap = lazy(() => import("./Map"));
-import type { Theme } from "./Map";
+import { useTheme } from "./theme";
 import {
   compareJourneys,
   walkingSeconds,
@@ -251,9 +253,7 @@ type Departure = { value: string; now: boolean };
 function App() {
   const initial = useMemo(() => readLink(), []);
   const mobile = useMedia("(max-width: 760px)");
-  const theme: Theme = useMedia("(prefers-color-scheme: dark)")
-    ? "dark"
-    : "light";
+  const [theme, toggleTheme] = useTheme();
   const viewport = useViewportHeight();
   const sidebarScroll = useRef<HTMLDivElement>(null);
   const sheet = useRef<HTMLElement>(null);
@@ -789,13 +789,26 @@ function App() {
             </span>
             <span>ValléeMapper</span>
           </a>
-          <button
-            className="icon-button"
-            aria-label="Sources et limites des données"
-            onClick={() => openDialog(infoDialog.current)}
-          >
-            <Info size={21} />
-          </button>
+          <div className="brand-actions">
+            <button
+              className="icon-button"
+              aria-label={
+                theme === "dark"
+                  ? "Passer au thème clair"
+                  : "Passer au thème sombre"
+              }
+              onClick={toggleTheme}
+            >
+              {theme === "dark" ? <Sun size={21} /> : <Moon size={21} />}
+            </button>
+            <button
+              className="icon-button"
+              aria-label="Sources et limites des données"
+              onClick={() => openDialog(infoDialog.current)}
+            >
+              <Info size={21} />
+            </button>
+          </div>
         </header>
         <div className="region-label" {...sheetHandlers}>
           <span className="region-dot" />

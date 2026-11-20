@@ -14,8 +14,8 @@ import {
 } from "./types";
 import { layerById } from "./layers";
 import { poiName } from "./places";
+import type { Theme } from "./theme";
 
-export type Theme = "light" | "dark";
 const styles: Record<Theme, string> = {
   light: "https://tiles.openfreemap.org/styles/liberty",
   dark: "https://tiles.openfreemap.org/styles/dark",

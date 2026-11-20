@@ -2,7 +2,7 @@
 
 /* Text tokens meet WCAG AA (4.5:1) on every surface they are used on, in both themes. */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --bg: #edf3f2;
   --surface: #ffffff;
   --surface-2: #f3f7f5;
@@ -35,32 +35,31 @@
   font-size: 16px;
   font-weight: 450;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d1718;
-    --surface: #142123;
-    --surface-2: #1a2a2d;
-    --surface-3: #213437;
-    --ink: #e2ecea;
-    --muted: #a3b6b3;
-    --subtle: #6f8582;
-    --line: #26383b;
-    --line-strong: #36504f;
-    --accent: #1f7a70;
-    --accent-hover: #258a7f;
-    --accent-ink: #7fd1c0;
-    --accent-soft: #1d3836;
-    --focus: #7fd1c0;
-    --live: #6fd39b;
-    --warn-bg: #3a2e14;
-    --warn-ink: #f2cf86;
-    --danger-bg: #3a201a;
-    --danger-line: #5a3127;
-    --danger-ink: #f3a48d;
-    --shadow: 0 2px 12px rgb(0 0 0 / 35%);
-    --shadow-strong: 0 20px 64px rgb(0 0 0 / 55%);
-    --backdrop: rgb(4 10 11 / 60%);
-  }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d1718;
+  --surface: #142123;
+  --surface-2: #1a2a2d;
+  --surface-3: #213437;
+  --ink: #e2ecea;
+  --muted: #a3b6b3;
+  --subtle: #6f8582;
+  --line: #26383b;
+  --line-strong: #36504f;
+  --accent: #1f7a70;
+  --accent-hover: #258a7f;
+  --accent-ink: #7fd1c0;
+  --accent-soft: #1d3836;
+  --focus: #7fd1c0;
+  --live: #6fd39b;
+  --warn-bg: #3a2e14;
+  --warn-ink: #f2cf86;
+  --danger-bg: #3a201a;
+  --danger-line: #5a3127;
+  --danger-ink: #f3a48d;
+  --shadow: 0 2px 12px rgb(0 0 0 / 35%);
+  --shadow-strong: 0 20px 64px rgb(0 0 0 / 55%);
+  --backdrop: rgb(4 10 11 / 60%);
 }
 
 * {
@@ -245,6 +244,10 @@ h2 {
   font-size: 32px;
   font-weight: 800;
   letter-spacing: -1.8px;
+}
+.brand-actions {
+  display: flex;
+  gap: 2px;
 }
 .brand-mark {
   height: 38px;
@@ -1515,17 +1518,15 @@ h2 {
   border-color: var(--muted);
   color: var(--ink);
 }
-@media (prefers-color-scheme: dark) {
-  .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
-    filter: invert(1) hue-rotate(180deg);
-  }
-  .maplibregl-ctrl-attrib {
-    background: color-mix(in srgb, var(--surface) 80%, transparent) !important;
-    color: var(--muted);
-  }
-  .maplibregl-ctrl-attrib a {
-    color: var(--ink) !important;
-  }
+[data-theme="dark"] .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1) hue-rotate(180deg);
+}
+[data-theme="dark"] .maplibregl-ctrl-attrib {
+  background: color-mix(in srgb, var(--surface) 80%, transparent) !important;
+  color: var(--muted);
+}
+[data-theme="dark"] .maplibregl-ctrl-attrib a {
+  color: var(--ink) !important;
 }
 
 /* Dialogs */
