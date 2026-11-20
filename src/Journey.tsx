@@ -37,7 +37,10 @@ export function ModeIcon({ mode, size = 18 }: { mode: string; size?: number }) {
 }
 
 const isLift = (l: Leg) => l.routeId?.startsWith("vertical_");
-const legLabel = (l: Leg) => l.routeShortName || modeLabel[l.mode] || l.mode;
+const legLabel = (l: Leg) =>
+  l.routeShortName ||
+  (l.electricAssist ? "Mon vélo électrique" : modeLabel[l.mode]) ||
+  l.mode;
 const isStreet = (l: Leg) =>
   l.mode === "WALK" || l.mode === "BIKE" || l.mode === "RENTAL";
 

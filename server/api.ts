@@ -2,6 +2,7 @@ import { planWithWalkingOptions, type MotisFetch } from "./planning.js";
 import { geocode, type AddressFetch } from "./geocoding.js";
 import { retimeBikeLegs } from "./cycling.js";
 import {
+  BIKE_CHOICES,
   modeLabel,
   type Itinerary,
   type MotisAlert,
@@ -97,8 +98,8 @@ export async function api(
       if (cursor !== null && !/^(EARLIER|LATER)\|\d{1,12}$/.test(cursor))
         return json({ error: "Page de résultats invalide." }, 400);
       const mode = p.get("mode");
-      const bike = p.get("bike") ?? "personal";
-      if (bike !== "personal" && bike !== "montenvelo") {
+      const bike = p.get("bike") ?? "montenvelo";
+      if (!(BIKE_CHOICES as readonly string[]).includes(bike)) {
         return json({ error: "Type de vélo invalide." }, 400);
       }
       const includesBike = mode === "bike" || mode === "all";
@@ -156,6 +157,7 @@ export async function api(
       const body = retimeBikeLegs(
         (await r.json()) as Plan,
         arriveBy === "true",
+        bike === "ebike",
       );
       if (!usesMontenvelo) return json(body);
 

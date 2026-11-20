@@ -44,6 +44,8 @@ export type Leg = {
   steps?: Step[];
   /** Smoothed metres climbed and descended on a bike leg, added by the API with its slope-aware time. */
   elevation?: { up: number; down: number };
+  /** Set by the API on own-bike legs when the rider chose their electric bike. */
+  electricAssist?: boolean;
   realTime: boolean;
   reservation?: "NONE" | "COMPULSORY";
   rental?: {
@@ -111,7 +113,7 @@ export type ValleyData = {
 };
 export const modeLabel: Record<string, string> = {
   WALK: "Marche",
-  BIKE: "Vélo personnel",
+  BIKE: "Mon vélo",
   BUS: "Bus",
   COACH: "Car",
   REGIONAL_RAIL: "TER",
@@ -162,7 +164,12 @@ export const usesTransit = (journey: Itinerary): boolean =>
   journey.legs.some(
     (leg) => !["WALK", "BIKE", "RENTAL", "CAR"].includes(leg.mode),
   );
-export type BikeChoice = "personal" | "montenvelo";
+export type BikeChoice = "ebike" | "personal" | "montenvelo";
+export const BIKE_CHOICES: readonly BikeChoice[] = [
+  "ebike",
+  "personal",
+  "montenvelo",
+];
 export type RoutingPreference = "faster" | "shorter" | "less-walk";
 // With an arrival deadline, the best timing is the latest departure rather than the earliest arrival.
 export function compareJourneys(

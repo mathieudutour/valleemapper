@@ -88,5 +88,6 @@ The Explorer tab is replaced by a **Couches** button over the map. On phones the
 
 - **Timing:** direct rides keep the requested departure (or the arrival for an arrival deadline). In a MontenVélo + coach journey the coach keeps its times and the ride before it moves. Leg times move by whole minutes, as MOTIS gives them; durations stay to the second.
 - **Interface:** journey cards and bike legs show "↗ 700 m ↘ 40 m"; screen readers hear "montée de 700 m, descente de 40 m". Checked at desktop size and 375×812 in the dark theme, with no horizontal overflow.
-- Thirty-two API tests pass, including nine for the slope model and retiming.
+- **Bike choice:** the settings offer **Mon vélo électrique**, **Mon vélo** and **MontenVélo**, with MontenVélo selected by default (`velo` is left out of shared links for it). Le Fayet → Plateau d’Assy on an own e-bike shows 51 min with a "Mon vélo électrique" tag; on an own bike, 71 min. Checked at desktop size and 375×812.
+- Thirty-four API tests pass, including ten for the slope model and retiming, and checks that MontenVélo is the default and an unknown bike is refused.
 - **Not verified:** the Linux Docker image with the tiles (it builds in CI), and the speeds against real rides: the effort levels are estimates.

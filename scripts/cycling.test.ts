@@ -51,22 +51,22 @@ const descent = climb.map((s) => step(s.distance, -2.4));
 const flatSeconds = Math.round(3000 / FLAT_SPEED);
 
 test("flat ground keeps MOTIS's speed for both bikes", () => {
-  assert.equal(cyclingSpeed(0, RIDERS.BIKE), FLAT_SPEED);
-  assert.equal(cyclingSpeed(0, RIDERS.RENTAL), FLAT_SPEED);
+  assert.equal(cyclingSpeed(0, RIDERS.bike), FLAT_SPEED);
+  assert.equal(cyclingSpeed(0, RIDERS.ebike), FLAT_SPEED);
 });
 
 test("climbs slow an own bike more than an electric-assist one", () => {
-  const own = kmh(cyclingSpeed(0.08, RIDERS.BIKE));
-  const assisted = kmh(cyclingSpeed(0.08, RIDERS.RENTAL));
+  const own = kmh(cyclingSpeed(0.08, RIDERS.bike));
+  const assisted = kmh(cyclingSpeed(0.08, RIDERS.ebike));
   assert(own > 5 && own < 9, `own bike at 8 %: ${own} km/h`);
   assert(assisted > own + 3, `e-bike at 8 %: ${assisted} km/h`);
-  assert.equal(kmh(cyclingSpeed(0.3, RIDERS.BIKE)), kmh(1.1), "walks a wall");
+  assert.equal(kmh(cyclingSpeed(0.3, RIDERS.bike)), kmh(1.1), "walks a wall");
 });
 
 test("descents get faster up to a braking limit", () => {
-  assert.equal(cyclingSpeed(-0.01, RIDERS.BIKE), FLAT_SPEED);
-  assert(cyclingSpeed(-0.04, RIDERS.BIKE) > FLAT_SPEED);
-  assert.equal(cyclingSpeed(-0.2, RIDERS.BIKE), 6.5);
+  assert.equal(cyclingSpeed(-0.01, RIDERS.bike), FLAT_SPEED);
+  assert(cyclingSpeed(-0.04, RIDERS.bike) > FLAT_SPEED);
+  assert.equal(cyclingSpeed(-0.2, RIDERS.bike), 6.5);
 });
 
 test("a climb takes about twice MOTIS's time, the way back less", () => {
@@ -91,6 +91,23 @@ test("terrain noise on the flat barely changes the time", () => {
   assert(Math.abs(timing.duration - flatSeconds) < 0.03 * flatSeconds);
   // The raw steps add up to 200 m of climbing.
   assert(timing.elevation.up < 20, `smoothed climb ${timing.elevation.up} m`);
+});
+
+test("an own electric bike is labelled and timed like MontenVélo", () => {
+  const start = "2026-11-20T08:00:00Z";
+  const own = retimeJourney(
+    journey([leg("BIKE", start, flatSeconds, climb)]),
+    false,
+    true,
+  ).legs[0];
+  assert.equal(own.electricAssist, true);
+  assert.equal(
+    own.duration,
+    bikeTiming(leg("RENTAL", start, flatSeconds, climb))!.duration,
+  );
+  assert(
+    own.duration < bikeTiming(leg("BIKE", start, flatSeconds, climb))!.duration,
+  );
 });
 
 test("walking legs and legs without steps keep MOTIS's time", () => {

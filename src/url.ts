@@ -1,4 +1,9 @@
-import type { BikeChoice, Place, RoutingPreference } from "./types";
+import {
+  BIKE_CHOICES,
+  type BikeChoice,
+  type Place,
+  type RoutingPreference,
+} from "./types";
 import { DEFAULT_LAYERS } from "./layers";
 
 export type TransportMode = "all" | "transit" | "bike";
@@ -50,7 +55,7 @@ export function readLink(search = location.search): LinkState {
       time && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(time) ? time : undefined,
     arriveBy: p.get("arrivee") === "1",
     mode: pick("mode", ["all", "transit", "bike"] as const, "all"),
-    bike: pick("velo", ["personal", "montenvelo"] as const, "personal"),
+    bike: pick("velo", BIKE_CHOICES, "montenvelo"),
     preference: pick(
       "priorite",
       ["faster", "shorter", "less-walk"] as const,
@@ -71,7 +76,7 @@ export function writeLink(state: LinkState) {
     if (state.time) p.set("heure", state.time);
     if (state.arriveBy) p.set("arrivee", "1");
     if (state.mode !== "all") p.set("mode", state.mode);
-    if (state.bike !== "personal") p.set("velo", state.bike);
+    if (state.bike !== "montenvelo") p.set("velo", state.bike);
     if (state.preference !== "faster") p.set("priorite", state.preference);
   }
   const layers = [...state.layers].sort().join(",");

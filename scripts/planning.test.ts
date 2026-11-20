@@ -344,6 +344,20 @@ test("bike choice changes the actual routing modes", async () => {
     },
     {
       mode: "all",
+      bike: "ebike",
+      direct: "WALK,BIKE",
+      access: "WALK",
+      transit: "TRANSIT",
+    },
+    {
+      mode: "bike",
+      bike: "ebike",
+      direct: "BIKE",
+      access: "WALK",
+      transit: "",
+    },
+    {
+      mode: "all",
       bike: "montenvelo",
       direct: "WALK,RENTAL",
       access: "WALK,RENTAL",
@@ -431,4 +445,22 @@ test("MontenVélo journeys require a named return station and the selected provi
     direct.map((j: { id: string }) => j.id),
     ["docked"],
   );
+});
+
+test("MontenVélo is the default bike, and unknown bikes are refused", async () => {
+  const seen: URLSearchParams[] = [];
+  const motis = async (path: string, signal?: AbortSignal) => {
+    if (!signal) seen.push(new URL("http://motis" + path).searchParams);
+    return plan([]);
+  };
+  const withBike = (bike?: string) => {
+    const url = new URL(request("bike").url);
+    if (bike) url.searchParams.set("bike", bike);
+    else url.searchParams.delete("bike");
+    return new Request(url);
+  };
+  assert.equal((await api(withBike(), { motis })).status, 200);
+  assert.equal(seen[0].get("directModes"), "RENTAL");
+  assert.equal((await api(withBike("tandem"), { motis })).status, 400);
+  assert.equal(seen.length, 1);
 });

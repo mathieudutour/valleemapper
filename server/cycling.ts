@@ -23,12 +23,19 @@ const DRAG = 0.5 * 1.1 * 0.55;
 /** The terrain model's point noise averages out over this many metres. */
 const SMOOTHING_METRES = 200;
 
-export const RIDERS: Record<string, Rider> = {
-  // An own bike: a steady leisure effort, rider and bike together.
-  BIKE: { climbPower: 150, mass: 90 },
-  // MontenVélo bikes are electric-assist (the GBFS feed says so): rider plus motor, on a heavier bike.
-  RENTAL: { climbPower: 320, mass: 105 },
-};
+export const RIDERS = {
+  // A bike without assist: a steady leisure effort, rider and bike together.
+  bike: { climbPower: 150, mass: 90 },
+  // An electric-assist bike, the rider's own or a MontenVélo (the GBFS feed says those are
+  // electric-assist): rider plus motor, on a heavier bike.
+  ebike: { climbPower: 320, mass: 105 },
+} satisfies Record<string, Rider>;
+
+function riderFor(leg: Leg): Rider | undefined {
+  if (leg.mode === "RENTAL") return RIDERS.ebike;
+  if (leg.mode === "BIKE")
+    return leg.electricAssist ? RIDERS.ebike : RIDERS.bike;
+}
 
 /** Speed in m/s on a constant grade (rise over run, 0.08 for 8 %). */
 export function cyclingSpeed(grade: number, rider: Rider): number {
@@ -86,7 +93,7 @@ export type BikeTiming = {
 
 /** A bike leg's duration from its climbs and descents, or nothing for other legs. */
 export function bikeTiming(leg: Leg): BikeTiming | undefined {
-  const rider = RIDERS[leg.mode];
+  const rider = riderFor(leg);
   if (!rider || !leg.steps?.length) return;
   let seconds = 0,
     flatSeconds = 0,
@@ -125,16 +132,22 @@ function shift(leg: Leg, seconds: number, ends: "start" | "end" | "both") {
 /**
  * Retimes the bike legs of a journey. A ride before the first bus or train still meets it, so the journey
  * starts earlier or later; a ride after the last one moves the arrival. Without transit, the requested
- * side stays fixed: the departure, or the arrival for an arrival deadline.
+ * side stays fixed: the departure, or the arrival for an arrival deadline. With `electricBike`, the rider's
+ * own bike legs are marked and timed as electric-assist.
  */
 export function retimeJourney(
   journey: Itinerary,
   arriveBy: boolean,
+  electricBike = false,
 ): Itinerary {
   const transit = journey.legs.flatMap((leg, i) =>
     STREET_MODES.has(leg.mode) ? [] : [i],
   );
-  const legs = journey.legs.map((leg) => ({ ...leg }));
+  const legs = journey.legs.map((leg) =>
+    electricBike && leg.mode === "BIKE"
+      ? { ...leg, electricAssist: true }
+      : { ...leg },
+  );
   let changed = false,
     added = 0;
   legs.forEach((leg, i) => {
@@ -169,10 +182,15 @@ export function retimeJourney(
   };
 }
 
-export function retimeBikeLegs(plan: Plan, arriveBy: boolean): Plan {
+export function retimeBikeLegs(
+  plan: Plan,
+  arriveBy: boolean,
+  electricBike = false,
+): Plan {
+  const retime = (j: Itinerary) => retimeJourney(j, arriveBy, electricBike);
   return {
     ...plan,
-    itineraries: plan.itineraries.map((j) => retimeJourney(j, arriveBy)),
-    direct: plan.direct.map((j) => retimeJourney(j, arriveBy)),
+    itineraries: plan.itineraries.map(retime),
+    direct: plan.direct.map(retime),
   };
 }

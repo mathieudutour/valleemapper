@@ -77,7 +77,8 @@ const transportOptions = [
   { value: "bike", label: "Vélo", icon: Bike },
 ] as const;
 const bikeOptions = [
-  { value: "personal", label: "Vélo personnel", icon: Bike },
+  { value: "ebike", label: "Mon vélo électrique", icon: Bike },
+  { value: "personal", label: "Mon vélo", icon: Bike },
   { value: "montenvelo", label: "MontenVélo", icon: Bike },
 ] as const;
 const priorityLabels = (
@@ -691,7 +692,9 @@ function App() {
     journeys.every((j) => dayKey(j.startTime) !== dayKey(lastSearch.at));
   const settingsSummary = [
     modeSummary[mode],
-    mode !== "transit" && bike === "montenvelo" ? "MontenVélo" : undefined,
+    mode !== "transit"
+      ? bikeOptions.find((option) => option.value === bike)?.label
+      : undefined,
     mode !== "bike" ? labels[preference] : undefined,
   ]
     .filter(Boolean)
@@ -1344,8 +1347,9 @@ function App() {
             </li>
             <li>
               <strong>Vélo :</strong> les durées tiennent compte du dénivelé,
-              pour un effort modéré ou une assistance électrique (MontenVélo).
-              Elles restent indicatives selon votre forme.
+              pour un effort modéré sur votre vélo ou avec une assistance
+              électrique (votre vélo électrique ou MontenVélo). Elles restent
+              indicatives selon votre forme.
             </li>
             <li>
               <strong>Citiz et Rézo Pouce :</strong> positions et liens vers les
