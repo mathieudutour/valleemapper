@@ -15,11 +15,14 @@ import {
 import { layerById } from "./layers";
 import { poiName } from "./places";
 import type { Theme } from "./theme";
+import { darkenStyle } from "./darkMap";
 
-const styles: Record<Theme, string> = {
-  light: "https://tiles.openfreemap.org/styles/liberty",
-  dark: "https://tiles.openfreemap.org/styles/dark",
-};
+// One basemap for both themes: the dark one is derived from it, so it keeps the same detail.
+const BASEMAP = "https://tiles.openfreemap.org/styles/liberty";
+// Always pass a transform: MapLibre reuses the previous one when a setStyle call omits it.
+const transformStyle =
+  (theme: Theme) => (_: unknown, next: maplibregl.StyleSpecification) =>
+    theme === "dark" ? darkenStyle(next) : next;
 const palette = {
   light: {
     halo: "#ffffff",
@@ -357,7 +360,8 @@ export default function ValleyMap({
   useEffect(() => {
     const m = new maplibregl.Map({
       container: container.current!,
-      style: styles[latest.current.theme],
+      style: BASEMAP,
+      transformStyle: transformStyle(latest.current.theme),
       center: [6.701, 45.918],
       zoom: 11.8,
       maxZoom: 18,
@@ -439,7 +443,7 @@ export default function ValleyMap({
     if (!m || !ready.current) return;
     ready.current = false;
     // A full reload fires style.load, which re-adds our sources and layers.
-    m.setStyle(styles[theme], { diff: false });
+    m.setStyle(BASEMAP, { diff: false, transformStyle: transformStyle(theme) });
   }, [theme]);
 
   useEffect(update, [data, filters, journey, selected]);
