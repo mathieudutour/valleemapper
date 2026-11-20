@@ -13,6 +13,8 @@ import {
 export type Layer = {
   id: string;
   label: string;
+  /** One point of the layer, as a place card names it. */
+  singular: string;
   description: string;
   icon: LucideIcon;
   color: string;
@@ -23,13 +25,15 @@ export const LAYERS: Layer[] = [
   {
     id: "bus",
     label: "Arrêts de bus",
-    description: "Lignes régulières · arrêts GTFS",
+    singular: "Arrêt de bus",
+    description: "Lignes régulières de bus et de cars",
     icon: BusFront,
     color: "#387aa0",
   },
   {
     id: "train",
     label: "Gares",
+    singular: "Gare",
     description: "Gares et haltes ferroviaires",
     icon: TrainFront,
     color: "#a14c69",
@@ -37,6 +41,7 @@ export const LAYERS: Layer[] = [
   {
     id: "montenvelo",
     label: "MontenVélo",
+    singular: "Station MontenVélo",
     description: "Vélos en libre-service",
     icon: Bike,
     color: "#15876c",
@@ -44,6 +49,7 @@ export const LAYERS: Layer[] = [
   {
     id: "lift",
     label: "Liaisons verticales",
+    singular: "Liaison verticale",
     description: "Valléen et ascenseur des Thermes",
     icon: CableCar,
     color: "#c78a23",
@@ -51,6 +57,7 @@ export const LAYERS: Layer[] = [
   {
     id: "citiz",
     label: "Citiz",
+    singular: "Station Citiz",
     description: "Voitures partagées en boucle",
     icon: CarFront,
     color: "#bc4e2f",
@@ -58,6 +65,7 @@ export const LAYERS: Layer[] = [
   {
     id: "rezopouce",
     label: "Rézo Pouce",
+    singular: "Arrêt Rézo Pouce",
     description: "Autostop organisé",
     icon: Hand,
     color: "#725ba4",
@@ -65,6 +73,7 @@ export const LAYERS: Layer[] = [
   {
     id: "montenbus",
     label: "Montenbus",
+    singular: "Point Montenbus",
     description: "Transport sur réservation",
     icon: PhoneCall,
     color: "#5b6475",
@@ -72,6 +81,7 @@ export const LAYERS: Layer[] = [
   {
     id: "shuttle",
     label: "Navettes",
+    singular: "Arrêt de navette",
     description: "Arrêts de navettes · saisons variables",
     icon: Van,
     color: "#0f8aa6",

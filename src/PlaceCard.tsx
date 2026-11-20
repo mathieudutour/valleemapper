@@ -70,6 +70,55 @@ function DepartureDetails({ departure }: { departure: StopDeparture }) {
 
 type Board = { departures: StopDeparture[]; alerts: TransitAlert[] };
 
+/** Where the next buses from a stop head, so two stops of the same name on either side of a road read apart. */
+function useDirections(stop: string) {
+  const [directions, setDirections] = useState<string[]>([]);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/departures?" + new URLSearchParams({ stop }), {
+      signal: controller.signal,
+    })
+      .then((r) => (r.ok ? (r.json() as Promise<Board>) : Promise.reject()))
+      .then((board) =>
+        setDirections(
+          [
+            ...new Set(
+              board.departures
+                .filter((d) => !d.cancelled)
+                .map((d) => stopName({ name: d.destination })),
+            ),
+          ].slice(0, 2),
+        ),
+      )
+      .catch(() => {});
+    return () => controller.abort();
+  }, [stop]);
+  return directions;
+}
+
+function NearbyStop({
+  poi,
+  onSelect,
+}: {
+  poi: Poi;
+  onSelect: (p: Poi) => void;
+}) {
+  const directions = useDirections(poi.id);
+  return (
+    <button onClick={() => onSelect(poi)}>
+      <LayerIcon mode={poi.mode} size={15} />
+      <span>
+        {poiName(poi)}
+        <small>
+          {layerById[poi.mode]?.singular}
+          {directions.length > 0 && ` · vers ${directions.join(", ")}`}
+        </small>
+      </span>
+      <ChevronRight size={14} aria-hidden="true" />
+    </button>
+  );
+}
+
 function StopDepartures({ stop }: { stop: string }) {
   const [state, setState] = useState<Board | "loading" | "unavailable">(
     "loading",
@@ -124,7 +173,8 @@ function StopDepartures({ stop }: { stop: string }) {
   const waitMinutes = next
     ? Math.ceil((Date.parse(next.time) - now) / 60_000)
     : 0;
-  const showCountdown = waitMinutes < 24 * 60;
+  // A countdown helps within the hour; further out, the clock time is what riders plan with.
+  const soon = waitMinutes < 60;
 
   return (
     <section className="stop-departures" aria-label="Prochains départs">
@@ -148,17 +198,29 @@ function StopDepartures({ stop }: { stop: string }) {
       {next ? (
         <div className="stop-departure-next">
           <div className="stop-departure-next-heading">
-            <strong>
-              {showCountdown
-                ? waitMinutes === 0
-                  ? "Maintenant"
-                  : `Dans ${duration(waitMinutes * 60)}`
-                : nextDay}
-            </strong>
-            <time dateTime={next.time}>
-              <strong>{time(next.time)}</strong>
-              {showCountdown && nextDay !== today && <small>{nextDay}</small>}
-            </time>
+            {soon ? (
+              <>
+                <strong>
+                  {waitMinutes === 0
+                    ? "Maintenant"
+                    : `Dans ${duration(waitMinutes * 60)}`}
+                </strong>
+                <time dateTime={next.time}>
+                  <strong>{time(next.time)}</strong>
+                </time>
+              </>
+            ) : (
+              <>
+                <strong>
+                  <time dateTime={next.time}>{time(next.time)}</time>
+                </strong>
+                <small>
+                  {nextDay !== today
+                    ? nextDay
+                    : `dans ${duration(waitMinutes * 60)}`}
+                </small>
+              </>
+            )}
           </div>
           <DepartureDetails departure={next} />
         </div>
@@ -198,10 +260,20 @@ function StopDepartures({ stop }: { stop: string }) {
 }
 
 // Rules from the 2026 Montenbus regulation and CCPMB page; see docs/research/montenbus-integration.md.
-function MontenbusRules() {
+function MontenbusRules({ url }: { url?: string }) {
   return (
     <section className="service-rules" aria-labelledby="montenbus-rules">
       <h3 id="montenbus-rules">Avant de réserver</h3>
+      <p className="service-links">
+        {url && (
+          <a href={url} target="_blank" rel="noreferrer">
+            Réserver en ligne <ExternalLink size={14} aria-hidden="true" />
+          </a>
+        )}
+        <a href="tel:+33800201374">
+          0 800 2013 74 <Phone size={14} aria-hidden="true" />
+        </a>
+      </p>
       <ul>
         <li>Du lundi au samedi, de 6 h 45 à 19 h 30, hors jours fériés.</li>
         <li>
@@ -343,7 +415,7 @@ export function PlaceCard({
       <div className="poi-heading">
         <LayerIcon mode={poi.mode} size={22} />
         <span className="eyebrow">
-          {[layer?.label, town].filter(Boolean).join(" · ")}
+          {[layer?.singular, town].filter(Boolean).join(" · ")}
         </span>
       </div>
       <h2 id="poi-title" tabIndex={-1}>
@@ -357,19 +429,8 @@ export function PlaceCard({
         <button className="secondary-action" onClick={() => onStart(place)}>
           Partir d’ici <MapPin size={16} aria-hidden="true" />
         </button>
-        {poi.url && (
-          <a href={poi.url} target="_blank" rel="noreferrer">
-            {poi.mode === "montenbus" ? "Réserver en ligne" : "Voir le service"}
-            <ExternalLink size={14} aria-hidden="true" />
-          </a>
-        )}
-        {poi.mode === "montenbus" && (
-          <a href="tel:+33800201374">
-            0 800 2013 74 <Phone size={14} aria-hidden="true" />
-          </a>
-        )}
       </div>
-      {poi.mode === "montenbus" && <MontenbusRules />}
+      {poi.mode === "montenbus" && <MontenbusRules url={poi.url} />}
       {(poi.mode === "bus" || poi.mode === "train") && (
         <StopDepartures key={poi.id} stop={poi.id} />
       )}
@@ -409,24 +470,30 @@ export function PlaceCard({
         <div className="nearby-stops">
           <span className="eyebrow">À proximité</span>
           {nearbyStops.map((p) => (
-            <button key={p.id} onClick={() => onSelect(p)}>
-              <LayerIcon mode={p.mode} size={15} />
-              <span>
-                {layerById[p.mode]?.label} · {poiName(p)}
-              </span>
-              <ChevronRight size={14} aria-hidden="true" />
-            </button>
+            <NearbyStop key={p.id} poi={p} onSelect={onSelect} />
           ))}
         </div>
       )}
-      <a
-        className="source-link"
-        href={poi.source}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Source des données <ExternalLink size={12} aria-hidden="true" />
-      </a>
+      <div className="poi-links">
+        {poi.url && poi.mode !== "montenbus" && (
+          <a
+            className="source-link"
+            href={poi.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Voir le service <ExternalLink size={12} aria-hidden="true" />
+          </a>
+        )}
+        <a
+          className="source-link"
+          href={poi.source}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Source des données <ExternalLink size={12} aria-hidden="true" />
+        </a>
+      </div>
     </article>
   );
 }

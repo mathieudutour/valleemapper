@@ -7,6 +7,8 @@ const HEIGHT = 56;
 const INSET = 4;
 /** A nearly flat ride would fill the chart like a mountain, so the height axis always spans this much. */
 const MIN_SPAN = 100;
+/** Below this much climbing, the chart would be a nearly empty band; the leg's text still gives its climb. */
+const MIN_CLIMB = 30;
 const number = new Intl.NumberFormat("fr-FR");
 
 /**
@@ -17,7 +19,7 @@ export function ElevationProfile({ leg }: { leg: Leg }) {
   const [active, setActive] = useState<number>();
   const e = leg.elevation;
   if (!e?.profile || !e.spacing || e.profile.length < 2) return null;
-  if (Math.max(e.up, e.down) < 20) return null;
+  if (e.up < MIN_CLIMB) return null;
   const absolute = e.start !== undefined;
   const heights = e.profile.map((h) => h + (e.start ?? 0));
   const last = heights.length - 1;

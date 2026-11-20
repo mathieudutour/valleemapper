@@ -10,6 +10,7 @@ import {
   type ValleyData,
   type Itinerary,
   type Leg,
+  type Place,
   type Poi,
 } from "./types";
 import { layerById } from "./layers";
@@ -49,6 +50,25 @@ function legCoordinates(leg: Leg): [number, number][] {
         [leg.from.lon, leg.from.lat],
         [leg.to.lon, leg.to.lat],
       ];
+}
+
+/** Points within 40 m of where a journey starts, ends, boards, alights or stops along the way. */
+function tripPoints(journey: Itinerary, pois: Poi[]) {
+  const places: Place[] = journey.legs.flatMap((l) => [
+    l.from,
+    l.to,
+    ...(l.intermediateStops ?? []),
+  ]);
+  const near = (p: Poi, q: Place) =>
+    Math.hypot(
+      (p.lon - q.lon) * Math.cos((q.lat * Math.PI) / 180),
+      p.lat - q.lat,
+    ) *
+      111_000 <
+    40;
+  return new Set(
+    pois.filter((p) => places.some((q) => near(p, q))).map((p) => p.id),
+  );
 }
 
 export default function ValleyMap({
@@ -98,7 +118,7 @@ export default function ValleyMap({
   const padding = () => ({
     top: 80,
     left: 60,
-    right: 80, // clears the zoom and locate controls
+    right: 80, // clears the map buttons
     bottom: 60 + latest.current.bottomInset,
   });
 
@@ -112,6 +132,8 @@ export default function ValleyMap({
       "visibility",
       filters.includes("lift") ? "visible" : "none",
     );
+    // A drawn route takes the foreground: its stops keep their colour and the other points recede.
+    const onTrip = journey && tripPoints(journey, data.pois);
     (m.getSource("pois") as maplibregl.GeoJSONSource).setData({
       type: "FeatureCollection",
       features: data.pois
@@ -123,14 +145,10 @@ export default function ValleyMap({
             id: p.id,
             name: poiName(p),
             color: layerById[p.mode]?.color || "#125451",
+            active: !onTrip || onTrip.has(p.id),
           },
         })),
     });
-    // A drawn route takes the foreground; unrelated points recede.
-    const opacity = journey ? 0.35 : 1;
-    m.setPaintProperty("poi-circles", "circle-opacity", opacity);
-    m.setPaintProperty("poi-circles", "circle-stroke-opacity", opacity);
-    m.setPaintProperty("poi-labels", "text-opacity", journey ? 0.6 : 1);
     m.setFilter("poi-selected", ["==", ["get", "id"], selected?.id ?? ""]);
 
     const features: GeoJSON.Feature[] = [];
@@ -281,6 +299,8 @@ export default function ValleyMap({
             7.5,
           ],
           "circle-color": ["get", "color"],
+          "circle-opacity": ["case", ["get", "active"], 1, 0.35],
+          "circle-stroke-opacity": ["case", ["get", "active"], 1, 0.35],
           "circle-stroke-width": [
             "interpolate",
             ["linear"],
@@ -291,8 +311,6 @@ export default function ValleyMap({
             2,
           ],
           "circle-stroke-color": colors.halo,
-          "circle-opacity-transition": { duration: 250 },
-          "circle-stroke-opacity-transition": { duration: 250 },
         },
       },
       beforeId,
@@ -328,6 +346,7 @@ export default function ValleyMap({
         "text-color": colors.label,
         "text-halo-color": colors.halo,
         "text-halo-width": 2,
+        "text-opacity": ["case", ["get", "active"], 1, 0.6],
       },
     });
     m.addLayer({
@@ -386,11 +405,30 @@ export default function ValleyMap({
           : "Position introuvable. Réessayez dans un instant.",
       ),
     );
+    // MapLibre opens the compact attribution once the basemap's credits arrive and keeps it open until the
+    // first drag. Fold it that first time only; its button still opens it.
+    const attribution = m
+      .getContainer()
+      .querySelector(".maplibregl-ctrl-attrib");
+    const fold = () => {
+      if (!attribution?.classList.contains("maplibregl-compact-show"))
+        return false;
+      attribution.classList.remove("maplibregl-compact-show");
+      return true;
+    };
+    if (attribution && !fold()) {
+      const observer = new MutationObserver(
+        () => fold() && observer.disconnect(),
+      );
+      observer.observe(attribution, { attributeFilter: ["class"] });
+    }
     m.addControl(geolocate, "bottom-right");
-    m.addControl(
-      new maplibregl.NavigationControl({ showCompass: false }),
-      "bottom-right",
-    );
+    // Touch screens zoom with two fingers; there the buttons would only cover the route.
+    if (!matchMedia("(pointer: coarse)").matches)
+      m.addControl(
+        new maplibregl.NavigationControl({ showCompass: false }),
+        "bottom-right",
+      );
     m.addControl(
       new maplibregl.ScaleControl({ unit: "metric" }),
       "bottom-left",

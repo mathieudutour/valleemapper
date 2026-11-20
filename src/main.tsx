@@ -2,6 +2,7 @@ import React, {
   lazy,
   Suspense,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -31,6 +32,9 @@ import {
   History,
   ChevronUp,
   ChevronDown,
+  KeyRound,
+  Timer,
+  Zap,
   type LucideIcon,
 } from "lucide-react";
 const ValleyMap = lazy(() => import("./Map"));
@@ -52,9 +56,12 @@ import {
   dayHeading,
   dayKey,
   formatLongDay,
+  formatShortDay,
   localDateTime,
   relativeDay,
+  time,
 } from "./format";
+import { groupFrequent } from "./frequent";
 import { localSuggestions, poiName } from "./places";
 import { readLink, writeLink, type LinkState, type TransportMode } from "./url";
 import { PlaceInput } from "./PlaceInput";
@@ -77,9 +84,9 @@ const transportOptions = [
   { value: "bike", label: "Vélo", icon: Bike },
 ] as const;
 const bikeOptions = [
-  { value: "ebike", label: "Mon vélo électrique", icon: Bike },
+  { value: "ebike", label: "Mon vélo électrique", icon: Zap },
   { value: "personal", label: "Mon vélo", icon: Bike },
-  { value: "montenvelo", label: "MontenVélo", icon: Bike },
+  { value: "montenvelo", label: "MontenVélo", icon: KeyRound },
 ] as const;
 const priorityLabels = (
   arriveBy: boolean,
@@ -90,7 +97,7 @@ const priorityLabels = (
 });
 const priorityIcons: Record<RoutingPreference, LucideIcon> = {
   faster: Clock,
-  shorter: Route,
+  shorter: Timer,
   "less-walk": Footprints,
 };
 const modeSummary: Record<TransportMode, string> = {
@@ -267,6 +274,9 @@ function App() {
   const settingsChanged = useRef(false);
   const plannerScroll = useRef(0);
   const scrollToResults = useRef(false);
+  const plannerHeading = useRef<HTMLHeadingElement>(null);
+  // The card a click opened or closed, and where it was on screen, so it stays put as cards resize.
+  const anchor = useRef<{ key: string; top: number }>(undefined);
   // The exact request behind the current results; MOTIS pages must repeat it with only the cursor added.
   const lastQuery = useRef<URLSearchParams>(undefined);
   const [data, setData] = useState<ValleyData>(),
@@ -291,6 +301,8 @@ function App() {
     [hideHero, setHideHero] = useState(Boolean(initial.from && initial.to)),
     [journeys, setJourneys] = useState<Itinerary[]>([]),
     [chosenId, setChosenId] = useState<string>(),
+    // The chosen journey is drawn on the map; its card only shows the timeline once opened.
+    [expanded, setExpanded] = useState(false),
     [cursors, setCursors] = useState<Cursors>({}),
     [paging, setPaging] = useState<"earlier" | "later">(),
     [pageNote, setPageNote] = useState(""),
@@ -427,6 +439,7 @@ function App() {
       const list = ordered([...unique.values()], preference, arriveBy);
       setJourneys(list);
       setChosenId(firstKey(list));
+      setExpanded(false);
       setCursors({ previous: b.previousPageCursor, next: b.nextPageCursor });
       setPageNote("");
       scrollToResults.current = true;
@@ -451,6 +464,7 @@ function App() {
     const list = ordered(journeys, preference, arriveBy);
     setJourneys(list);
     setChosenId(firstKey(list));
+    setExpanded(false);
     setLastSearch((s) => s && { ...s, preference });
   }, [preference]);
 
@@ -472,17 +486,52 @@ function App() {
     if (!scrollToResults.current || busy) return;
     scrollToResults.current = false;
     const container = sidebarScroll.current,
-      results = resultsRef.current;
+      // The search line sticks above the results, so scrolling to it shows the list under it.
+      results =
+        container?.querySelector(".results-query") ?? resultsRef.current;
     if (!container || !results) return;
     const offset =
       results.getBoundingClientRect().top -
       container.getBoundingClientRect().top;
     if (mobile || offset > container.clientHeight * 0.45)
       container.scrollTo({
-        top: container.scrollTop + offset + 10,
+        top: container.scrollTop + offset,
         behavior: "smooth",
       });
   }, [busy, journeys]);
+
+  // A clicked card stays where it was while the cards around it open or close. An opened card then
+  // scrolls up as far as needed to show its timeline, without slipping under the search line.
+  useLayoutEffect(() => {
+    const target = anchor.current,
+      container = sidebarScroll.current;
+    anchor.current = undefined;
+    if (!target || !container) return;
+    const card = container.querySelector<HTMLElement>(
+      `[data-journey="${CSS.escape(target.key)}"]`,
+    );
+    if (!card) return;
+    container.scrollTop += card.getBoundingClientRect().top - target.top;
+    if (!expanded) return;
+    const box = container.getBoundingClientRect(),
+      rect = card.getBoundingClientRect(),
+      top = Math.max(
+        box.top,
+        container.querySelector(".results-query")?.getBoundingClientRect()
+          .bottom ?? 0,
+      );
+    // On a phone the sheet continues below the screen.
+    const overflow = rect.bottom - Math.min(box.bottom, innerHeight) + 12,
+      room = rect.top - top - 8;
+    if (overflow > 0 && room > 0)
+      container.scrollBy({ top: Math.min(overflow, room), behavior: "smooth" });
+  }, [chosenId, expanded]);
+
+  function editSearch() {
+    if (mobile) setSnap("full");
+    sidebarScroll.current?.scrollTo({ top: 0, behavior: "smooth" });
+    plannerHeading.current?.focus({ preventScroll: true });
+  }
 
   useEffect(() => {
     writeLink({
@@ -678,8 +727,15 @@ function App() {
         : [],
     [data],
   );
+  const groups = useMemo(() => groupFrequent(journeys), [journeys]);
+  const chosenGroup = groups.find((g) =>
+    g.members.some((j) => journeyKey(j) === chosenId),
+  );
 
-  const transitWalks = journeys.filter(usesTransit).map(walkingSeconds);
+  const transitWalks = groups
+    .map((g) => g.journey)
+    .filter(usesTransit)
+    .map(walkingSeconds);
   const leastWalking = Math.min(...transitWalks);
   const hasWalkingChoice = transitWalks.some(
     (seconds) => seconds > leastWalking,
@@ -699,16 +755,13 @@ function App() {
   ]
     .filter(Boolean)
     .join(" · ");
-  const selectedJourney =
-    searched && !busy
-      ? journeys.find((j) => journeyKey(j) === chosenId)
-      : undefined;
+  const selectedJourney = searched && !busy ? chosenGroup?.journey : undefined;
   const recentFieldPlaces = recentPlaces(recent);
   const statusText = busy
     ? "Recherche en cours"
     : searched && !error
-      ? journeys.length
-        ? `${journeys.length} possibilité${journeys.length > 1 ? "s" : ""}`
+      ? groups.length
+        ? `${groups.length} possibilité${groups.length > 1 ? "s" : ""}`
         : "Aucun trajet trouvé"
       : "";
 
@@ -726,7 +779,7 @@ function App() {
       <LayerIcon mode={poi.mode} />
       <span className="peek-text">
         <strong>{poiName(poi)}</strong>
-        <small>{layerById[poi.mode]?.label}</small>
+        <small>{layerById[poi.mode]?.singular}</small>
       </span>
     </>
   ) : selectedJourney ? (
@@ -841,10 +894,14 @@ function App() {
             <>
               <section className="planner">
                 {hideHero ? (
-                  <h1 className="sr-only">Itinéraires</h1>
+                  <h1 className="sr-only" ref={plannerHeading} tabIndex={-1}>
+                    Itinéraires
+                  </h1>
                 ) : (
                   <div className="section-heading">
-                    <h1>La vallée, à votre rythme.</h1>
+                    <h1 ref={plannerHeading} tabIndex={-1}>
+                      La vallée, à votre rythme.
+                    </h1>
                     <p>
                       Un trajet en train, un saut en bus.
                       <br />
@@ -1001,6 +1058,24 @@ function App() {
                   </button>
                 </form>
               </section>
+              {lastSearch?.from && lastSearch.to && (
+                <div className="results-query">
+                  <div>
+                    <strong>
+                      {lastSearch.from.name} <span aria-hidden="true">→</span>
+                      <span className="sr-only">vers</span> {lastSearch.to.name}
+                    </strong>
+                    <span>
+                      {formatShortDay(lastSearch.at)},{" "}
+                      {lastSearch.arriveBy ? "arrivée à " : ""}
+                      {time(lastSearch.at)}
+                    </span>
+                  </div>
+                  <button type="button" onClick={editSearch}>
+                    Modifier
+                  </button>
+                </div>
+              )}
               <section className="results" ref={resultsRef}>
                 <p className="sr-only" role="status">
                   {statusText}
@@ -1054,34 +1129,49 @@ function App() {
                 )}
                 {!busy &&
                   lastSearch &&
-                  journeys.map((j, i) => {
+                  groups.map((g, i) => {
+                    const j = g.journey,
+                      key = journeyKey(j);
                     const day = relativeDay(j.startTime, lastSearch.at);
                     const previous =
                       i > 0
-                        ? relativeDay(journeys[i - 1].startTime, lastSearch.at)
+                        ? relativeDay(
+                            groups[i - 1].journey.startTime,
+                            lastSearch.at,
+                          )
                         : undefined;
                     const separator =
                       chronological && day && day !== previous && !allLater;
+                    const selected = g === chosenGroup;
                     return (
-                      <React.Fragment key={journeyKey(j)}>
+                      <React.Fragment key={key}>
                         {separator && (
                           <h3 className="day-separator">
                             {dayHeading(day, j.startTime)}
                           </h3>
                         )}
                         <Journey
+                          id={key}
                           item={j}
                           day={day}
+                          every={g.every}
                           lessWalking={
                             hasWalkingChoice &&
                             usesTransit(j) &&
                             walkingSeconds(j) === leastWalking
                           }
-                          selected={chosenId === journeyKey(j)}
-                          onClick={() => {
-                            if (mobile && chosenId === journeyKey(j))
-                              setSnap("half");
-                            setChosenId(journeyKey(j));
+                          selected={selected}
+                          expanded={selected && expanded}
+                          onClick={(card) => {
+                            anchor.current = {
+                              key,
+                              top: card.getBoundingClientRect().top,
+                            };
+                            if (selected && expanded) setExpanded(false);
+                            else {
+                              setChosenId(key);
+                              setExpanded(true);
+                            }
                           }}
                         />
                       </React.Fragment>
@@ -1231,7 +1321,11 @@ function App() {
             data={data}
             filters={filters}
             journey={selectedJourney}
-            onPoi={selectPoi}
+            // With the sheet up, a tap on the map only lowers it: stops sit close together, so a tap
+            // meant for the map would often open one.
+            onPoi={(p) =>
+              mobile && snap !== "peek" ? setSnap("peek") : selectPoi(p)
+            }
             onBackgroundClick={() => {
               if (mobile && snap !== "peek") setSnap("peek");
             }}
@@ -1324,67 +1418,79 @@ function App() {
       >
         <div className="prose">
           <p>
-            Les trajets sont calculés par MOTIS sur les GTFS Cars Région, SNCF,
-            Chamonix et Facilibus, avec OpenStreetMap pour la marche, le vélo
-            personnel et le tracé des trains.
+            Les trajets combinent les horaires publiés par les Cars Région, la
+            SNCF, les bus de Chamonix et Facilibus, et les chemins
+            d’OpenStreetMap pour la marche et le vélo.
           </p>
           <p>
-            Les mises à jour temps réel dépendent des lignes et des sources ;
-            seul un segment effectivement actualisé porte le label « Temps réel
-            ».
+            Toutes les lignes ne donnent pas leurs horaires en direct. Le label
+            « Temps réel » n’apparaît que sur les étapes dont l’horaire vient
+            d’être actualisé.
           </p>
           <ul>
             <li>
-              <strong>Valléen et Thermes :</strong> modèle local à la minute,
-              durée et plage d’ouverture publiées. Les départs et l’attente sont
-              estimés. Fermetures connues prises en compte jusqu’au 31 mars 2027
-              au plus tard.
+              <strong>Valléen et ascenseur des Thermes :</strong> nous comptons
+              un départ par minute pendant les heures d’ouverture publiées, avec
+              la durée annoncée. Les heures de passage et l’attente sont donc
+              estimées. Les fermetures connues sont prises en compte jusqu’au 31
+              mars 2027.
             </li>
             <li>
-              <strong>MontenVélo :</strong> le calcul utilise la disponibilité
-              actuelle des vélos. Vérifiez les vélos et les places de retour
-              dans l’application avant de partir.
+              <strong>MontenVélo :</strong> les trajets tiennent compte des
+              vélos disponibles au moment de la recherche. Vérifiez les vélos et
+              les places de retour dans l’application avant de partir.
             </li>
             <li>
-              <strong>Marche et vélo :</strong> les durées tiennent compte du
-              dénivelé. À vélo, pour un effort modéré sur votre vélo ou avec une
-              assistance électrique (votre vélo électrique ou MontenVélo). Elles
-              restent indicatives selon votre forme.
+              <strong>Marche et vélo :</strong> les durées tiennent compte des
+              montées et des descentes. À vélo, elles supposent un effort
+              modéré, avec ou sans assistance électrique. Elles restent
+              indicatives selon votre forme.
             </li>
             <li>
-              <strong>Citiz et Rézo Pouce :</strong> positions et liens vers les
-              services. La disponibilité Citiz n’est pas déduite du flux
-              contradictoire.
+              <strong>Citiz et Rézo Pouce :</strong> la carte montre les
+              stations et les arrêts, avec un lien vers chaque service. Les
+              voitures Citiz disponibles ne sont pas affichées : réservez dans
+              l’application Citiz.
             </li>
             <li>
-              <strong>Navettes saisonnières :</strong> arrêts de recherche
-              uniquement ; plusieurs calendriers d’été ont expiré. Montenbus
-              nécessite une réservation.
+              <strong>Navettes saisonnières et Montenbus :</strong> la carte
+              montre leurs arrêts, mais ils ne font pas partie des trajets
+              proposés. Plusieurs horaires d’été des navettes ne sont plus
+              valables, et Montenbus se réserve à l’avance.
             </li>
             <li>
-              <strong>Adresses :</strong> les recherches contenant un numéro ou
-              un nom de voie sont transmises au service{" "}
+              <strong>Adresses :</strong> les adresses sont cherchées auprès du
+              service national de l’
               <a
                 href="https://cartes.gouv.fr/aide/fr/guides-utilisateur/utiliser-les-services-de-la-geoplateforme/geocodage/"
                 target="_blank"
                 rel="noreferrer"
               >
-                IGN / Base Adresse Nationale
+                IGN (Base Adresse Nationale)
               </a>
-              . Les arrêts et lieux sont recherchés dans MOTIS.
+              , les arrêts et les lieux dans les données de ValléeMapper.
             </li>
             <li>
-              <strong>Tarifs :</strong> repères manuels, sans calcul du prix
-              total ni achat. L’accessibilité n’est pas encore validée.
+              <strong>Tarifs :</strong> les prix affichés sont des repères
+              relevés à la main. ValléeMapper ne calcule pas le prix total et ne
+              vend pas de billets. L’accessibilité des arrêts et des véhicules
+              n’est pas encore vérifiée.
             </li>
           </ul>
           <p className="fine-print">
-            Sources et licences détaillées dans docs/research. Certaines API
-            publiques ne disposent pas d’une licence de réutilisation vérifiée.
-            Fond de carte © OpenFreeMap / OpenMapTiles / contributeurs
-            OpenStreetMap. Relief : SRTM courtesy of the U.S. Geological Survey
-            ; EU-DEM produced using Copernicus data and information funded by
-            the European Union.
+            Les sources et leurs licences sont détaillées sur{" "}
+            <a
+              href="https://github.com/mathieudutour/valleemapper/blob/main/docs/research/passy-transport-data.md"
+              target="_blank"
+              rel="noreferrer"
+            >
+              la page du projet
+            </a>
+            . Pour certaines données publiques, le droit de réutilisation reste
+            à confirmer. Fond de carte © OpenFreeMap / OpenMapTiles /
+            contributeurs OpenStreetMap. Relief : SRTM courtesy of the U.S.
+            Geological Survey ; EU-DEM produced using Copernicus data and
+            information funded by the European Union.
           </p>
         </div>
       </Dialog>

@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Footprints,
   Info,
+  Repeat,
   TrainFront,
   TriangleAlert,
 } from "lucide-react";
@@ -21,6 +22,7 @@ import { duration, tidyText, time } from "./format";
 import { stopName } from "./places";
 import { formatDistance, instructions } from "./directions";
 import { ElevationProfile } from "./ElevationProfile";
+import { frequencyLabel } from "./frequent";
 
 const RAIL = /RAIL|TRAM|SUBURBAN/;
 export function ModeIcon({ mode, size = 18 }: { mode: string; size?: number }) {
@@ -207,16 +209,26 @@ export function JourneySummary({
 }
 
 export function Journey({
+  id,
   item,
   selected,
+  expanded,
   onClick,
   lessWalking,
+  every,
   day,
 }: {
+  /** Identifies the card for scrolling. */
+  id: string;
   item: Itinerary;
   lessWalking?: boolean;
+  /** Drawn on the map. */
   selected: boolean;
-  onClick: () => void;
+  /** Showing its timeline. */
+  expanded: boolean;
+  onClick: (card: HTMLElement) => void;
+  /** Minutes between repeats when the card stands for a frequent service. */
+  every?: number;
   day?: string;
 }) {
   const transit = item.legs.filter((l) => l.mode !== "WALK"),
@@ -241,12 +253,14 @@ export function Journey({
         (selected ? "selected" : "") +
         (cancelled ? " cancelled" : "")
       }
+      data-journey={id}
     >
       <button
         className="journey-summary"
-        onClick={onClick}
-        aria-expanded={selected}
+        onClick={(e) => onClick(e.currentTarget.parentElement!)}
+        aria-expanded={expanded}
       >
+        {selected && <span className="sr-only">Affiché sur la carte. </span>}
         <JourneySummary item={item} day={day} />
         {(cancelled || delay >= 2 || disrupted) && (
           <div className="journey-badges">
@@ -276,14 +290,20 @@ export function Journey({
           {item.legs.some((l) => l.realTime) && (
             <span className="live-dot">Temps réel</span>
           )}
-          {selected ? (
+          {expanded ? (
             <ChevronDown size={16} aria-hidden="true" />
           ) : (
             <ChevronRight size={16} aria-hidden="true" />
           )}
         </div>
-        {(lessWalking || requiresReservation) && (
+        {(every || lessWalking || requiresReservation) && (
           <div className="journey-badges">
+            {every !== undefined && (
+              <span className="frequency-badge">
+                <Repeat size={14} aria-hidden="true" />
+                {frequencyLabel(every)}
+              </span>
+            )}
             {lessWalking && (
               <span className="walking-badge">
                 <Footprints size={14} aria-hidden="true" />
@@ -303,7 +323,7 @@ export function Journey({
           </div>
         )}
       </button>
-      {selected && (
+      {expanded && (
         <div className="journey-detail">
           <ol className="timeline">
             {item.legs.map((l, i) => (
