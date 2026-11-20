@@ -91,3 +91,22 @@ The Explorer tab is replaced by a **Couches** button over the map. On phones the
 - **Bike choice:** the settings offer **Mon vélo électrique**, **Mon vélo** and **MontenVélo**, with MontenVélo selected by default (`velo` is left out of shared links for it). Le Fayet → Plateau d’Assy on an own e-bike shows 51 min with a "Mon vélo électrique" tag; on an own bike, 71 min. Checked at desktop size and 375×812.
 - Thirty-four API tests pass, including ten for the slope model and retiming, and checks that MontenVélo is the default and an unknown bike is refused.
 - **Not verified:** the Linux Docker image with the tiles (it builds in CI), and the speeds against real rides: the effort levels are estimates.
+
+## Le Fayet platforms, walking slopes and bike profiles · 20 November 2026
+
+- **Le Fayet island platforms:** walks and MontenVélo searches from the platforms between the tracks found nothing, or a fake 2–24 m walk. Their only public way off is the underpass, whose landing OSM tags as −0.5 on the lower flight (way 255390152) and −1 on the two upper ones (255390162, 255390166); MOTIS will not change level there. `scripts/clean_osm.py` now sets the upper flights to `-0.5;0` while OSM still has `-1;0`. After re-importing, a walk from the platform to the MontenVélo station takes 213 m through the underpass (levels 0 → −1 → −0.5 → 0).
+- **Still failing:** MontenVélo from the same platforms. Rental routing in MOTIS 2.11.4 (the latest release) finds nothing wherever the walk to a station changes level, while routes from the station corridor, main platform and Place de la Gare work.
+- **Reachability check:** `npm run reachability` walks from each of the 1,131 map points to its three nearest neighbours 150 m–1.5 km away. Before the fix it flagged only the three platform spots passed as arguments (the map's own points all passed); after it, none.
+- **Walking times** now follow the slope (MOTIS was 1.2 m/s everywhere):
+
+  | Walk | MOTIS | Now | Climb |
+  | --- | --- | --- | --- |
+  | Le Fayet → Saint-Gervais | 32 min | 48 min | ↗ 231 m |
+  | Saint-Gervais → Le Fayet | 32 min | 36 min | ↘ 231 m |
+  | Chamonix → Les Praz | 50 min | 53 min | ↗ 54 m ↘ 17 m |
+  | Sallanches station → centre | 15 min | 15 min | ↗ 4 m ↘ 14 m |
+  | Passy chef-lieu → Lac de Passy | 51 min | 57 min | ↗ 70 m ↘ 152 m |
+
+- **Height grid:** 1,027 × 577 points, 1.2 MB, built in 1.5 s; Le Fayet station 583 m, Chamonix 1,041 m, Mont Blanc 4,791 m, matching the source tiles.
+- **Bike profile:** Le Fayet → Plateau d’Assy shows "583 m → 1 244 m" over 8,2 km; the crosshair follows the mouse ("6,6 km · 990 m" at 80 %), resets when the pointer leaves, and steps 200 m per arrow key. The line colour passes the dataviz palette check on both surfaces (`#15876c` light, `#3aa982` dark). Checked at desktop size and 375×812, light and dark, with no horizontal overflow; walking legs show their climb without a chart.
+- Thirty-nine API tests pass, including walking speed, walk retiming from a synthetic grid, bike profiles and grid parsing.

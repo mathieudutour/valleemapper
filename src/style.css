@@ -19,6 +19,7 @@
   --on-accent: #ffffff;
   --focus: #0d776d;
   --live: #23744c;
+  --bike: #15876c;
   --warn-bg: #fbf1db;
   --warn-ink: #6b4708;
   --danger-bg: #fbefeb;
@@ -52,6 +53,7 @@
   --accent-soft: #1d3836;
   --focus: #7fd1c0;
   --live: #6fd39b;
+  --bike: #3aa982;
   --warn-bg: #3a2e14;
   --warn-ink: #f2cf86;
   --danger-bg: #3a201a;
@@ -1942,4 +1944,68 @@ h2 {
 }
 .climb {
   white-space: nowrap;
+}
+.elevation-profile {
+  margin: 10px 0 6px;
+  max-width: 420px;
+  border-radius: 8px;
+}
+.elevation-profile:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+.elevation-readout {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.elevation-plot {
+  position: relative;
+  /* Horizontal drags scrub the profile; vertical ones still scroll the sheet. */
+  touch-action: pan-y;
+  cursor: crosshair;
+}
+.elevation-plot svg {
+  display: block;
+  width: 100%;
+  height: 56px;
+  overflow: visible;
+}
+.elevation-area {
+  fill: var(--bike);
+  opacity: 0.12;
+}
+.elevation-line,
+.elevation-crosshair {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+.elevation-line {
+  stroke: var(--bike);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.elevation-crosshair {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+.elevation-dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bike);
+  box-shadow: 0 0 0 2px var(--surface);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.elevation-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
 }

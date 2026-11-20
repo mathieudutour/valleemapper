@@ -132,12 +132,17 @@ for name,sha in TILES.items():
   if tmp.stat().st_size!=HGT_BYTES:raise RuntimeError(f'Elevation tile {name} is not a 1-arc-second HGT tile')
   tmp.replace(tile)
  provenance.append(dict(id=f'elevation-{name}',url=url,sha256=sha))
+# MOTIS gives no heights for walking, so the API samples a grid cropped from the tiles along each walk.
+grid=ROOT/'public/data/elevation.bin'
+if args.refresh or not grid.exists():subprocess.run([sys.executable,str(ROOT/'scripts/build_elevation_grid.py'),str(ELEVATION),str(grid),*map(str,BOUNDS)],check=True)
 (BASE/'provenance.json').write_text(json.dumps(provenance,indent=2))
 osm=BASE/'haute-savoie.osm.pbf'
 raw_osm=ROOT/'var/raw/haute-savoie.osm.pbf'
 if args.cached_research and pathlib.Path('/tmp/passy-haute-savoie.osm.pbf').exists():shutil.copy2('/tmp/passy-haute-savoie.osm.pbf',raw_osm)
 elif args.refresh or not raw_osm.exists():download('https://download.openstreetmap.fr/extracts/europe/france/rhone_alpes/haute_savoie-latest.osm.pbf',raw_osm)
-if args.refresh or not osm.with_suffix('.json').exists():
+# Clean again when the cleaner itself changes, e.g. a new tag fix.
+cleaned=json.loads(osm.with_suffix('.json').read_text()) if osm.with_suffix('.json').exists() else {}
+if args.refresh or cleaned.get('cleaner')!=hashlib.sha256((ROOT/'scripts/clean_osm.py').read_bytes()).hexdigest():
  python=ROOT/'var/python/bin/python'
  if not python.exists():subprocess.run([sys.executable,'-m','venv',str(ROOT/'var/python')],check=True)
  subprocess.run([str(python),'-m','pip','install','osmium==4.3.0'],check=True)

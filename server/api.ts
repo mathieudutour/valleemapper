@@ -1,6 +1,7 @@
 import { planWithWalkingOptions, type MotisFetch } from "./planning.js";
 import { geocode, type AddressFetch } from "./geocoding.js";
-import { retimeBikeLegs } from "./cycling.js";
+import { retimePlan } from "./slopes.js";
+import type { Heights } from "./elevation.js";
 import {
   BIKE_CHOICES,
   modeLabel,
@@ -34,6 +35,8 @@ const MONTENVELO_PROVIDER = "montenvelo";
 type Services = {
   motis: MotisFetch;
   addressFetch?: AddressFetch;
+  /** The valley height grid, used to retime walks by their slope; walks keep MOTIS's times without it. */
+  heights?: () => Promise<Heights | undefined>;
 };
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -57,9 +60,12 @@ export async function api(
         "/api/v1/geocode?text=Chedde&numResults=1",
       );
       await r.body?.cancel();
+      const heights = await services.heights?.().catch(() => undefined);
       return json({
         router: r.ok ? "ready" : "unavailable",
         engine: "MOTIS 2.11.4",
+        // Walks keep MOTIS's flat times without the height grid.
+        elevation: heights ? "ready" : "unavailable",
       });
     }
     if (url.pathname === "/api/plan") {
@@ -154,11 +160,11 @@ export async function api(
           r.status === 404 ? 404 : 502,
         );
       }
-      const body = retimeBikeLegs(
-        (await r.json()) as Plan,
-        arriveBy === "true",
-        bike === "ebike",
-      );
+      const body = retimePlan((await r.json()) as Plan, {
+        arriveBy: arriveBy === "true",
+        electricBike: bike === "ebike",
+        heights: await services.heights?.().catch(() => undefined),
+      });
       if (!usesMontenvelo) return json(body);
 
       // Older or custom MOTIS configurations may allow a return outside a station.

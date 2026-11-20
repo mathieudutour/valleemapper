@@ -10,6 +10,7 @@
     "build": "tsc --noEmit && tsc -p cloudflare/tsconfig.json && vite build",
     "check": "tsc --noEmit && tsc -p cloudflare/tsconfig.json",
     "smoke": "tsx scripts/smoke.ts",
+    "reachability": "tsx scripts/reachability.ts",
     "cloudflare:check": "wrangler deploy --dry-run --containers-rollout=none",
     "format": "prettier --write src server scripts/*.ts cloudflare *.json *.jsonc *.ts *.html README.md",
     "test": "tsx --test scripts/*.test.ts"

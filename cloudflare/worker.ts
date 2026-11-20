@@ -1,5 +1,6 @@
 import { DurableObject } from "cloudflare:workers";
 import { api } from "../server/api";
+import { heightGrid, type Heights } from "../server/elevation";
 
 interface Env {
   ASSETS: Fetcher;
@@ -66,11 +67,24 @@ export class MotisRouter extends DurableObject<Env> {
     return this.ctx.container!.getTcpPort(8080).fetch(forwarded);
   }
 }
+// Read once per isolate from the static assets; a failed read is retried on the next request.
+let heights: Promise<Heights | undefined> | undefined;
+function loadHeights(env: Env) {
+  heights ??= env.ASSETS.fetch("https://assets/data/elevation.bin")
+    .then(async (r) => (r.ok ? heightGrid(await r.arrayBuffer()) : undefined))
+    .catch(() => undefined)
+    .then((grid) => {
+      if (!grid) heights = undefined;
+      return grid;
+    });
+  return heights;
+}
 export default {
   async fetch(request: Request, env: Env) {
     const url = new URL(request.url);
     if (url.pathname.startsWith("/api/"))
       return api(request, {
+        heights: () => loadHeights(env),
         motis: (path, signal) =>
           env.ROUTER.getByName("mont-blanc").fetch(
             new Request("http://motis" + path, { signal }),

@@ -10,6 +10,7 @@ import {
 } from "node:fs";
 import { resolve } from "node:path";
 import { api } from "../server/api.js";
+import { heightGrid, type Heights } from "../server/elevation.js";
 const children: ChildProcess[] = [];
 const motisURL = process.env.MOTIS_URL || "http://127.0.0.1:8080";
 const pidFile = "var/dev.pid";
@@ -76,11 +77,23 @@ async function main() {
   children.push(vite);
   vite.on("exit", (code) => stop(code ?? 0));
 }
+// npm run setup writes the grid; without it, walks keep MOTIS's flat times.
+let heights: Heights | undefined;
+const loadHeights = async () => {
+  if (!heights && existsSync("public/data/elevation.bin")) {
+    const file = readFileSync("public/data/elevation.bin");
+    heights = heightGrid(
+      file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength),
+    );
+  }
+  return heights;
+};
 const server = createServer(async (req, res) => {
   try {
     const r = await api(
       new Request("http://localhost" + req.url, { method: req.method }),
       {
+        heights: loadHeights,
         motis: (path, signal) => {
           const timeout = AbortSignal.timeout(45000);
           return fetch(motisURL + path, {

@@ -42,8 +42,18 @@ export type Leg = {
   duration: number;
   alerts?: MotisAlert[];
   steps?: Step[];
-  /** Smoothed metres climbed and descended on a bike leg, added by the API with its slope-aware time. */
-  elevation?: { up: number; down: number };
+  /**
+   * Smoothed metres climbed and descended on a walk or ride, added by the API with its slope-aware time.
+   * Bike legs also carry heights relative to the start every `spacing` metres, for the profile chart, and
+   * the altitude at the start when the API has the valley height grid.
+   */
+  elevation?: {
+    up: number;
+    down: number;
+    profile?: number[];
+    spacing?: number;
+    start?: number;
+  };
   /** Set by the API on own-bike legs when the rider chose their electric bike. */
   electricAssist?: boolean;
   realTime: boolean;

@@ -1346,10 +1346,10 @@ function App() {
               dans l’application avant de partir.
             </li>
             <li>
-              <strong>Vélo :</strong> les durées tiennent compte du dénivelé,
-              pour un effort modéré sur votre vélo ou avec une assistance
-              électrique (votre vélo électrique ou MontenVélo). Elles restent
-              indicatives selon votre forme.
+              <strong>Marche et vélo :</strong> les durées tiennent compte du
+              dénivelé. À vélo, pour un effort modéré sur votre vélo ou avec une
+              assistance électrique (votre vélo électrique ou MontenVélo). Elles
+              restent indicatives selon votre forme.
             </li>
             <li>
               <strong>Citiz et Rézo Pouce :</strong> positions et liens vers les
@@ -1375,8 +1375,7 @@ function App() {
             </li>
             <li>
               <strong>Tarifs :</strong> repères manuels, sans calcul du prix
-              total ni achat. Les temps de marche ignorent le relief et
-              l’accessibilité n’est pas encore validée.
+              total ni achat. L’accessibilité n’est pas encore validée.
             </li>
           </ul>
           <p className="fine-print">

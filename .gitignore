@@ -9,3 +9,4 @@ var/
 .dev.vars*
 __pycache__/
 /public/data/valley.json
+/public/data/elevation.bin

@@ -228,7 +228,7 @@
         "attribution": "https://github.com/tilezen/joerd/blob/master/docs/attribution.md"
       },
       "access_observed": "Public GET without API key on 2026-11-20",
-      "notes": "Four 1-arc-second HGT tiles, last modified April 2016, checksums pinned in scripts/prepare.py. Loaded through MOTIS street_routing.elevation_data_dir so street steps report climb and descent; bike leg times are derived from them in server/cycling.ts. Spot checks: Le Fayet station 583 m, Chamonix 1042 m, Mont Blanc 4791 m."
+      "notes": "Four 1-arc-second HGT tiles, last modified April 2016, checksums pinned in scripts/prepare.py. Loaded through MOTIS street_routing.elevation_data_dir so street steps report climb and descent; bike leg times are derived from them in server/slopes.ts. Setup also crops them into public/data/elevation.bin (2 arc-seconds), which the API samples along walks. Spot checks: Le Fayet station 583 m, Chamonix 1042 m, Mont Blanc 4791 m."
     }
   ],
   "followup_report": "../shuttles-lifts-fares.md"

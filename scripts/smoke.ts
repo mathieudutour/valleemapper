@@ -18,6 +18,7 @@ assert.deepEqual(decodeLine("_p~iF~ps|U_ulLnnqC_mqNvxq`@", 5), [
 ]);
 const health = await fetch(base + "/api/health").then((r) => r.json());
 assert.equal(health.router, "ready");
+assert.equal(health.elevation, "ready", "height grid not loaded");
 const day = new Date();
 day.setDate(day.getDate() + 1);
 day.setHours(9, 0, 0, 0);

@@ -20,6 +20,7 @@ import {
 import { duration, tidyText, time } from "./format";
 import { stopName } from "./places";
 import { formatDistance, instructions } from "./directions";
+import { ElevationProfile } from "./ElevationProfile";
 
 const RAIL = /RAIL|TRAM|SUBURBAN/;
 export function ModeIcon({ mode, size = 18 }: { mode: string; size?: number }) {
@@ -331,6 +332,7 @@ export function Journey({
                       <>
                         Marche · {duration(l.duration)}
                         {l.distance ? ` · ${formatDistance(l.distance)}` : ""}
+                        <Climb legs={[l]} />
                         <Directions leg={l} />
                       </>
                     ) : (
@@ -339,13 +341,16 @@ export function Journey({
                         {l.headsign &&
                           `vers ${/^\d+$/.test(l.headsign) ? stopName(l.to, rail(l)) : stopName({ name: l.headsign }, false)}`}
                         <span className="leg-facts">
-                          {duration(l.duration)}
-                          <Climb legs={[l]} />
-                          {isLift(l)
-                            ? " · passage estimé"
-                            : l.mode === "BIKE" || l.mode === "RENTAL"
-                              ? " · durée estimée"
-                              : ""}
+                          {/* One flex item, so the climb wraps as part of the sentence. */}
+                          <span>
+                            {duration(l.duration)}
+                            <Climb legs={[l]} />
+                            {isLift(l)
+                              ? " · passage estimé"
+                              : l.mode === "BIKE" || l.mode === "RENTAL"
+                                ? " · durée estimée"
+                                : ""}
+                          </span>
                           {l.cancelled ? (
                             <span className="disruption-text">Supprimé</span>
                           ) : delayMinutes(l) > 0 ? (
@@ -364,6 +369,7 @@ export function Journey({
                           </span>
                         )}
                         {!isStreet(l) && <Alerts alerts={legAlerts(l)} />}
+                        <ElevationProfile leg={l} />
                         {isStreet(l) && <Directions leg={l} />}
                         {l.rental?.toStationName && (
                           <div className="rental-stations">
