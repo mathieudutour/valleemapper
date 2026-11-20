@@ -129,7 +129,7 @@ gbfs:
 
 Dataset tags cannot contain underscore; IDs are prefixed `<tag>_`. Different feeds can overlap; no duplicate merge by default. Attach GTFS-RT under matching static feed; defaults to `gtfsrt`, supports headers. Keep **extend_calendar:false** for expired/seasonal resort feeds. If false, no invented service beyond feed end. GBFS supports discovery v2/v3, manifest feeds, feed headers/OAuth, groups/colors, TTL overrides, and geofencing/return restrictions. An available car is not automatically a suitable one-way connection; respect roundtrip station rules.
 
-`with_shapes:true` serves source shapes; absent ones are straight lines. To compute missing shapes: `route_shapes: {mode: missing}` with OSM+street_routing; may significantly increase import time. Avoid full region route-shape computation for first prototype. Elevation profile needs HGT elevation data; do not describe flat cycling estimates as slope-aware without it.
+`with_shapes:true` serves source shapes; absent ones are straight lines. To compute missing shapes: `route_shapes: {mode: missing}` with OSM+street_routing; may significantly increase import time. Avoid full region route-shape computation for first prototype. Elevation needs HGT tiles via `street_routing: {elevation_data_dir: ...}`; steps then carry `elevationUp`/`elevationDown`. In MOTIS 2.11.4 (osr `248b798`) `elevationCosts` only adds routing cost: the bike profile adds `duration_t{0}` for climbs, so reported durations stay distance ÷ `cyclingSpeed` (default 4.2 m/s) in both directions. The API retimes bike legs itself.
 
 MOTIS commands per README: `motis config <osm> <gtfs...>` → `motis import` → `motis server`; default8080. OSM needed for street routing/geocoding; map tiles optional, use external base map.
 

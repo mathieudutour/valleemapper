@@ -41,6 +41,36 @@ const legLabel = (l: Leg) => l.routeShortName || modeLabel[l.mode] || l.mode;
 const isStreet = (l: Leg) =>
   l.mode === "WALK" || l.mode === "BIKE" || l.mode === "RENTAL";
 
+/** " · ↗ 250 m ↘ 10 m": the climbing and descending on bike legs, to the nearest 10 m. */
+function Climb({ legs }: { legs: Leg[] }) {
+  const total = (key: "up" | "down") =>
+    Math.round(
+      legs.reduce((sum, l) => sum + (l.elevation?.[key] ?? 0), 0) / 10,
+    ) * 10;
+  const parts = (
+    [
+      ["up", "↗", "montée de"],
+      ["down", "↘", "descente de"],
+    ] as const
+  ).flatMap(([key, arrow, label]) =>
+    total(key) ? [{ key, arrow, label, metres: total(key) }] : [],
+  );
+  if (!parts.length) return null;
+  return (
+    <>
+      {" · "}
+      {parts.map(({ key, arrow, label, metres }, i) => (
+        <span className="climb" key={key}>
+          {i > 0 && " "}
+          <span aria-hidden="true">{arrow} </span>
+          <span className="sr-only">{label} </span>
+          {metres} m
+        </span>
+      ))}
+    </>
+  );
+}
+
 /** Minutes a realtime update moved the departure; 0 when on time or unknown. */
 export const delayMinutes = (l: Leg) =>
   l.realTime && l.scheduledStartTime
@@ -237,6 +267,7 @@ export function Journey({
               ? `${item.transfers === 0 ? "Direct" : `${item.transfers} correspondance${item.transfers > 1 ? "s" : ""}`} · `
               : ""}
             {walk ? `${duration(walk)} à pied` : "Sans marche"}
+            <Climb legs={item.legs} />
           </span>
           {item.legs.some((l) => l.realTime) && (
             <span className="live-dot">Temps réel</span>
@@ -306,6 +337,7 @@ export function Journey({
                           `vers ${/^\d+$/.test(l.headsign) ? stopName(l.to, rail(l)) : stopName({ name: l.headsign }, false)}`}
                         <span className="leg-facts">
                           {duration(l.duration)}
+                          <Climb legs={[l]} />
                           {isLift(l)
                             ? " · passage estimé"
                             : l.mode === "BIKE" || l.mode === "RENTAL"

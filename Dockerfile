@@ -8,6 +8,7 @@ RUN curl --fail --location --retry 3 -o /tmp/motis.tar.bz2 https://github.com/mo
  && rm /tmp/motis.tar.bz2
 COPY var/motis/feeds/ ./feeds/
 COPY var/motis/haute-savoie.osm.pbf ./haute-savoie.osm.pbf
+COPY var/motis/elevation/ ./elevation/
 COPY var/motis/config.yml ./config.yml
 RUN sed -i 's/host: 127.0.0.1/host: 0.0.0.0/' config.yml && motis import
 EXPOSE 8080

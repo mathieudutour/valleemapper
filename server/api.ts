@@ -1,5 +1,6 @@
 import { planWithWalkingOptions, type MotisFetch } from "./planning.js";
 import { geocode, type AddressFetch } from "./geocoding.js";
+import { retimeBikeLegs } from "./cycling.js";
 import {
   modeLabel,
   type Itinerary,
@@ -152,7 +153,10 @@ export async function api(
           r.status === 404 ? 404 : 502,
         );
       }
-      const body = (await r.json()) as Plan;
+      const body = retimeBikeLegs(
+        (await r.json()) as Plan,
+        arriveBy === "true",
+      );
       if (!usesMontenvelo) return json(body);
 
       // Older or custom MOTIS configurations may allow a return outside a station.

@@ -72,3 +72,21 @@ The Explorer tab is replaced by a **Couches** button over the map. On phones the
 - **Recent trips** are kept in local storage (six at most, positions stored without coordinates) and can be cleared. The last trip prefills the form unless it used a position.
 - **Directions:** MOTIS 2.11.4 marks every walking and cycling step `CONTINUE`, so turns are computed from step geometry. Passy chef-lieu → Lac de Passy gives 14 steps, such as "Prenez légèrement à gauche sur Place de la Mairie".
 - Twenty-three API tests pass, including new cursor and departure-board disruption tests.
+
+## Slope-aware bike times · 20 November 2026
+
+- **Import:** the four elevation tiles load in the local MOTIS import ("Calculating way elevations"), and bike and MontenVélo steps report climb and descent. Before retiming, Le Fayet → Saint-Gervais (3.3 km, about 250 m up) took 13 min each way.
+- **Noise:** raw step totals add 30–90 m of false climbing; 200 m smoothing brings flat valley routes to within a minute of MOTIS (Chamonix → Les Praz 15 → 15 min, Sallanches → Chedde 32 → 33 min).
+- **Climbs and descents** (own bike / MontenVélo, MOTIS was 13 or 33 min):
+
+  | Route | Climb | Own bike | MontenVélo |
+  | --- | --- | --- | --- |
+  | Le Fayet → Saint-Gervais | ↗ 248 m | 26 min | 19 min |
+  | Saint-Gervais → Le Fayet | ↘ 245 m | 9 min | 9 min |
+  | Le Fayet → Plateau d’Assy | ↗ 699 m | 71 min | 51 min |
+  | Plateau d’Assy → Le Fayet | ↘ 683 m | 26 min | 25 min |
+
+- **Timing:** direct rides keep the requested departure (or the arrival for an arrival deadline). In a MontenVélo + coach journey the coach keeps its times and the ride before it moves. Leg times move by whole minutes, as MOTIS gives them; durations stay to the second.
+- **Interface:** journey cards and bike legs show "↗ 700 m ↘ 40 m"; screen readers hear "montée de 700 m, descente de 40 m". Checked at desktop size and 375×812 in the dark theme, with no horizontal overflow.
+- Thirty-two API tests pass, including nine for the slope model and retiming.
+- **Not verified:** the Linux Docker image with the tiles (it builds in CI), and the speeds against real rides: the effort levels are estimates.

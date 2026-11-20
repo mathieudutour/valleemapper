@@ -7,3 +7,5 @@ var/motis/*
 !var/motis/feeds/**
 !var/motis/haute-savoie.osm.pbf
 !var/motis/config.yml
+!var/motis/elevation/
+!var/motis/elevation/*.hgt

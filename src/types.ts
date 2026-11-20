@@ -27,6 +27,9 @@ export type Step = {
   distance: number;
   streetName: string;
   polyline: { points: string; precision: number };
+  /** Metres climbed and descended along the step, from the elevation tiles. */
+  elevationUp?: number;
+  elevationDown?: number;
 };
 export type Leg = {
   mode: string;
@@ -39,6 +42,8 @@ export type Leg = {
   duration: number;
   alerts?: MotisAlert[];
   steps?: Step[];
+  /** Smoothed metres climbed and descended on a bike leg, added by the API with its slope-aware time. */
+  elevation?: { up: number; down: number };
   realTime: boolean;
   reservation?: "NONE" | "COMPULSORY";
   rental?: {

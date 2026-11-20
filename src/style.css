@@ -1940,3 +1940,6 @@ h2 {
     transition: none !important;
   }
 }
+.climb {
+  white-space: nowrap;
+}

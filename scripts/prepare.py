@@ -3,7 +3,7 @@
 No synthetic bus trips; the only authored trips are explicitly estimated lifts.
 """
 import sys
-import argparse, csv, datetime as dt, hashlib, io, json, os, pathlib, platform, shutil, subprocess, tarfile, urllib.request, zipfile
+import argparse, csv, datetime as dt, gzip, hashlib, io, json, os, pathlib, platform, shutil, subprocess, tarfile, urllib.request, zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 pidfile=ROOT/'var/dev.pid'
@@ -116,6 +116,22 @@ for tag,(url,cached) in SOURCES.items():
  all_stops.extend(subset(raw,FEEDS/f'{tag}.zip',tag));provenance.append(dict(id=tag,url=url,sha256=hashlib.sha256(raw.read_bytes()).hexdigest(),downloadedAt=dt.datetime.fromtimestamp(raw.stat().st_mtime,dt.timezone.utc).isoformat()))
 info=lifts();public_data(all_stops,info)
 subprocess.run([sys.executable,str(ROOT/'scripts/build_transit_locations.py')],check=True)
+# Elevation lets MOTIS report each street step's climb and descent, from which the API derives bike times.
+# 1-arc-second HGT tiles from the AWS Terrain Tiles open dataset (Mapzen "skadi"), unchanged since 2016.
+ELEVATION=BASE/'elevation';HGT_BYTES=3601*3601*2
+TILES={'N45E006':'6b9699a7d05ad3cf36af7bb1ddbf35f2a465e9236953675afec8552018825651','N45E007':'8f98a452476e0c0af474649d59ebd3c5c40211b2d189ad1fb748ada01b953e6f','N46E006':'ec8d18d39b5ca9fb3b30be57e0faced23ff44860b196a70c8e6fa3a6c4d09834','N46E007':'cf790a87057dfdf126f9b314d9ec71d407afdedbe71c79e2b14c903d024ce0b9'}
+assert set(TILES)=={f'N{lat}E{lng:03d}' for lat in range(int(BOUNDS[1]),int(BOUNDS[3])+1) for lng in range(int(BOUNDS[0]),int(BOUNDS[2])+1)},'Elevation tiles must cover BOUNDS'
+ELEVATION.mkdir(parents=True,exist_ok=True)
+for name,sha in TILES.items():
+ url=f'https://elevation-tiles-prod.s3.amazonaws.com/skadi/{name[:3]}/{name}.hgt.gz';raw=ROOT/f'var/raw/{name}.hgt.gz';tile=ELEVATION/f'{name}.hgt'
+ if not raw.exists():download(url,raw)
+ if hashlib.sha256(raw.read_bytes()).hexdigest()!=sha:raise RuntimeError(f'Elevation tile {name} checksum mismatch')
+ if not tile.exists() or tile.stat().st_size!=HGT_BYTES:
+  tmp=tile.with_suffix('.download')
+  with gzip.open(raw) as src,tmp.open('wb') as dst:shutil.copyfileobj(src,dst)
+  if tmp.stat().st_size!=HGT_BYTES:raise RuntimeError(f'Elevation tile {name} is not a 1-arc-second HGT tile')
+  tmp.replace(tile)
+ provenance.append(dict(id=f'elevation-{name}',url=url,sha256=sha))
 (BASE/'provenance.json').write_text(json.dumps(provenance,indent=2))
 osm=BASE/'haute-savoie.osm.pbf'
 raw_osm=ROOT/'var/raw/haute-savoie.osm.pbf'
@@ -131,7 +147,8 @@ config='''server:
   host: 127.0.0.1
   port: 8080
 osm: haute-savoie.osm.pbf
-street_routing: true
+street_routing:
+  elevation_data_dir: elevation
 geocoding: true
 osr_footpath: true
 timetable:

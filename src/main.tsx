@@ -1343,6 +1343,11 @@ function App() {
               dans l’application avant de partir.
             </li>
             <li>
+              <strong>Vélo :</strong> les durées tiennent compte du dénivelé,
+              pour un effort modéré ou une assistance électrique (MontenVélo).
+              Elles restent indicatives selon votre forme.
+            </li>
+            <li>
               <strong>Citiz et Rézo Pouce :</strong> positions et liens vers les
               services. La disponibilité Citiz n’est pas déduite du flux
               contradictoire.
@@ -1366,15 +1371,17 @@ function App() {
             </li>
             <li>
               <strong>Tarifs :</strong> repères manuels, sans calcul du prix
-              total ni achat. Le relief et l’accessibilité ne sont pas encore
-              validés.
+              total ni achat. Les temps de marche ignorent le relief et
+              l’accessibilité n’est pas encore validée.
             </li>
           </ul>
           <p className="fine-print">
             Sources et licences détaillées dans docs/research. Certaines API
             publiques ne disposent pas d’une licence de réutilisation vérifiée.
             Fond de carte © OpenFreeMap / OpenMapTiles / contributeurs
-            OpenStreetMap.
+            OpenStreetMap. Relief : SRTM courtesy of the U.S. Geological Survey
+            ; EU-DEM produced using Copernicus data and information funded by
+            the European Union.
           </p>
         </div>
       </Dialog>

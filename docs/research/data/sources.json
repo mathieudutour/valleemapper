@@ -217,6 +217,18 @@
         "thermal_way": "https://www.openstreetmap.org/way/1230812180"
       },
       "notes": "Downloaded line and terminal coordinates; not surveyed or tested with a route engine."
+    },
+    {
+      "id": "elevation_terrain_tiles",
+      "title": "Elevation tiles (AWS Terrain Tiles, Mapzen skadi format)",
+      "catalogue_url": "https://registry.opendata.aws/terrain-tiles/",
+      "licence": "Attribution required per source: SRTM courtesy of the U.S. Geological Survey; EU-DEM produced using Copernicus data and information funded by the European Union - EU-DEM layers",
+      "endpoints": {
+        "tiles": "https://elevation-tiles-prod.s3.amazonaws.com/skadi/{N45,N46}/{N45E006,N45E007,N46E006,N46E007}.hgt.gz",
+        "attribution": "https://github.com/tilezen/joerd/blob/master/docs/attribution.md"
+      },
+      "access_observed": "Public GET without API key on 2026-11-20",
+      "notes": "Four 1-arc-second HGT tiles, last modified April 2016, checksums pinned in scripts/prepare.py. Loaded through MOTIS street_routing.elevation_data_dir so street steps report climb and descent; bike leg times are derived from them in server/cycling.ts. Spot checks: Le Fayet station 583 m, Chamonix 1042 m, Mont Blanc 4791 m."
     }
   ],
   "followup_report": "../shuttles-lifts-fares.md"
