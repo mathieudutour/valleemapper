@@ -63,3 +63,12 @@ The Explorer tab is replaced by a **Couches** button over the map. On phones the
   - Tab moves between fields with one suggestion list open.
   - A missing departure marks the field and shows the message under it.
   - On the phone, the sheet snaps by drag and tap, a tapped stop opens its card in the half sheet, and map controls stay above the sheet.
+
+## Paging, position, disruptions, recent trips and directions · 20 November 2026
+
+- **Paging:** `/api/plan` forwards a validated `cursor` as MOTIS `pageCursor` and returns MOTIS's previous and next cursors. On Passy → Sallanches at 09:00, **Plus tard** added trips up to 21:02 and **Plus tôt** added early-morning ones; walking and cycling alone are not repeated per page.
+- **Disruptions:** the SNCF service-alerts feed (`sncf-gtfs-rt-service-alerts`, listed on transport.data.gouv.fr with the SNCF dataset) is added to the import config. A scratch import loaded 467 SNCF alerts, none affecting imported trips that day. Chamonix and Facilibus already publish alerts; a Chamonix line 4 detour appears on its stops' departure boards. The operator gave that alert no validity period, so it stays visible after the date it describes. Boards keep cancelled departures, marked "Supprimé", and show delays against the scheduled time. Journey cards show delay, cancellation and disruption badges; checked with a real plan response altered in the browser.
+- **Ma position** is offered first in both fields. A position outside the Pays du Mont-Blanc is refused with a message. Shared links round it to four decimals and name it "Position partagée".
+- **Recent trips** are kept in local storage (six at most, positions stored without coordinates) and can be cleared. The last trip prefills the form unless it used a position.
+- **Directions:** MOTIS 2.11.4 marks every walking and cycling step `CONTINUE`, so turns are computed from step geometry. Passy chef-lieu → Lac de Passy gives 14 steps, such as "Prenez légèrement à gauche sur Place de la Mairie".
+- Twenty-three API tests pass, including new cursor and departure-board disruption tests.

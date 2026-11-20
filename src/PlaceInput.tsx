@@ -1,5 +1,12 @@
 import { useEffect, useId, useRef, useState, type Ref } from "react";
-import { BusFront, House, MapPin, TrainFront } from "lucide-react";
+import {
+  BusFront,
+  History,
+  House,
+  LocateFixed,
+  MapPin,
+  TrainFront,
+} from "lucide-react";
 import type { Place } from "./types";
 import {
   dedupe,
@@ -8,12 +15,24 @@ import {
   type Suggestion,
   type SuggestionKind,
 } from "./places";
+import { HERE, locate } from "./locate";
 
 const kindIcon: Record<SuggestionKind, typeof MapPin> = {
   station: TrainFront,
   stop: BusFront,
   address: House,
   place: MapPin,
+  here: LocateFixed,
+  recent: History,
+};
+const canLocate =
+  typeof navigator !== "undefined" && "geolocation" in navigator;
+const hereOption: Suggestion = {
+  name: HERE,
+  lat: 0,
+  lon: 0,
+  kind: "here",
+  detail: "Utiliser la localisation",
 };
 
 export function PlaceInput({
@@ -21,14 +40,20 @@ export function PlaceInput({
   value,
   onChange,
   suggestions,
+  recent = [],
   error,
+  onError,
   inputRef,
 }: {
   label: string;
   value: Place | undefined;
   onChange: (p: Place | undefined) => void;
   suggestions: Suggestion[];
+  /** Places from recent trips, offered first. */
+  recent?: Place[];
   error?: string;
+  /** Reports a failed "Ma position" lookup so the form can show it like other field errors. */
+  onError?: (message: string) => void;
   inputRef?: Ref<HTMLInputElement>;
 }) {
   const id = useId();
@@ -39,6 +64,7 @@ export function PlaceInput({
     [open, setOpen] = useState(false),
     [remote, setRemote] = useState<Suggestion[]>([]),
     [loading, setLoading] = useState(false),
+    [locating, setLocating] = useState(false),
     [active, setActive] = useState(0);
   useEffect(() => {
     if (value) setQuery(value.name);
@@ -72,16 +98,24 @@ export function PlaceInput({
   }, [query, open]);
 
   const typed = query.trim().length > 1 && !value;
+  const recentSuggestions = recent.map((p): Suggestion => ({
+    ...p,
+    kind: "recent",
+  }));
   const local = typed
-    ? suggestions
+    ? [...recentSuggestions, ...suggestions]
         .map((s) => [s, matches(s.name, query)] as const)
         .filter(([, score]) => score > 0)
         .sort((a, b) => b[1] - a[1])
         .map(([s]) => s)
         .slice(0, 12)
-    : suggestions.slice(0, 6);
+    : [
+        ...(canLocate && !value?.here ? [hereOption] : []),
+        ...recentSuggestions.slice(0, 3),
+        ...suggestions.slice(0, 6),
+      ];
   const results = dedupe(typed ? [...local, ...remote] : local).slice(0, 8);
-  const expanded = open && (results.length > 0 || typed);
+  const expanded = open && !locating && (results.length > 0 || typed);
 
   useEffect(() => {
     list.current
@@ -90,9 +124,29 @@ export function PlaceInput({
   }, [active]);
 
   const choose = (p: Suggestion) => {
-    onChange({ name: p.name, lat: p.lat, lon: p.lon, detail: p.detail });
-    setQuery(p.name);
     setOpen(false);
+    if (p.kind === "here") {
+      setLocating(true);
+      setQuery("Localisation…");
+      locate()
+        .then((here) => {
+          onChange(here);
+          setQuery(here.name);
+        })
+        .catch((e: Error) => {
+          setQuery(value?.name ?? "");
+          onError?.(e.message);
+        })
+        .finally(() => setLocating(false));
+      return;
+    }
+    onChange({
+      name: p.name,
+      lat: p.lat,
+      lon: p.lon,
+      detail: p.kind === "recent" ? undefined : p.detail,
+    });
+    setQuery(p.name);
   };
   return (
     <div className={"place-field" + (error ? " invalid" : "")}>
@@ -113,6 +167,8 @@ export function PlaceInput({
           autoComplete="off"
           enterKeyHint="next"
           value={query}
+          readOnly={locating}
+          aria-busy={locating || undefined}
           placeholder="Lieu, adresse ou arrêt"
           onFocus={(e) => {
             // Focus moved here by a validation error keeps the list shut so the message stays readable.

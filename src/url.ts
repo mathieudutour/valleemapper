@@ -17,8 +17,12 @@ export type LinkState = {
   poi?: string;
 };
 
-const placeParam = (p: Place) =>
-  `${p.lat.toFixed(6)},${p.lon.toFixed(6)},${p.name}`;
+// A shared "Ma position" is rounded to about 10 m and reads as someone else's position when opened.
+const SHARED_HERE = "Position partagée";
+const placeParam = (p: Place) => {
+  const digits = p.here ? 4 : 6;
+  return `${p.lat.toFixed(digits)},${p.lon.toFixed(digits)},${p.here ? SHARED_HERE : p.name}`;
+};
 function parsePlace(value: string | null): Place | undefined {
   const match = /^(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(.+)$/.exec(value ?? "");
   if (!match) return undefined;

@@ -3,12 +3,18 @@ import { geocode, type AddressFetch } from "./geocoding.js";
 import {
   modeLabel,
   type Itinerary,
+  type MotisAlert,
   type Plan,
   type StopDeparture,
+  type TransitAlert,
 } from "../src/types";
 
 type MotisStopTime = {
-  place: { departure?: string; scheduledDeparture?: string };
+  place: {
+    departure?: string;
+    scheduledDeparture?: string;
+    alerts?: MotisAlert[];
+  };
   tripTo: { name: string };
   tripId: string;
   headsign: string;
@@ -85,6 +91,10 @@ export async function api(
       const arriveBy = p.get("arriveBy") ?? "false";
       if (arriveBy !== "true" && arriveBy !== "false")
         return json({ error: "Type d’horaire invalide." }, 400);
+      // MOTIS page cursors look like "EARLIER|1795190400"; the original request is repeated alongside them.
+      const cursor = p.get("cursor");
+      if (cursor !== null && !/^(EARLIER|LATER)\|\d{1,12}$/.test(cursor))
+        return json({ error: "Page de résultats invalide." }, 400);
       const mode = p.get("mode");
       const bike = p.get("bike") ?? "personal";
       if (bike !== "personal" && bike !== "montenvelo") {
@@ -100,6 +110,7 @@ export async function api(
         toPlace: p.get("to")!,
         time: date.toISOString(),
         arriveBy,
+        ...(cursor ? { pageCursor: cursor } : {}),
         transitModes: mode === "bike" ? "" : "TRANSIT",
         directModes:
           mode === "bike"
@@ -171,7 +182,6 @@ export async function api(
         mode: mode === "bus" ? "BUS,COACH" : "RAIL",
         n: "8",
         language: "fr",
-        withAlerts: "false",
       });
       if (mode === "bus") {
         // MOTIS can group opposite bays by name. A one-metre radius keeps co-located bays.
@@ -188,17 +198,24 @@ export async function api(
       }
       const { stopTimes } = (await r.json()) as { stopTimes: MotisStopTime[] };
       const next = new Map<string, StopDeparture>();
+      const alerts = new Map<string, TransitAlert>();
       const now = Date.now();
       for (const event of stopTimes) {
-        if (
-          event.cancelled ||
-          event.tripCancelled ||
-          event.pickupDropoffType === "NOT_ALLOWED"
-        )
-          continue;
-        const time = event.realTime
-          ? event.place.departure
-          : event.place.scheduledDeparture || event.place.departure;
+        if (event.pickupDropoffType === "NOT_ALLOWED") continue;
+        for (const alert of event.place.alerts ?? []) {
+          if (!alert.headerText) continue;
+          alerts.set(alert.headerText + alert.descriptionText, {
+            header: alert.headerText,
+            description: alert.descriptionText || undefined,
+            url: alert.url,
+          });
+        }
+        const cancelled =
+          event.cancelled === true || event.tripCancelled === true;
+        const scheduled =
+          event.place.scheduledDeparture || event.place.departure;
+        const time =
+          event.realTime && !cancelled ? event.place.departure : scheduled;
         if (
           !time ||
           !Number.isFinite(Date.parse(time)) ||
@@ -216,6 +233,10 @@ export async function api(
         next.set(id, {
           id,
           time,
+          scheduledTime:
+            event.realTime && scheduled && scheduled !== time
+              ? scheduled
+              : undefined,
           line:
             event.routeShortName ||
             event.displayName ||
@@ -223,13 +244,19 @@ export async function api(
             (mode === "bus" ? "Bus" : "Train"),
           destination: destination || "Destination non renseignée",
           realTime: event.realTime === true,
+          cancelled,
           requiresReservation: event.reservation === "COMPULSORY",
         });
       }
-      const departures = [...next.values()]
-        .sort((a, b) => Date.parse(a.time) - Date.parse(b.time))
-        .slice(0, 3);
-      return json({ departures });
+      // The next three departures a rider can take, with any cancellations among them kept visible.
+      const departures: StopDeparture[] = [];
+      for (const d of [...next.values()].sort(
+        (a, b) => Date.parse(a.time) - Date.parse(b.time),
+      )) {
+        if (departures.filter((x) => !x.cancelled).length === 3) break;
+        departures.push(d);
+      }
+      return json({ departures, alerts: [...alerts.values()] });
     }
     if (url.pathname === "/api/geocode") {
       const text = p.get("q")?.trim();

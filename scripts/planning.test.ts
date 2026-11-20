@@ -202,6 +202,34 @@ test("shortest journey time can choose a later arrival than earliest-arrival pre
   }
 });
 
+test("earlier and later pages reuse the search with the MOTIS cursor and return the next cursors", async () => {
+  const page = new URL(request().url);
+  page.searchParams.set("cursor", "LATER|1795202700");
+  const seen: URLSearchParams[] = [];
+  const response = await api(new Request(page), {
+    motis: async (path) => {
+      const p = new URL("http://motis" + path).searchParams;
+      seen.push(p);
+      return Response.json({
+        itineraries: [distant],
+        direct: [],
+        previousPageCursor: "EARLIER|1795190400",
+        nextPageCursor: "LATER|1795209000",
+      });
+    },
+  });
+  const body = await response.json();
+  assert(seen.every((p) => p.get("pageCursor") === "LATER|1795202700"));
+  assert.equal(body.previousPageCursor, "EARLIER|1795190400");
+  assert.equal(body.nextPageCursor, "LATER|1795209000");
+
+  page.searchParams.set("cursor", "LATER|1; drop");
+  const rejected = await api(new Request(page), {
+    motis: async () => assert.fail("invalid cursor reached MOTIS"),
+  });
+  assert.equal(rejected.status, 400);
+});
+
 test("arrival deadlines reach MOTIS and rank the latest departure first", async () => {
   const deadline = new Request(
     "http://test/api/plan?" +

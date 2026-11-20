@@ -7,11 +7,12 @@ import {
   Phone,
   RefreshCw,
   Route,
+  TriangleAlert,
 } from "lucide-react";
-import type { Place, Poi, StopDeparture } from "./types";
+import type { Place, Poi, StopDeparture, TransitAlert } from "./types";
 import { layerById } from "./layers";
 import { poiName, stopName, tidyName, townOf } from "./places";
-import { duration, formatShortDay, time } from "./format";
+import { duration, formatShortDay, tidyText, time } from "./format";
 
 export function LayerIcon({
   mode,
@@ -33,6 +34,12 @@ export function LayerIcon({
 }
 
 function DepartureDetails({ departure }: { departure: StopDeparture }) {
+  const delay = departure.scheduledTime
+    ? Math.round(
+        (Date.parse(departure.time) - Date.parse(departure.scheduledTime)) /
+          60_000,
+      )
+    : 0;
   return (
     <div>
       <div className="stop-departure-route">
@@ -40,10 +47,18 @@ function DepartureDetails({ departure }: { departure: StopDeparture }) {
         <strong>{stopName({ name: departure.destination })}</strong>
       </div>
       <div className="stop-departure-meta">
-        <span className={departure.realTime ? "live-dot" : undefined}>
-          {departure.realTime ? "Temps réel" : "Horaire prévu"}
-        </span>
-        {departure.requiresReservation && (
+        {departure.cancelled ? (
+          <span className="disruption-text">Supprimé</span>
+        ) : delay > 0 ? (
+          <span className="disruption-text">
+            Retard +{delay} min · prévu à {time(departure.scheduledTime!)}
+          </span>
+        ) : (
+          <span className={departure.realTime ? "live-dot" : undefined}>
+            {departure.realTime ? "Temps réel" : "Horaire prévu"}
+          </span>
+        )}
+        {departure.requiresReservation && !departure.cancelled && (
           <span className="stop-departure-reservation">
             Réservation obligatoire
           </span>
@@ -53,10 +68,12 @@ function DepartureDetails({ departure }: { departure: StopDeparture }) {
   );
 }
 
+type Board = { departures: StopDeparture[]; alerts: TransitAlert[] };
+
 function StopDepartures({ stop }: { stop: string }) {
-  const [state, setState] = useState<
-    StopDeparture[] | "loading" | "unavailable"
-  >("loading");
+  const [state, setState] = useState<Board | "loading" | "unavailable">(
+    "loading",
+  );
   const [now, setNow] = useState(Date.now);
 
   useEffect(() => {
@@ -71,10 +88,12 @@ function StopDepartures({ stop }: { stop: string }) {
           },
         );
         if (!response.ok) throw Error();
-        const { departures } = (await response.json()) as {
-          departures: StopDeparture[];
-        };
-        if (!controller.signal.aborted) setState(departures);
+        const board = (await response.json()) as Board;
+        if (!controller.signal.aborted)
+          setState({
+            departures: board.departures,
+            alerts: board.alerts ?? [],
+          });
       } catch {
         if (!controller.signal.aborted) setState("unavailable");
       } finally {
@@ -91,9 +110,16 @@ function StopDepartures({ stop }: { stop: string }) {
   }, [stop]);
 
   const today = formatShortDay(now);
-  const [next, ...later] = Array.isArray(state)
-    ? state.filter((departure) => Date.parse(departure.time) >= now)
-    : [];
+  const upcoming =
+    typeof state === "object"
+      ? state.departures.filter(
+          (departure) => Date.parse(departure.time) >= now,
+        )
+      : [];
+  // The highlighted departure is the next one that runs; cancellations stay listed with the others.
+  const next = upcoming.find((d) => !d.cancelled);
+  const later = upcoming.filter((d) => d !== next);
+  const alerts = typeof state === "object" ? state.alerts : [];
   const nextDay = next ? formatShortDay(next.time) : "";
   const waitMinutes = next
     ? Math.ceil((Date.parse(next.time) - now) / 60_000)
@@ -102,45 +128,40 @@ function StopDepartures({ stop }: { stop: string }) {
 
   return (
     <section className="stop-departures" aria-label="Prochains départs">
+      {alerts.map((a) => (
+        <details className="alert" key={a.header + a.description}>
+          <summary>
+            <TriangleAlert size={15} aria-hidden="true" />
+            {tidyText(a.header)}
+          </summary>
+          {a.description && tidyText(a.description) !== tidyText(a.header) && (
+            <p>{tidyText(a.description)}</p>
+          )}
+          {a.url && (
+            <a href={a.url} target="_blank" rel="noreferrer">
+              En savoir plus
+            </a>
+          )}
+        </details>
+      ))}
       <h3>{next ? "Prochain départ" : "Prochains départs"}</h3>
       {next ? (
-        <>
-          <div className="stop-departure-next">
-            <div className="stop-departure-next-heading">
-              <strong>
-                {showCountdown
-                  ? waitMinutes === 0
-                    ? "Maintenant"
-                    : `Dans ${duration(waitMinutes * 60)}`
-                  : nextDay}
-              </strong>
-              <time dateTime={next.time}>
-                <strong>{time(next.time)}</strong>
-                {showCountdown && nextDay !== today && <small>{nextDay}</small>}
-              </time>
-            </div>
-            <DepartureDetails departure={next} />
+        <div className="stop-departure-next">
+          <div className="stop-departure-next-heading">
+            <strong>
+              {showCountdown
+                ? waitMinutes === 0
+                  ? "Maintenant"
+                  : `Dans ${duration(waitMinutes * 60)}`
+                : nextDay}
+            </strong>
+            <time dateTime={next.time}>
+              <strong>{time(next.time)}</strong>
+              {showCountdown && nextDay !== today && <small>{nextDay}</small>}
+            </time>
           </div>
-          {later.length > 0 && (
-            <>
-              <h3>Ensuite</h3>
-              <ul>
-                {later.map((departure) => {
-                  const day = formatShortDay(departure.time);
-                  return (
-                    <li key={departure.id}>
-                      <time dateTime={departure.time}>
-                        <strong>{time(departure.time)}</strong>
-                        {day !== today && <small>{day}</small>}
-                      </time>
-                      <DepartureDetails departure={departure} />
-                    </li>
-                  );
-                })}
-              </ul>
-            </>
-          )}
-        </>
+          <DepartureDetails departure={next} />
+        </div>
       ) : (
         <p role="status">
           {state === "loading"
@@ -149,6 +170,28 @@ function StopDepartures({ stop }: { stop: string }) {
               ? "Horaires momentanément indisponibles."
               : "Aucun départ à venir trouvé."}
         </p>
+      )}
+      {later.length > 0 && (
+        <>
+          <h3>{next ? "Ensuite" : "Supprimés"}</h3>
+          <ul>
+            {later.map((departure) => {
+              const day = formatShortDay(departure.time);
+              return (
+                <li
+                  key={departure.id}
+                  className={departure.cancelled ? "cancelled" : undefined}
+                >
+                  <time dateTime={departure.time}>
+                    <strong>{time(departure.time)}</strong>
+                    {day !== today && <small>{day}</small>}
+                  </time>
+                  <DepartureDetails departure={departure} />
+                </li>
+              );
+            })}
+          </ul>
+        </>
       )}
     </section>
   );

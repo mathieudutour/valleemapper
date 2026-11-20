@@ -6,6 +6,27 @@ export type Place = {
   id?: string;
   stopId?: string;
   detail?: string;
+  alerts?: MotisAlert[];
+  /** The rider's own position ("Ma position"), located on demand. */
+  here?: boolean;
+};
+/** GTFS-RT service alert as MOTIS returns it on legs and stops. */
+export type MotisAlert = {
+  headerText: string;
+  descriptionText: string;
+  url?: string;
+  effect?: string;
+};
+export type TransitAlert = {
+  header: string;
+  description?: string;
+  url?: string;
+};
+export type Step = {
+  relativeDirection: string;
+  distance: number;
+  streetName: string;
+  polyline: { points: string; precision: number };
 };
 export type Leg = {
   mode: string;
@@ -14,7 +35,10 @@ export type Leg = {
   startTime: string;
   endTime: string;
   scheduledStartTime?: string;
+  scheduledEndTime?: string;
   duration: number;
+  alerts?: MotisAlert[];
+  steps?: Step[];
   realTime: boolean;
   reservation?: "NONE" | "COMPULSORY";
   rental?: {
@@ -41,13 +65,22 @@ export type Itinerary = {
   transfers: number;
   legs: Leg[];
 };
-export type Plan = { itineraries: Itinerary[]; direct: Itinerary[] };
+export type Plan = {
+  itineraries: Itinerary[];
+  direct: Itinerary[];
+  previousPageCursor?: string;
+  nextPageCursor?: string;
+};
 export type StopDeparture = {
   id: string;
+  /** Expected time: realtime when known, otherwise scheduled. */
   time: string;
+  /** Set when a realtime update moved the departure away from its scheduled time. */
+  scheduledTime?: string;
   line: string;
   destination: string;
   realTime: boolean;
+  cancelled: boolean;
   requiresReservation: boolean;
 };
 export type Poi = {

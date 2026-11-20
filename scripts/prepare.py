@@ -23,7 +23,8 @@ SOURCES = {
  'chamonix': ('https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs/pub','passy-pysae-chx-pub'),
  'facilibus': ('https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub','passy-shuttle-saint-gervais-gtfs-pub'),
 }
-RT = {'sncf':'https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-trip-updates','chamonix':'https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs-rt','facilibus':'https://api.pysae.com/api/v4/groups/saint-gervais/gtfs-rt'}
+# SNCF publishes trip updates and service alerts as separate feeds; Pysae carries both in one.
+RT = {'sncf':['https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-trip-updates','https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-service-alerts'],'chamonix':['https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs-rt'],'facilibus':['https://api.pysae.com/api/v4/groups/saint-gervais/gtfs-rt']}
 parser=argparse.ArgumentParser();parser.add_argument('--refresh',action='store_true');parser.add_argument('--no-import',action='store_true');parser.add_argument('--cached-research',action='store_true',help='Use same-day /tmp research downloads for initial bootstrap');args=parser.parse_args()
 def download(url, path):
  path.parent.mkdir(parents=True,exist_ok=True)
@@ -143,7 +144,7 @@ timetable:
 '''
 for tag in [*SOURCES,'vertical']:
  config+=f'    {tag}:\n      path: feeds/{tag}.zip\n      extend_calendar: false\n'
- if tag in RT:config+=f'      rt:\n        - url: {RT[tag]}\n          protocol: gtfsrt\n'
+ if tag in RT:config+='      rt:\n'+''.join(f'        - url: {url}\n          protocol: gtfsrt\n' for url in RT[tag])
 # MontenVélo requires return at a station, including bikes picked up off-station.
 config+='''gbfs:
   feeds:

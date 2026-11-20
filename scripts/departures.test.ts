@@ -14,7 +14,7 @@ function departureRequest(stop: string) {
   );
 }
 
-test("bus boards request the selected bay and show the next three boardable departures", async () => {
+test("bus boards request the selected bay and show the next three boardable departures, with cancellations, delays and alerts", async () => {
   const event = {
     mode: "COACH",
     routeShortName: "Y85",
@@ -28,10 +28,19 @@ test("bus boards request the selected bay and show the next three boardable depa
     place: { departure: future(6), scheduledDeparture: scheduledTime },
     realTime: false,
   };
+  const roadworks = {
+    headerText: "Arrêt déplacé",
+    descriptionText: "Travaux avenue de Genève",
+  };
+  const delayedFrom = future(2);
   const live = {
     ...event,
     tripId: "live",
-    place: { departure: liveTime, scheduledDeparture: future(2) },
+    place: {
+      departure: liveTime,
+      scheduledDeparture: delayedFrom,
+      alerts: [roadworks],
+    },
     realTime: true,
     reservation: "COMPULSORY",
   };
@@ -60,7 +69,7 @@ test("bus boards request the selected bay and show the next three boardable depa
             ...event,
             tripId: "cancelled",
             cancelled: true,
-            place: { departure: future(1) },
+            place: { departure: future(1), alerts: [roadworks] },
           },
           {
             ...event,
@@ -77,20 +86,29 @@ test("bus boards request the selected bay and show the next three boardable depa
     },
   });
   assert.equal(response.status, 200);
-  const { departures } = (await response.json()) as {
+  const { departures, alerts } = (await response.json()) as {
     departures: StopDeparture[];
+    alerts: { header: string; description?: string }[];
   };
+  // A cancellation stays visible but does not take one of the three boardable places.
   assert.deepEqual(
     departures.map((d) => d.id.split(":")[0]),
-    ["scheduled", "live", "third"],
+    ["cancelled", "scheduled", "live", "third"],
   );
-  assert.equal(departures[0].time, scheduledTime);
-  assert.equal(departures[0].realTime, false);
-  assert.equal(departures[1].time, liveTime);
-  assert.equal(departures[1].line, "Y85");
-  assert.equal(departures[1].destination, "Plaine Joux");
-  assert.equal(departures[1].realTime, true);
-  assert.equal(departures[1].requiresReservation, true);
+  assert.equal(departures[0].cancelled, true);
+  assert.equal(departures[1].time, scheduledTime);
+  assert.equal(departures[1].realTime, false);
+  assert.equal(departures[1].scheduledTime, undefined);
+  assert.equal(departures[2].time, liveTime);
+  assert.equal(departures[2].scheduledTime, delayedFrom);
+  assert.equal(departures[2].line, "Y85");
+  assert.equal(departures[2].destination, "Plaine Joux");
+  assert.equal(departures[2].realTime, true);
+  assert.equal(departures[2].cancelled, false);
+  assert.equal(departures[2].requiresReservation, true);
+  assert.deepEqual(alerts, [
+    { header: "Arrêt déplacé", description: "Travaux avenue de Genève" },
+  ]);
 });
 
 test("rail boards query the parent station and distinguish an empty list from an unavailable service", async () => {
@@ -104,7 +122,7 @@ test("rail boards query the parent station and distinguish an empty list from an
     },
   });
   assert.equal(empty.status, 200);
-  assert.deepEqual(await empty.json(), { departures: [] });
+  assert.deepEqual(await empty.json(), { departures: [], alerts: [] });
   const unavailable = await api(departureRequest(railStation), {
     motis: async () => new Response(null, { status: 500 }),
   });

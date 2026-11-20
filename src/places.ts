@@ -84,7 +84,8 @@ export function stopName(
 export const poiName = (poi: Poi) =>
   poi.mode === "train" ? stationName(poi.name) : stopName(poi);
 
-export type SuggestionKind = "station" | "stop" | "address" | "place";
+export type SuggestionKind =
+  "station" | "stop" | "address" | "place" | "here" | "recent";
 export type Suggestion = Place & { kind: SuggestionKind; source?: string };
 
 const normalize = (s: string) =>
@@ -105,6 +106,8 @@ const kindLabel: Record<SuggestionKind, string> = {
   stop: "Arrêt de bus",
   address: "Adresse",
   place: "Lieu",
+  here: "Position actuelle",
+  recent: "Récent",
 };
 const describe = (kind: SuggestionKind, town?: string, extra?: string) =>
   [kindLabel[kind], town, extra].filter(Boolean).join(" · ");

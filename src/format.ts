@@ -46,8 +46,8 @@ const nextDayKey = (key: string) =>
     .slice(0, 10);
 
 /**
- * Labels a trip that leaves on another day than the one searched: "Aujourd’hui" or "Demain" relative to
- * the current day, otherwise a short date. Undefined when it leaves on the searched day.
+ * Labels a trip that leaves on another day than the one searched: "Aujourd’hui", "Demain" or "Hier"
+ * relative to the current day, otherwise a short date. Undefined when it leaves on the searched day.
  */
 export function relativeDay(
   value: string | number | Date,
@@ -57,12 +57,26 @@ export function relativeDay(
   const day = dayKey(value);
   if (day === dayKey(searched)) return undefined;
   const today = dayKey(now);
-  return day === today
-    ? "Aujourd’hui"
-    : day === nextDayKey(today)
-      ? "Demain"
-      : formatShortDay(value);
+  if (day === today) return "Aujourd’hui";
+  if (day === nextDayKey(today)) return "Demain";
+  if (nextDayKey(day) === today) return "Hier";
+  return formatShortDay(value);
 }
+
+/** Heading for a group of trips on one day: "Demain · vendredi 20 novembre", or just the date. */
+export function dayHeading(label: string, value: string | number | Date) {
+  const date = formatLongDay(value);
+  return /^(Aujourd’hui|Demain|Hier)$/.test(label)
+    ? `${label} · ${date}`
+    : date[0].toLocaleUpperCase("fr") + date.slice(1);
+}
+
+/** Operator alert text arrives with runs of spaces and blank lines; keep single line breaks only. */
+export const tidyText = (text: string) =>
+  text
+    .replace(/[ \t ]+/g, " ")
+    .replace(/\s*\n\s*/g, "\n")
+    .trim();
 
 export function localDateTime(date: Date) {
   const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000);

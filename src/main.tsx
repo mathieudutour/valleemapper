@@ -26,6 +26,9 @@ import {
   Bike,
   Clock,
   Footprints,
+  History,
+  ChevronUp,
+  ChevronDown,
   type LucideIcon,
 } from "lucide-react";
 const ValleyMap = lazy(() => import("./Map"));
@@ -43,11 +46,25 @@ import {
   type Leg,
 } from "./types";
 import { layerById } from "./layers";
-import { dayKey, formatLongDay, localDateTime, relativeDay } from "./format";
+import {
+  dayHeading,
+  dayKey,
+  formatLongDay,
+  localDateTime,
+  relativeDay,
+} from "./format";
 import { localSuggestions, poiName } from "./places";
 import { readLink, writeLink, type LinkState, type TransportMode } from "./url";
 import { PlaceInput } from "./PlaceInput";
-import { Journey, JourneySummary } from "./Journey";
+import { Journey, JourneySummary, isCancelled } from "./Journey";
+import {
+  readRecent,
+  recentPlaces,
+  rememberTrip,
+  saveRecent,
+  type RecentTrip,
+} from "./recent";
+import { locate } from "./locate";
 import { LayerIcon, PlaceCard, type BikeStatus } from "./PlaceCard";
 import { LayersPanel } from "./LayersPanel";
 import "./style.css";
@@ -203,6 +220,32 @@ const visibleHeight = (snap: Snap, viewport: number) =>
       : viewport - TOP_GAP;
 
 type FieldError = { field: "from" | "to"; message: string };
+type Cursors = { previous?: string; next?: string };
+
+const journeyKey = (i: Itinerary) =>
+  i.id || i.startTime + i.duration + i.legs.map((l) => l.mode).join();
+/** Plan results with the rider's own place names, cancelled journeys kept but listed last. */
+function ordered(
+  list: Itinerary[],
+  preference: RoutingPreference,
+  arriveBy: boolean,
+) {
+  return [...list]
+    .sort((a, b) => compareJourneys(a, b, preference, arriveBy))
+    .sort((a, b) => Number(isCancelled(a)) - Number(isCancelled(b)));
+}
+function named(list: Itinerary[], from: Place, to: Place) {
+  for (const j of list) {
+    if (j.legs[0]) j.legs[0].from.name = from.name;
+    if (j.legs.at(-1)) j.legs.at(-1)!.to.name = to.name;
+  }
+  return list;
+}
+/** The journey selected by default: the best one that still runs. */
+function firstKey(list: Itinerary[]) {
+  const first = list.find((j) => !isCancelled(j)) ?? list[0];
+  return first && journeyKey(first);
+}
 type Departure = { value: string; now: boolean };
 
 function App() {
@@ -223,6 +266,8 @@ function App() {
   const settingsChanged = useRef(false);
   const plannerScroll = useRef(0);
   const scrollToResults = useRef(false);
+  // The exact request behind the current results; MOTIS pages must repeat it with only the cursor added.
+  const lastQuery = useRef<URLSearchParams>(undefined);
   const [data, setData] = useState<ValleyData>(),
     [loadError, setLoadError] = useState(""),
     [error, setError] = useState(""),
@@ -244,7 +289,11 @@ function App() {
     [lastSearch, setLastSearch] = useState<LinkState & { at: Date }>(),
     [hideHero, setHideHero] = useState(Boolean(initial.from && initial.to)),
     [journeys, setJourneys] = useState<Itinerary[]>([]),
-    [chosen, setChosen] = useState(0),
+    [chosenId, setChosenId] = useState<string>(),
+    [cursors, setCursors] = useState<Cursors>({}),
+    [paging, setPaging] = useState<"earlier" | "later">(),
+    [pageNote, setPageNote] = useState(""),
+    [recent, setRecent] = useState<RecentTrip[]>(readRecent),
     [filters, setFilters] = useState(initial.layers),
     [poi, setPoi] = useState<Poi>(),
     [layersOpen, setLayersOpen] = useState(false),
@@ -254,6 +303,8 @@ function App() {
       initial.from && initial.to ? "half" : "full",
     );
   const searched = Boolean(lastSearch);
+  const fromState = from,
+    toState = to;
 
   useEffect(() => {
     fetch("/data/valley.json")
@@ -261,8 +312,10 @@ function App() {
       .then((d: ValleyData) => {
         setData(d);
         if (!initial.from && !initial.to) {
-          setFrom(d.places[0]);
-          setTo(d.places[1]);
+          const last = readRecent()[0];
+          const reusable = last && !last.from.here && !last.to.here;
+          setFrom(reusable ? last.from : d.places[0]);
+          setTo(reusable ? last.to : d.places[1]);
         }
         const shared = initial.poi && d.pois.find((p) => p.id === initial.poi);
         if (shared) {
@@ -303,7 +356,11 @@ function App() {
   }
   useEffect(() => () => activeSearch.current?.abort(), []);
 
-  async function search({ keepPlace = false } = {}) {
+  async function search({
+    keepPlace = false,
+    from = fromState,
+    to = toState,
+  }: { keepPlace?: boolean; from?: Place; to?: Place } = {}) {
     const at = departure.now ? new Date() : new Date(departure.value);
     if (departure.now) setDeparture({ value: localDateTime(at), now: true });
     if (!from || !to) {
@@ -353,30 +410,24 @@ function App() {
         bike,
         preference,
       });
+      lastQuery.current = q;
+      setRecent((trips) => rememberTrip(trips, from, to));
       const r = await fetch("/api/plan?" + q, { signal: controller.signal });
       const b = await r.json();
       if (controller.signal.aborted) return;
       if (!r.ok) throw Error(b.error);
-      const all = [...(b.itineraries || []), ...(b.direct || [])].filter(
-        (i: Itinerary) => !i.legs.some((l) => l.cancelled),
-      );
-      for (const j of all) {
-        if (j.legs[0]) j.legs[0].from.name = from.name;
-        if (j.legs.at(-1)) j.legs.at(-1).to.name = to.name;
-      }
       const unique = new Map<string, Itinerary>();
-      for (const i of all)
-        unique.set(
-          i.id ||
-            i.startTime + i.duration + i.legs.map((l: Leg) => l.mode).join(),
-          i,
-        );
-      setJourneys(
-        [...unique.values()].sort((a, b) =>
-          compareJourneys(a, b, preference, arriveBy),
-        ),
-      );
-      setChosen(0);
+      for (const i of named(
+        [...(b.itineraries || []), ...(b.direct || [])],
+        from,
+        to,
+      ))
+        unique.set(journeyKey(i), i);
+      const list = ordered([...unique.values()], preference, arriveBy);
+      setJourneys(list);
+      setChosenId(firstKey(list));
+      setCursors({ previous: b.previousPageCursor, next: b.nextPageCursor });
+      setPageNote("");
       scrollToResults.current = true;
       if (mobile && !keepPlace) setSnap("half");
     } catch (e) {
@@ -396,10 +447,9 @@ function App() {
   latestSearch.current = search;
 
   useEffect(() => {
-    setJourneys((current) =>
-      [...current].sort((a, b) => compareJourneys(a, b, preference, arriveBy)),
-    );
-    setChosen(0);
+    const list = ordered(journeys, preference, arriveBy);
+    setJourneys(list);
+    setChosenId(firstKey(list));
     setLastSearch((s) => s && { ...s, preference });
   }, [preference]);
 
@@ -445,6 +495,60 @@ function App() {
   useEffect(() => {
     if (poi && !filters.includes(poi.mode)) setPoi(undefined);
   }, [filters]);
+
+  // Earlier or later departures for the same search, merged into the list.
+  async function loadPage(direction: "earlier" | "later") {
+    const cursor = direction === "earlier" ? cursors.previous : cursors.next;
+    const query = lastQuery.current;
+    if (!cursor || !query || !lastSearch?.from || !lastSearch.to) return;
+    setPaging(direction);
+    setPageNote("");
+    try {
+      const q = new URLSearchParams(query);
+      q.set("cursor", cursor);
+      const r = await fetch("/api/plan?" + q);
+      const b = await r.json();
+      if (!r.ok) throw Error(b.error);
+      // Walking and cycling alone do not depend on the departure time, so only transit pages are merged.
+      const page = named(b.itineraries || [], lastSearch.from, lastSearch.to);
+      const known = new Set(journeys.map(journeyKey));
+      const fresh = page.filter((j: Itinerary) => !known.has(journeyKey(j)));
+      if (!fresh.length)
+        setPageNote(
+          direction === "earlier"
+            ? "Pas d’autre trajet plus tôt dans cette période."
+            : "Pas d’autre trajet plus tard dans cette période.",
+        );
+      setJourneys(ordered([...journeys, ...fresh], preference, arriveBy));
+      setCursors((c) =>
+        direction === "earlier"
+          ? { ...c, previous: b.previousPageCursor }
+          : { ...c, next: b.nextPageCursor },
+      );
+    } catch {
+      setPageNote("Impossible de charger d’autres trajets.");
+    } finally {
+      setPaging(undefined);
+    }
+  }
+
+  async function reuseTrip(trip: RecentTrip) {
+    resetSearch();
+    setFieldError(undefined);
+    try {
+      const [start, end] = await Promise.all(
+        [trip.from, trip.to].map((p) => (p.here ? locate() : p)),
+      );
+      setFrom(start);
+      setTo(end);
+      search({ from: start, to: end });
+    } catch (e) {
+      setFieldError({
+        field: trip.from.here ? "from" : "to",
+        message: e instanceof Error ? e.message : "Position introuvable.",
+      });
+    }
+  }
 
   function selectPoi(p: Poi) {
     if (!poi) plannerScroll.current = sidebarScroll.current?.scrollTop ?? 0;
@@ -592,7 +696,11 @@ function App() {
   ]
     .filter(Boolean)
     .join(" · ");
-  const selectedJourney = searched && !busy ? journeys[chosen] : undefined;
+  const selectedJourney =
+    searched && !busy
+      ? journeys.find((j) => journeyKey(j) === chosenId)
+      : undefined;
+  const recentFieldPlaces = recentPlaces(recent);
   const statusText = busy
     ? "Recherche en cours"
     : searched && !error
@@ -751,6 +859,10 @@ function App() {
                         if (fieldError?.field === "from")
                           setFieldError(undefined);
                       }}
+                      onError={(message) =>
+                        setFieldError({ field: "from", message })
+                      }
+                      recent={recentFieldPlaces}
                       suggestions={suggestions}
                     />
                     <div className="field-divider" />
@@ -769,6 +881,10 @@ function App() {
                         if (fieldError?.field === "to")
                           setFieldError(undefined);
                       }}
+                      onError={(message) =>
+                        setFieldError({ field: "to", message })
+                      }
+                      recent={recentFieldPlaces}
                       suggestions={suggestions}
                     />
                     <button
@@ -896,6 +1012,24 @@ function App() {
                     heure. Voici les premiers trajets suivants.
                   </p>
                 )}
+                {searched &&
+                  !busy &&
+                  !error &&
+                  cursors.previous &&
+                  journeys.length > 0 && (
+                    <button
+                      className="page-button"
+                      disabled={Boolean(paging)}
+                      onClick={() => loadPage("earlier")}
+                    >
+                      {paging === "earlier" ? (
+                        <LoaderCircle className="spin" size={16} />
+                      ) : (
+                        <ChevronUp size={16} aria-hidden="true" />
+                      )}
+                      Plus tôt
+                    </button>
+                  )}
                 {busy && (
                   <div className="searching">
                     <LoaderCircle size={22} className="spin" />
@@ -913,10 +1047,10 @@ function App() {
                     const separator =
                       chronological && day && day !== previous && !allLater;
                     return (
-                      <React.Fragment key={j.id || i}>
+                      <React.Fragment key={journeyKey(j)}>
                         {separator && (
                           <h3 className="day-separator">
-                            {day} · {formatLongDay(j.startTime)}
+                            {dayHeading(day, j.startTime)}
                           </h3>
                         )}
                         <Journey
@@ -927,15 +1061,39 @@ function App() {
                             usesTransit(j) &&
                             walkingSeconds(j) === leastWalking
                           }
-                          selected={chosen === i}
+                          selected={chosenId === journeyKey(j)}
                           onClick={() => {
-                            setChosen(i);
-                            if (mobile && chosen === i) setSnap("half");
+                            if (mobile && chosenId === journeyKey(j))
+                              setSnap("half");
+                            setChosenId(journeyKey(j));
                           }}
                         />
                       </React.Fragment>
                     );
                   })}
+                {searched &&
+                  !busy &&
+                  !error &&
+                  cursors.next &&
+                  journeys.length > 0 && (
+                    <button
+                      className="page-button"
+                      disabled={Boolean(paging)}
+                      onClick={() => loadPage("later")}
+                    >
+                      {paging === "later" ? (
+                        <LoaderCircle className="spin" size={16} />
+                      ) : (
+                        <ChevronDown size={16} aria-hidden="true" />
+                      )}
+                      Plus tard
+                    </button>
+                  )}
+                {pageNote && (
+                  <p className="page-note" role="status">
+                    {pageNote}
+                  </p>
+                )}
                 {searched && !busy && !error && !journeys.length && (
                   <p className="muted">
                     {mode === "bike" && bike === "montenvelo"
@@ -945,6 +1103,41 @@ function App() {
                 )}
                 {!searched && !busy && (
                   <>
+                    {recent.length > 0 && (
+                      <section
+                        className="recent-trips"
+                        aria-labelledby="recent-title"
+                      >
+                        <div className="suggestions-heading">
+                          <h2 id="recent-title">Récents</h2>
+                          <button
+                            className="text-link"
+                            onClick={() => {
+                              saveRecent([]);
+                              setRecent([]);
+                            }}
+                          >
+                            Effacer
+                          </button>
+                        </div>
+                        {recent.slice(0, 4).map((t) => (
+                          <button
+                            className="suggestion"
+                            key={`${t.from.name}→${t.to.name}`}
+                            onClick={() => reuseTrip(t)}
+                          >
+                            <span className="suggestion-icon">
+                              <History size={22} aria-hidden="true" />
+                            </span>
+                            <span>
+                              <strong>{t.to.name}</strong>
+                              <small>depuis {t.from.name}</small>
+                            </span>
+                            <ChevronRight size={17} aria-hidden="true" />
+                          </button>
+                        ))}
+                      </section>
+                    )}
                     <div className="suggestions-heading">
                       <h2>À essayer</h2>
                       <span>Au fil de la vallée</span>

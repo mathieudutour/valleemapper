@@ -8,15 +8,18 @@ import {
   Footprints,
   Info,
   TrainFront,
+  TriangleAlert,
 } from "lucide-react";
 import {
   hasApproximatePath,
   modeLabel,
   type Itinerary,
   type Leg,
+  type MotisAlert,
 } from "./types";
-import { duration, time } from "./format";
+import { duration, tidyText, time } from "./format";
 import { stopName } from "./places";
+import { formatDistance, instructions } from "./directions";
 
 const RAIL = /RAIL|TRAM|SUBURBAN/;
 export function ModeIcon({ mode, size = 18 }: { mode: string; size?: number }) {
@@ -35,6 +38,73 @@ export function ModeIcon({ mode, size = 18 }: { mode: string; size?: number }) {
 
 const isLift = (l: Leg) => l.routeId?.startsWith("vertical_");
 const legLabel = (l: Leg) => l.routeShortName || modeLabel[l.mode] || l.mode;
+const isStreet = (l: Leg) =>
+  l.mode === "WALK" || l.mode === "BIKE" || l.mode === "RENTAL";
+
+/** Minutes a realtime update moved the departure; 0 when on time or unknown. */
+export const delayMinutes = (l: Leg) =>
+  l.realTime && l.scheduledStartTime
+    ? Math.round(
+        (Date.parse(l.startTime) - Date.parse(l.scheduledStartTime)) / 60_000,
+      )
+    : 0;
+/** Alerts on the leg and its boarding and alighting stops, once each. */
+export function legAlerts(l: Leg): MotisAlert[] {
+  const seen = new Map<string, MotisAlert>();
+  for (const a of [
+    ...(l.alerts ?? []),
+    ...(l.from.alerts ?? []),
+    ...(l.to.alerts ?? []),
+  ])
+    if (a.headerText) seen.set(a.headerText + a.descriptionText, a);
+  return [...seen.values()];
+}
+export const isCancelled = (item: Itinerary) =>
+  item.legs.some((l) => l.cancelled);
+
+function Alerts({ alerts }: { alerts: MotisAlert[] }) {
+  return alerts.map((a) => (
+    <details className="alert" key={a.headerText + a.descriptionText}>
+      <summary>
+        <TriangleAlert size={15} aria-hidden="true" />
+        {tidyText(a.headerText)}
+      </summary>
+      {a.descriptionText &&
+        tidyText(a.descriptionText) !== tidyText(a.headerText) && (
+          <p>{tidyText(a.descriptionText)}</p>
+        )}
+      {a.url && (
+        <a href={a.url} target="_blank" rel="noreferrer">
+          En savoir plus
+        </a>
+      )}
+    </details>
+  ));
+}
+
+function Directions({ leg }: { leg: Leg }) {
+  const steps = leg.steps?.length ? instructions(leg.steps) : [];
+  if (steps.length < 2) return null;
+  return (
+    <details className="directions">
+      <summary>
+        Itinéraire {leg.mode === "WALK" ? "à pied" : "à vélo"} · {steps.length}{" "}
+        étapes
+      </summary>
+      <ol>
+        {steps.map((s, i) => (
+          <li key={i}>
+            <span>{s.text}</span>
+            <small>{formatDistance(s.distance)}</small>
+          </li>
+        ))}
+        <li>
+          <span>Arrivée : {stopName(leg.to)}</span>
+        </li>
+      </ol>
+    </details>
+  );
+}
 
 function fares(legs: Leg[]) {
   const f = new Set<string>();
@@ -125,14 +195,40 @@ export function Journey({
   );
   const fareHints = fares(item.legs);
   const rail = (l: Leg) => RAIL.test(l.mode);
+  const cancelled = isCancelled(item);
+  const delay = Math.max(0, ...item.legs.map(delayMinutes));
+  const disrupted = item.legs.some(
+    (l) => !isStreet(l) && legAlerts(l).length > 0,
+  );
   return (
-    <article className={"journey " + (selected ? "selected" : "")}>
+    <article
+      className={
+        "journey " +
+        (selected ? "selected" : "") +
+        (cancelled ? " cancelled" : "")
+      }
+    >
       <button
         className="journey-summary"
         onClick={onClick}
         aria-expanded={selected}
       >
         <JourneySummary item={item} day={day} />
+        {(cancelled || delay >= 2 || disrupted) && (
+          <div className="journey-badges">
+            {cancelled && (
+              <span className="disruption-badge">Trajet supprimé</span>
+            )}
+            {!cancelled && delay >= 2 && (
+              <span className="disruption-badge">Retard +{delay} min</span>
+            )}
+            {disrupted && (
+              <span className="disruption-badge">
+                <TriangleAlert size={14} aria-hidden="true" /> Perturbation
+              </span>
+            )}
+          </div>
+        )}
         <div className="journey-meta">
           <span>
             {transit.length &&
@@ -180,7 +276,15 @@ export function Journey({
                 className={"leg " + (l.mode === "WALK" ? "walking" : "")}
                 key={i}
               >
-                <div className="leg-time">{time(l.startTime)}</div>
+                <div className="leg-time">
+                  {delayMinutes(l) !== 0 && (
+                    <del>
+                      <span className="sr-only">prévu à </span>
+                      {time(l.scheduledStartTime!)}
+                    </del>
+                  )}
+                  {time(l.startTime)}
+                </div>
                 <div className="leg-track">
                   <ModeIcon mode={l.mode} size={16} />
                 </div>
@@ -190,7 +294,11 @@ export function Journey({
                   </strong>
                   <div className="leg-description">
                     {l.mode === "WALK" ? (
-                      `Marche · ${duration(l.duration)}`
+                      <>
+                        Marche · {duration(l.duration)}
+                        {l.distance ? ` · ${formatDistance(l.distance)}` : ""}
+                        <Directions leg={l} />
+                      </>
                     ) : (
                       <>
                         <span className="route-tag">{legLabel(l)}</span>{" "}
@@ -203,8 +311,16 @@ export function Journey({
                             : l.mode === "BIKE" || l.mode === "RENTAL"
                               ? " · durée estimée"
                               : ""}
-                          {l.realTime && (
-                            <span className="live-dot">Temps réel</span>
+                          {l.cancelled ? (
+                            <span className="disruption-text">Supprimé</span>
+                          ) : delayMinutes(l) > 0 ? (
+                            <span className="disruption-text">
+                              Retard +{delayMinutes(l)} min
+                            </span>
+                          ) : (
+                            l.realTime && (
+                              <span className="live-dot">Temps réel</span>
+                            )
                           )}
                         </span>
                         {hasApproximatePath(l) && (
@@ -212,6 +328,8 @@ export function Journey({
                             Tracé approximatif sur la carte
                           </span>
                         )}
+                        {!isStreet(l) && <Alerts alerts={legAlerts(l)} />}
+                        {isStreet(l) && <Directions leg={l} />}
                         {l.rental?.toStationName && (
                           <div className="rental-stations">
                             {l.rental.fromStationName && (
