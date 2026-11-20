@@ -67,13 +67,16 @@ def subset(src,dst,tag):
     write_csv(out,name,data)
   print(tag,len(trips),'trips',len(stop_ids),'stops',flush=True)
   return [dict(name=s['stop_name'],lat=float(s['stop_lat']),lon=float(s['stop_lon']),id=tag+'_'+s['stop_id']) for s in stops if s['stop_id'] in stop_ids and in_bounds(s) and s.get('location_type','0') in ['','0']]
+# Rider-facing station names, lower then upper, for the routing stops and the map points. OSM names the
+# thermal lift's upper station after the lift itself.
+LIFT_ENDS={'valleen':['Le Fayet','Saint-Gervais'],'thermal_lift':['Les Thermes','Saint-Gervais']}
 def lifts():
  info=json.loads((RESEARCH/'vertical-links.json').read_text())['links'];today=dt.date.today();last=min(today+dt.timedelta(days=120),dt.date(2027,3,31))
  agencies=[dict(agency_id='vertical',agency_name='Liaisons verticales — modèle estimé',agency_url='https://www.saintgervais.com/',agency_timezone='Europe/Paris')]
  stops=[];routes=[];trips=[];times=[];freq=[];dates=[]
  for link in info:
   rid=link['id'];term=link['osm_terminals'];duration=link['duration_minutes']
-  for i,s in enumerate(term):stops.append(dict(stop_id=f'{rid}-{i}',stop_name=f"{link['name']} — {s['name']}",stop_lat=s['latitude'],stop_lon=s['longitude']))
+  for i,s in enumerate(term):stops.append(dict(stop_id=f'{rid}-{i}',stop_name=f"{link['name']} — {LIFT_ENDS[rid][i]}",stop_lat=s['latitude'],stop_lon=s['longitude']))
   routes.append(dict(route_id=rid,agency_id='vertical',route_short_name='Valléen' if rid=='valleen' else 'Thermes',route_long_name=link['name']+' (horaires estimés)',route_type=6 if rid=='valleen' else 7))
   d=today
   while d<=last:
@@ -81,7 +84,7 @@ def lifts():
    if not closed:dates.append(dict(service_id=rid,date=d.strftime('%Y%m%d'),exception_type=1))
    d+=dt.timedelta(days=1)
   for direction in [0,1]:
-   tid=f'{rid}-{direction}';trips.append(dict(route_id=rid,service_id=rid,trip_id=tid,direction_id=direction,trip_headsign=term[1-direction]['name']))
+   tid=f'{rid}-{direction}';trips.append(dict(route_id=rid,service_id=rid,trip_id=tid,direction_id=direction,trip_headsign=LIFT_ENDS[rid][1-direction]))
    for n,i in enumerate([direction,1-direction]):times.append(dict(trip_id=tid,arrival_time=f'00:{duration*n:02}:00',departure_time=f'00:{duration*n:02}:00',stop_id=f'{rid}-{i}',stop_sequence=n+1))
    # One-minute quantization is an assumption, NEVER an official headway.
    h,m=map(int,link['hours']['closes'].split(':'));end=h*60+m-duration
@@ -97,8 +100,11 @@ def public_data(stops,links):
  for filename,mode in [('montenbus-stops-research.geojson','montenbus'),('resort-shuttle-stops-research.geojson','shuttle')]:
   for i,f in enumerate(json.loads((RESEARCH/filename).read_text())['features']):
    p=f['properties'];lon,lat=f['geometry']['coordinates'];pois.append(dict(id=f'{mode}-{i}',name=p.get('name','Arrêt'),lon=lon,lat=lat,mode=mode,source=p.get('source_url',''),note=p.get('validity_note','Sur réservation. Adhésion nécessaire. Horaires non calculés.'),url='https://montenbus.app.ridewithvia.com/' if mode=='montenbus' else p.get('source_url','')))
+ # Lifts run both ways, so each station gets a point. The lower one keeps the lift's id, so links shared before
+ # the upper stations existed still open it.
  for link in links:
-  s=link['osm_terminals'][0];pois.append(dict(id=link['id'],name=link['name'],lon=s['longitude'],lat=s['latitude'],mode='lift',source=link['sources'][0],url=link['sources'][0],note=f"{link['hours']['opens']}–{link['hours']['closes']} · trajet {link['duration_minutes']} min · horaires estimés, ouverture à vérifier"))
+  ends=LIFT_ENDS[link['id']]
+  for i,s in enumerate(link['osm_terminals']):pois.append(dict(id=link['id'] if i==0 else f"{link['id']}-haut",name=f"{link['name']} — {ends[i]}",lon=s['longitude'],lat=s['latitude'],mode='lift',source=link['sources'][0],url=link['sources'][0],note=f"Vers {ends[1-i]} · {link['hours']['opens']}–{link['hours']['closes']} · trajet {link['duration_minutes']} min · horaires estimés, ouverture à vérifier"))
  places=[dict(name='Gare de Chedde',lat=45.92634,lon=6.719784),dict(name='Gare de Sallanches',lat=45.935699,lon=6.636458),dict(name='Gare du Fayet',lat=45.90608,lon=6.70015),dict(name='Saint-Gervais · Le Valléen',lat=45.8909264,lon=6.7082205),dict(name='Passy · Chef-lieu',lat=45.92351,lon=6.68778),dict(name="Plateau d’Assy",lat=45.93859,lon=6.70652),dict(name='Chamonix · Gare',lat=45.92272,lon=6.87441),dict(name='Lac de Passy',lat=45.91625,lon=6.64161)]
  seen=set()
  for s in stops:

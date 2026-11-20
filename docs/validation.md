@@ -123,3 +123,9 @@ Checked in the browser against the live API at 1440×900 and 390×844 (touch), i
 - **Height charts:** a ride climbing less than 30 m has no chart; Passy → Sallanches by MontenVélo (↗ 27 m over 7.2 km) shows none, Le Fayet → Plateau d’Assy keeps its chart.
 - **Settings and notes:** the bike types have their own icons (lightning, bike, key) and "Durée la plus courte" a stopwatch. The data notes no longer mention MOTIS, GTFS or feed details.
 - `npm run build` passes; 44 API and frontend tests pass.
+
+## Lift stations · 20 November 2026
+
+- The routing model already ran both lifts in both directions: Saint-Gervais → Gare du Fayet at 09:00 takes the Valléen down in 7 minutes. The map only had a point at each lift's lower station.
+- `scripts/prepare.py` now adds a point at each station: Le Valléen — Le Fayet and — Saint-Gervais, Ascenseur des Thermes — Les Thermes and — Saint-Gervais, each noting the direction it serves ("Vers Le Fayet · 07:00–20:30 · trajet 5 min"). The lower stations keep their ids (`valleen`, `thermal_lift`) so older shared links still open them; the upper ones are `valleen-haut` and `thermal_lift-haut`. The thermal lift's upper routing stop reads "Saint-Gervais" instead of repeating the lift's name.
+- `prepare.py --no-import` changed only those four points in `valley.json`. In the browser, the upper Valléen card opens, **Partir d’ici** fills the departure, and a downhill trip keeps the upper station in colour on the map. The local routing graph picks up the new stop name after `npm run setup`; the deployed image imports it on the next deploy.
