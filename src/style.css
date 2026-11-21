@@ -1120,6 +1120,7 @@ h2 {
   gap: 8px;
   margin-top: 16px;
 }
+/* Both actions fill one end of the trip, so neither outranks the other. */
 .poi-actions button {
   display: flex;
   align-items: center;
@@ -1127,13 +1128,8 @@ h2 {
   min-height: 44px;
   padding: 0 14px;
   border-radius: 9px;
-  text-decoration: none;
   font-size: 15px;
   font-weight: 600;
-  background: var(--accent);
-  color: var(--on-accent);
-}
-.poi-actions .secondary-action {
   background: var(--accent-soft);
   color: var(--accent-ink);
 }

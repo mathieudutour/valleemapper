@@ -429,7 +429,7 @@ export function PlaceCard({
         <button onClick={() => onGo(place)}>
           Y aller <Route size={16} aria-hidden="true" />
         </button>
-        <button className="secondary-action" onClick={() => onStart(place)}>
+        <button onClick={() => onStart(place)}>
           Partir d’ici <MapPin size={16} aria-hidden="true" />
         </button>
       </div>
