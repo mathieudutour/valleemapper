@@ -184,7 +184,7 @@ export async function api(
     if (url.pathname === "/api/departures") {
       const stop = p.get("stop") ?? "";
       const match =
-        /^(bus|train):(region|sncf|chamonix|facilibus):([^\x00-\x1f\x7f]{1,200})$/.exec(
+        /^(bus|train):(region|sncf|chamonix|facilibus|contamines|megbus|combloux|praz):([^\x00-\x1f\x7f]{1,200})$/.exec(
           stop,
         );
       if (!match) return json({ error: "Arrêt invalide." }, 400);

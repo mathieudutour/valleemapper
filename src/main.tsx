@@ -1419,8 +1419,8 @@ function App() {
         <div className="prose">
           <p>
             Les trajets combinent les horaires publiés par les Cars Région, la
-            SNCF, les bus de Chamonix et Facilibus, et les chemins
-            d’OpenStreetMap pour la marche et le vélo.
+            SNCF, les bus de Chamonix et les navettes des stations, et les
+            chemins d’OpenStreetMap pour la marche et le vélo.
           </p>
           <p>
             Toutes les lignes ne donnent pas leurs horaires en direct. Le label
@@ -1453,10 +1453,16 @@ function App() {
               l’application Citiz.
             </li>
             <li>
-              <strong>Navettes saisonnières et Montenbus :</strong> la carte
-              montre leurs arrêts, mais ils ne font pas partie des trajets
-              proposés. Plusieurs horaires d’été des navettes ne sont plus
-              valables, et Montenbus se réserve à l’avance.
+              <strong>Navettes :</strong> les navettes gratuites de
+              Saint-Gervais, des Contamines, de Megève, de Combloux et de
+              Praz-sur-Arly font partie des trajets dès que les horaires de la
+              saison sont publiés. Entre deux saisons, leurs arrêts restent sur
+              la carte, sans départ.
+            </li>
+            <li>
+              <strong>Montenbus :</strong> la carte montre ses points de prise
+              en charge, mais ses trajets se réservent à l’avance et ne sont pas
+              proposés ici.
             </li>
             <li>
               <strong>Adresses :</strong> les adresses sont cherchées auprès du

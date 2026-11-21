@@ -47,6 +47,8 @@ All four are described as free services by their official local pages: [Saint-Ge
 | **Passy Lac Vert** | [Official dated 2026 service](https://www.passy-mont-blanc.com/en/sejourner/se-deplacer-a-passy-mont-blanc/) | Free shuttle from Plaine-Joux every 15 minutes; **20 Jun–13 Sep**, with date-dependent days/hours and lunch gaps. Separate from paid Y85. No dedicated GTFS/live feed verified |
 | **Domancy / Demi-Quartier** | Regional buses, Montenbus and neighbouring networks in the main inventory | No separate commune-specific shuttle network established by the checked sources; this is not proof that no service exists |
 
+**Update, 21 November 2026:** Pysae also hosts a `les-contamines` group (Transdev), which this survey missed. It already publishes the **winter 2026–27** service, **12 Dec 2026–11 Apr 2027**, with four public routes and no private ones, while the Zenbus feed below is still empty. Meg-Bus, Combloux and Praz still carry only their expired summer 2026 services, and Facilibus's autumn service ends on **18 Dec 2026**. All five Pysae shuttle networks are now imported for routing.
+
 Do not shift old winter dates by a year. The [Meg-Bus service listing](https://www.megeve-tourisme.fr/commerce-service/navettes-meg-bus/) demonstrates why: it has next-season opening dates while the downloadable detailed schedules still refer to the previous season.
 
 Contamines' actual anonymous feed URLs are:

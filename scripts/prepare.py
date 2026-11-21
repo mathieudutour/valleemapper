@@ -22,9 +22,18 @@ SOURCES = {
  'sncf': ('https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip','passy-sncf-gtfs.zip'),
  'chamonix': ('https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs/pub','passy-pysae-chx-pub'),
  'facilibus': ('https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub','passy-shuttle-saint-gervais-gtfs-pub'),
+ # Free resort shuttles. Each publishes the current season only, so a feed can hold an expired season until the next one is out.
+ 'contamines': ('https://api.pysae.com/api/v4/groups/les-contamines/gtfs/pub','passy-shuttle-les-contamines-gtfs-pub'),
+ 'megbus': ('https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub','passy-shuttle-meg-bus-gtfs-pub'),
+ 'combloux': ('https://api.pysae.com/api/v4/groups/combloux/gtfs/pub','passy-shuttle-combloux-gtfs-pub'),
+ 'praz': ('https://api.pysae.com/api/v4/groups/praz/gtfs/pub','passy-shuttle-praz-gtfs-pub'),
 }
+# Pysae group of each feed it hosts. Its network list names the private and deactivated routes (driver training, events),
+# which trip names do not always reveal.
+PYSAE = {'chamonix':'chamonix-bus','facilibus':'saint-gervais','contamines':'les-contamines','megbus':'meg-bus','combloux':'combloux','praz':'praz'}
+PYSAE_GROUPS = 'https://api.pysae.com/api/v4/pub-groups?feature=display_info'
 # SNCF publishes trip updates and service alerts as separate feeds; Pysae carries both in one.
-RT = {'sncf':['https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-trip-updates','https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-service-alerts'],'chamonix':['https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs-rt'],'facilibus':['https://api.pysae.com/api/v4/groups/saint-gervais/gtfs-rt']}
+RT = {'sncf':['https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-trip-updates','https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-service-alerts'],**{tag:[f'https://api.pysae.com/api/v4/groups/{group}/gtfs-rt'] for tag,group in PYSAE.items()}}
 parser=argparse.ArgumentParser();parser.add_argument('--refresh',action='store_true');parser.add_argument('--no-import',action='store_true');parser.add_argument('--cached-research',action='store_true',help='Use same-day /tmp research downloads for initial bootstrap');args=parser.parse_args()
 def download(url, path):
  path.parent.mkdir(parents=True,exist_ok=True)
@@ -51,7 +60,7 @@ def subset(src,dst,tag):
    route_ids={r['route_id'] for r in routes if r['route_short_name'].upper() in {'Y81','Y82','Y83','Y84','Y85','Y86','274'}}
    trips=[t for t in trips if t['route_id'] in route_ids]
   elif tag=='sncf':trips=[t for t in trips if t['trip_id'] in local_trips]
-  else:trips=[t for t in trips if t['trip_id'] in local_trips and not any(v in (t.get('trip_headsign','')+' '+t.get('trip_short_name','')).lower() for v in ['formation','privé','private'])]
+  else:trips=[t for t in trips if t['trip_id'] in local_trips and t['route_id'] not in HIDDEN.get(tag,()) and not any(v in (t.get('trip_headsign','')+' '+t.get('trip_short_name','')).lower() for v in ['formation','privé','private'])]
   trip_ids={t['trip_id'] for t in trips};route_ids={t['route_id'] for t in trips};service_ids={t['service_id'] for t in trips};shape_ids={t.get('shape_id') for t in trips}
   times=[s for s in times if s['trip_id'] in trip_ids];stop_ids={s['stop_id'] for s in times}
   # Retain parents and whole selected trips, never truncate a train mid-journey.
@@ -97,7 +106,8 @@ def public_data(stops,links):
  for f in json.loads((RESEARCH/'shared-mobility-locations.geojson').read_text())['features']:
   p=f['properties'];lon,lat=f['geometry']['coordinates'];mode=p['mode'].replace('rezo_pouce','rezopouce')
   pois.append(dict(id=str(p['id']),name=p['name'],lon=lon,lat=lat,mode=mode,source=p['source_url'],warning=p.get('warning',''),url={'montenvelo':'https://montenvelo.fr/','citiz':'https://aura.citiz.coop/','rezopouce':'https://www.rezopouce.fr/'}[mode]))
- for filename,mode in [('montenbus-stops-research.geojson','montenbus'),('resort-shuttle-stops-research.geojson','shuttle')]:
+ # Shuttle stops come from the imported shuttle feeds, in build_transit_locations.py.
+ for filename,mode in [('montenbus-stops-research.geojson','montenbus')]:
   for i,f in enumerate(json.loads((RESEARCH/filename).read_text())['features']):
    p=f['properties'];lon,lat=f['geometry']['coordinates'];pois.append(dict(id=f'{mode}-{i}',name=p.get('name','Arrêt'),lon=lon,lat=lat,mode=mode,source=p.get('source_url',''),note=p.get('validity_note','Sur réservation. Adhésion nécessaire. Horaires non calculés.'),url='https://montenbus.app.ridewithvia.com/' if mode=='montenbus' else p.get('source_url','')))
  # Lifts run both ways, so each station gets a point. The lower one keeps the lift's id, so links shared before
@@ -115,6 +125,9 @@ def public_data(stops,links):
 
 FEEDS.mkdir(parents=True,exist_ok=True);(ROOT/'var/bin').mkdir(parents=True,exist_ok=True)
 all_stops=[];provenance=[]
+groups=ROOT/'var/raw/pysae-groups.json'
+if args.refresh or not groups.exists():download(PYSAE_GROUPS,groups)
+HIDDEN={tag:{*(g.get('private_routes') or []),*(g.get('deactivated_routes') or [])} for g in json.loads(groups.read_text()) for tag,group in PYSAE.items() if g.get('group_id')==group}
 for tag,(url,cached) in SOURCES.items():
  raw=ROOT/f'var/raw/{tag}.zip';raw.parent.mkdir(parents=True,exist_ok=True)
  if args.cached_research and pathlib.Path('/tmp',cached).exists():shutil.copy2(pathlib.Path('/tmp',cached),raw)

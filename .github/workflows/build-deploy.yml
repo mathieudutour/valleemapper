@@ -4,6 +4,10 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Timetables are baked into the image, so a weekly rebuild picks up each network's new season. Seasons start
+  # on Saturdays; this runs early Saturday morning, Paris time.
+  schedule:
+    - cron: "41 2 * * 6"
   workflow_dispatch:
 
 permissions:
@@ -43,7 +47,7 @@ jobs:
             jq -e 'type == "array" and length > 0' > /dev/null
       - name: Deploy the Worker and MOTIS image to Cloudflare
         id: deploy
-        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

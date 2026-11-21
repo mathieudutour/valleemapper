@@ -142,6 +142,29 @@ function Directions({ leg }: { leg: Leg }) {
   );
 }
 
+const SHUTTLE_FARES: Record<string, string> = {
+  facilibus: "Facilibus : gratuit",
+  contamines: "Navettes des Contamines : gratuites",
+  megbus: "Meg-Bus : gratuit",
+  combloux: "Navette de Combloux : gratuite",
+  praz: "Navette de Praz-sur-Arly : gratuite",
+};
+
+/**
+ * Where a transit leg heads. A loop line that publishes no headsign gets its last stop, which is where it
+ * started, so it gets none.
+ */
+function towards(l: Leg) {
+  if (!l.headsign) return undefined;
+  const name = /^\d+$/.test(l.headsign)
+    ? stopName(l.to, RAIL.test(l.mode))
+    : stopName({ name: l.headsign }, false);
+  return name.toLocaleLowerCase("fr") ===
+    stopName(l.from, RAIL.test(l.mode)).toLocaleLowerCase("fr")
+    ? undefined
+    : name;
+}
+
 function fares(legs: Leg[]) {
   const f = new Set<string>();
   for (const l of legs) {
@@ -157,7 +180,8 @@ function fares(legs: Leg[]) {
     if (l.routeId?.includes("thermal_lift"))
       f.add("Ascenseur des Thermes : gratuit");
     if (RAIL.test(l.mode)) f.add("Train : tarif à vérifier auprès de SNCF");
-    if (l.routeId?.startsWith("facilibus_")) f.add("Facilibus : gratuit");
+    const shuttle = SHUTTLE_FARES[l.routeId?.split("_")[0] ?? ""];
+    if (shuttle) f.add(shuttle);
   }
   return [...f];
 }
@@ -358,8 +382,7 @@ export function Journey({
                     ) : (
                       <>
                         <span className="route-tag">{legLabel(l)}</span>{" "}
-                        {l.headsign &&
-                          `vers ${/^\d+$/.test(l.headsign) ? stopName(l.to, rail(l)) : stopName({ name: l.headsign }, false)}`}
+                        {towards(l) && `vers ${towards(l)}`}
                         <span className="leg-facts">
                           {/* One flex item, so the climb wraps as part of the sentence. */}
                           <span>

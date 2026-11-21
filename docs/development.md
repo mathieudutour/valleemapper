@@ -18,7 +18,7 @@ Open [the local app](http://127.0.0.1:5173). The development command starts MOTI
 
 ## Refresh data
 
-Stop the app before rebuilding the graph. `npm run data:refresh` downloads fresh **GTFS and OSM inputs**, cleans the map extract, rebuilds the lift model and imports the graph. Update fares, lift opening rules, shared-mobility locations and seasonal shuttle calendars separately. The observations in `docs/research/data/` date from **18 November 2026**.
+Stop the app before rebuilding the graph. `npm run data:refresh` downloads fresh **GTFS and OSM inputs**, cleans the map extract, rebuilds the lift model and imports the graph. Update fares, lift opening rules and shared-mobility locations separately. The observations in `docs/research/data/` date from **18 November 2026**.
 
 The setup script downloads the official executable and verifies its SHA256. It creates a project-local Python venv for `osmium==4.3.0`, so there is no system Python package installation. The OSM source is the roughly 91 MB Haute-Savoie extract from [OpenStreetMap France](https://download.openstreetmap.fr/extracts/europe/france/rhone_alpes/). It is cropped with complete local ways to `[6.48,45.70,7.05,46.02]`, omitting invalid and empty ways to avoid a geocoder import failure. `scripts/clean_osm.py` also corrects known OSM tagging errors that cut walking routes, each only while OSM still has the faulty value; setup cleans the extract again whenever that script changes. The only fix so far is the level of the two upper underpass flights at Le Fayet station (ways 255390162 and 255390166, `-1;0` → `-0.5;0`): the lower flight puts their shared landing at −0.5, and MOTIS cannot change level there, which cut the island platforms off. Once OpenStreetMap carries the same correction, the fix stops applying and can be removed. Selected GTFS trips keep their original identifiers, full stop sequences, calendars, shapes and transfers. This lets the matching realtime feeds continue to work.
 
@@ -32,7 +32,7 @@ The included architecture is **Worker + static assets → one shared Durable Obj
 
 ### Deploy with GitHub Actions
 
-Pushes to `main` deploy to Cloudflare once the tests, site build and Linux MOTIS startup check pass. Pull requests run those checks for review. The workflow waits for the deployed router to respond and prints the app URL.
+Pushes to `main` deploy to Cloudflare once the tests, site build and Linux MOTIS startup check pass. The same build and deploy also runs every Saturday at 02:41 UTC, early morning in Paris, so the image picks up timetables published during the week; shuttle seasons start on Saturdays. GitHub pauses scheduled runs after 60 days without a commit; re-enable the workflow under Actions if that happens. Pull requests run those checks for review. The workflow waits for the deployed router to respond and prints the app URL.
 
 For the first deploy, set up a Cloudflare account with Workers Paid and an active `workers.dev` subdomain. Add the following [repository Actions secrets](https://github.com/mathieudutour/valleemapper/settings/secrets/actions).
 
@@ -66,7 +66,8 @@ The smoke tests cover rail and Valléen journeys, leg geometry and input validat
 
 ## Routing and data notes
 
-- Address search uses the IGN/Base Adresse Nationale geocoder. Stop and place search uses the MOTIS index. Realtime updates are configured for matching SNCF, Chamonix and Facilibus feeds.
+- Address search uses the IGN/Base Adresse Nationale geocoder. Stop and place search uses the MOTIS index. Realtime updates are configured for matching SNCF feeds and every Pysae network.
+- Pysae hosts the Chamonix buses and the free resort shuttles: Facilibus, Les Contamines, Meg-Bus, Combloux and Praz-sur-Arly. Its [network list](https://api.pysae.com/api/v4/pub-groups?feature=display_info) names each network's private and deactivated routes (driver training, events), which the import drops; trip names do not always reveal them. Each shuttle feed holds only its current season, so a season joins the routes at the first rebuild after the operator publishes it: the Saturday run, or any earlier deploy. Between seasons the stops stay on the map without departures. Shuttle stops keep `bus:` ids for the departure boards and sit on the **Navettes** layer.
 - To find lower-walking options, the API tries five-minute walking limits at each end independently and at both ends together. It gives the optional searches up to 350 ms after the main results are ready.
 - The Valléen and thermal lift model uses published ride durations and opening hours with a one-minute frequency assumption. It excludes known closures, including the thermal lift's first Monday of each month. The model expires after 120 days or on 31 March 2027, whichever is earlier.
 - SNCF publishes no shapes, so the import sets `timetable.route_shapes: missing` and MOTIS matches those routes onto OSM tracks. A leg that still only joins its stops is drawn dashed and labelled as an approximate path. The prototype covers published fare hints and selected reservations. Accessibility, walking gradients, bicycle carriage, disruptions, and fare entitlements still need validation.

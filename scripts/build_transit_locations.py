@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export selectable physical bus stops and grouped rail stations from imported GTFS."""
+"""Export selectable physical bus and shuttle stops and grouped rail stations from imported GTFS."""
 import collections
 import csv
 import io
@@ -13,7 +13,14 @@ SOURCES = {
     'sncf': ('SNCF', 'https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip', 'https://www.sncf-connect.com/'),
     'chamonix': ('Chamonix Mobilité', 'https://api.pysae.com/api/v4/groups/chamonix-bus/gtfs/pub', 'https://www.chamonix-mobilite.com/'),
     'facilibus': ('Facilibus', 'https://api.pysae.com/api/v4/groups/saint-gervais/gtfs/pub', 'https://www.saintgervais.com/'),
+    'contamines': ('Navettes des Contamines', 'https://api.pysae.com/api/v4/groups/les-contamines/gtfs/pub', 'https://www.lescontamines.com/hiver/pratique/acces-et-se-deplacer/navettes'),
+    'megbus': ('Meg-Bus', 'https://api.pysae.com/api/v4/groups/meg-bus/gtfs/pub', 'https://www.megeve-tourisme.fr/informations-pratiques/acces-et-mobilite/navettes/'),
+    'combloux': ('Navette de Combloux', 'https://api.pysae.com/api/v4/groups/combloux/gtfs/pub', 'https://www.combloux.com/sejourner/transports-mobilites-douces-combloux/se-deplacer-a-combloux/navette-station-combloux/'),
+    'praz': ('Navette de Praz-sur-Arly', 'https://api.pysae.com/api/v4/groups/praz/gtfs/pub', 'https://www.prazsurarly.com/fr/navettes-station'),
 }
+# Free resort shuttles go on their own map layer; their stops keep the bus id so departure boards query them as buses.
+SHUTTLES = {'facilibus', 'contamines', 'megbus', 'combloux', 'praz'}
+LAYERS = ('bus', 'train', 'shuttle')
 
 def rows(z, name):
     return list(csv.DictReader(io.StringIO(z.read(name).decode('utf-8-sig')))) if name in z.namelist() else []
@@ -47,14 +54,15 @@ def build():
                     continue
                 if not (west <= lon <= east and south <= lat <= north):
                     continue
-                key = (mode, stop['stop_name'].casefold(), round(lat, 5), round(lon, 5))
+                layer = 'shuttle' if mode == 'bus' and feed in SHUTTLES else mode
+                key = (layer, stop['stop_name'].casefold(), round(lat, 5), round(lon, 5))
                 if key not in groups:
-                    groups[key] = dict(id=f'{mode}:{feed}:{stop["stop_id"]}', name=stop['stop_name'], lat=lat, lon=lon, mode=mode, source=source, url=service_url, routes=set(), networks=set())
+                    groups[key] = dict(id=f'{mode}:{feed}:{stop["stop_id"]}', name=stop['stop_name'], lat=lat, lon=lon, mode=layer, source=source, url=service_url, routes=set(), networks=set())
                 entry = groups[key]
                 label = route.get('route_short_name') or route.get('route_long_name') or network
                 entry['routes'].add(label)
                 entry['networks'].add(network)
-    pois = [p for p in data['pois'] if p['mode'] not in ('bus', 'train')]
+    pois = [p for p in data['pois'] if p['mode'] not in LAYERS]
     for p in sorted(groups.values(), key=lambda p: (p['mode'], p['name'], p['id'])):
         p['routes'] = sorted(p['routes'])
         p['network'] = ' · '.join(sorted(p.pop('networks')))
@@ -63,7 +71,7 @@ def build():
     temporary = path.with_suffix('.tmp')
     temporary.write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':')))
     temporary.replace(path)
-    print('Transit map layers:', dict(collections.Counter(p['mode'] for p in pois if p['mode'] in ('bus', 'train'))))
+    print('Transit map layers:', dict(collections.Counter(p['mode'] for p in pois if p['mode'] in LAYERS)))
 
 if __name__ == '__main__':
     build()

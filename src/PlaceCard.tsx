@@ -14,6 +14,9 @@ import { layerById } from "./layers";
 import { poiName, stopName, tidyName, townOf } from "./places";
 import { duration, formatShortDay, tidyText, time } from "./format";
 
+/** Layers whose points are timetabled stops, with departure boards. */
+const TRANSIT = ["bus", "train", "shuttle"];
+
 export function LayerIcon({
   mode,
   size = 20,
@@ -394,13 +397,13 @@ export function PlaceCard({
   const town = townOf(poi.id);
   const official =
     poi.mode === "train" && tidyName(poi.name) !== name ? poi.name : undefined;
-  const nearbyStops = ["bus", "train"].includes(poi.mode)
+  const nearbyStops = TRANSIT.includes(poi.mode)
     ? pois
         .filter(
           (p) =>
             p.id !== poi.id &&
             filters.includes(p.mode) &&
-            ["bus", "train"].includes(p.mode) &&
+            TRANSIT.includes(p.mode) &&
             Math.hypot(
               (p.lon - poi.lon) * Math.cos((poi.lat * Math.PI) / 180),
               p.lat - poi.lat,
@@ -431,7 +434,7 @@ export function PlaceCard({
         </button>
       </div>
       {poi.mode === "montenbus" && <MontenbusRules url={poi.url} />}
-      {(poi.mode === "bus" || poi.mode === "train") && (
+      {TRANSIT.includes(poi.mode) && (
         <StopDepartures key={poi.id} stop={poi.id} />
       )}
       {poi.mode === "montenvelo" && (

@@ -82,11 +82,11 @@ export const LAYERS: Layer[] = [
     id: "shuttle",
     label: "Navettes",
     singular: "Arrêt de navette",
-    description: "Arrêts de navettes · saisons variables",
+    description: "Navettes gratuites des stations, selon la saison",
     icon: Van,
     color: "#0f8aa6",
   },
 ];
 
-export const DEFAULT_LAYERS = ["bus", "montenvelo", "train", "lift"];
+export const DEFAULT_LAYERS = ["bus", "shuttle", "montenvelo", "train", "lift"];
 export const layerById = Object.fromEntries(LAYERS.map((l) => [l.id, l]));

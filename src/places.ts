@@ -19,12 +19,21 @@ const COMMUNES: Record<string, string> = {
   "74266": "Servoz",
 };
 
+// Each shuttle network serves one commune.
+const SHUTTLE_TOWNS: Record<string, string> = {
+  facilibus: "Saint-Gervais-les-Bains",
+  contamines: "Les Contamines-Montjoie",
+  megbus: "Megève",
+  combloux: "Combloux",
+  praz: "Praz-sur-Arly",
+};
+
 export function townOf(id?: string): string | undefined {
   if (!id) return undefined;
   const insee = /FR:(\d{5}):/.exec(id)?.[1];
   if (insee) return COMMUNES[insee];
-  if (/^(bus:)?facilibus[_:]/.test(id)) return "Saint-Gervais-les-Bains";
-  return undefined;
+  const feed = /^(?:bus:)?(\w+)[_:]/.exec(id)?.[1];
+  return feed ? SHUTTLE_TOWNS[feed] : undefined;
 }
 
 const SMALL_WORDS = new Set([

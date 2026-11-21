@@ -129,6 +129,18 @@ test("rail boards query the parent station and distinguish an empty list from an
   assert.equal(unavailable.status, 502);
 });
 
+test("shuttle stops are queried as bus bays of their own feed", async () => {
+  const response = await api(departureRequest("bus:contamines:CHEF_LIEU"), {
+    motis: async (path) => {
+      const params = new URL(path, "http://motis").searchParams;
+      assert.equal(params.get("stopId"), "contamines_CHEF_LIEU");
+      assert.equal(params.get("mode"), "BUS,COACH");
+      return Response.json({ stopTimes: [] });
+    },
+  });
+  assert.equal(response.status, 200);
+});
+
 test("departure boards reject points that are not imported bus or rail stops", async () => {
   const response = await api(departureRequest("montenvelo:cheddestation"), {
     motis: async () => assert.fail("invalid map point reached MOTIS"),
