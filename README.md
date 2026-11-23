@@ -25,6 +25,7 @@ ValléeMapper est un prototype. Le label **Temps réel** apparaît sur les segme
 ## En savoir plus
 
 - [Sources des données et licences](docs/research/passy-transport-data.md)
+- [Licence du code : MIT](LICENSE). Les données gardent les licences de leurs sources.
 - [Infos sur les navettes, les remontées et les tarifs](docs/research/shuttles-lifts-fares.md)
 - [Développement et déploiement](docs/development.md)
 - [Signaler un problème ou une donnée manquante](https://github.com/mathieudutour/valleemapper/issues/new)
