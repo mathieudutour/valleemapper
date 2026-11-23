@@ -77,6 +77,28 @@ for (const [name, from, to] of [
     journeys[0].legs.map((l: any) => l.mode).join(" / "),
   );
 }
+// Regional coaches need booking only on their on-demand runs. Without the import's trip flags, MOTIS books every coach.
+const weekday = new Date(day);
+while ([0, 6].includes(weekday.getDay()))
+  weekday.setDate(weekday.getDate() + 1);
+const coach = await fetch(
+  base +
+    "/api/plan?" +
+    new URLSearchParams({
+      from: "45.9510675,6.7391765",
+      to: "45.93859,6.70652",
+      time: weekday.toISOString(),
+      mode: "transit",
+    }),
+).then((r) => r.json());
+const y85 = (coach.itineraries || [])
+  .flatMap((j: any) => j.legs)
+  .filter((l: any) => l.routeShortName === "Y85");
+assert(y85.length > 0, "no Y85 run from Plaine Joux");
+assert(
+  y85.some((l: any) => l.reservation !== "COMPULSORY"),
+  "every Y85 run asks for a reservation",
+);
 console.log(
-  "Input validation, geometry decoding, native engine, journey geometry, line pages and lift connectivity verified.",
+  "Input validation, geometry decoding, native engine, journey geometry, line pages, lift connectivity and coach reservations verified.",
 );

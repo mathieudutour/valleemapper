@@ -63,6 +63,10 @@ def subset(src,dst,tag):
   else:trips=[t for t in trips if t['trip_id'] in local_trips and t['route_id'] not in HIDDEN.get(tag,()) and not any(v in (t.get('trip_headsign','')+' '+t.get('trip_short_name','')).lower() for v in ['formation','privé','private'])]
   trip_ids={t['trip_id'] for t in trips};route_ids={t['route_id'] for t in trips};service_ids={t['service_id'] for t in trips};shape_ids={t.get('shape_id') for t in trips}
   times=[s for s in times if s['trip_id'] in trip_ids];stop_ids={s['stop_id'] for s in times}
+  # On-demand runs ask riders to phone the agency (pickup or drop-off type 2) at their stops. MOTIS only reads
+  # that from a trip's own pickup_type, so carry it up; the other runs of the same line need no booking.
+  booked={s['trip_id'] for s in times if '2' in (s.get('pickup_type'),s.get('drop_off_type'))}
+  if booked:trips=[{**t,'pickup_type':'2' if t['trip_id'] in booked else '0'} for t in trips]
   # Retain parents and whole selected trips, never truncate a train mid-journey.
   stop_ids.update(s.get('parent_station') for s in stops if s['stop_id'] in stop_ids)
   with zipfile.ZipFile(dst,'w',zipfile.ZIP_DEFLATED) as out:
@@ -183,8 +187,10 @@ timetable:
     mode: missing
   datasets:
 '''
+# MOTIS assumes every coach needs booking. The Haute-Savoie lines are coaches that mark their on-demand runs
+# themselves, so only those runs keep the requirement.
 for tag in [*SOURCES,'vertical']:
- config+=f'    {tag}:\n      path: feeds/{tag}.zip\n      extend_calendar: false\n'
+ config+=f'    {tag}:\n      path: feeds/{tag}.zip\n      extend_calendar: false\n      clasz_reservation_not_required:\n        COACH: true\n'
  if tag in RT:config+='      rt:\n'+''.join(f'        - url: {url}\n          protocol: gtfsrt\n' for url in RT[tag])
 # MontenVélo requires return at a station, including bikes picked up off-station.
 config+='''gbfs:
