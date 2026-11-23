@@ -1893,6 +1893,12 @@ h2 {
     font-size: 17px;
     font-weight: 650;
   }
+  .peek-trip {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .peek-text small {
     display: block;
     color: var(--muted);

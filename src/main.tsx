@@ -301,7 +301,7 @@ function App() {
     [hideHero, setHideHero] = useState(Boolean(initial.from && initial.to)),
     [journeys, setJourneys] = useState<Itinerary[]>([]),
     [chosenId, setChosenId] = useState<string>(),
-    // The chosen journey is drawn on the map; its card only shows the timeline once opened.
+    // The chosen journey, if any, is drawn on the map; its card only shows the timeline once opened.
     [expanded, setExpanded] = useState(false),
     [cursors, setCursors] = useState<Cursors>({}),
     [paging, setPaging] = useState<"earlier" | "later">(),
@@ -755,7 +755,8 @@ function App() {
   ]
     .filter(Boolean)
     .join(" · ");
-  const selectedJourney = searched && !busy ? chosenGroup?.journey : undefined;
+  const listed = searched && !busy && groups.length > 0;
+  const selectedJourney = listed ? chosenGroup?.journey : undefined;
   const recentFieldPlaces = recentPlaces(recent);
   const statusText = busy
     ? "Recherche en cours"
@@ -790,6 +791,17 @@ function App() {
           lastSearch && relativeDay(selectedJourney.startTime, lastSearch.at)
         }
       />
+    </span>
+  ) : listed && lastSearch?.from && lastSearch.to ? (
+    // Results with none drawn on the map: the lowered sheet names the search instead.
+    <span className="peek-text">
+      <strong>
+        <span className="peek-trip">
+          {lastSearch.from.name} <span aria-hidden="true">→</span>
+          <span className="sr-only">vers</span> {lastSearch.to.name}
+        </span>
+      </strong>
+      <small>{statusText}</small>
     </span>
   ) : (
     <span className="peek-text">
@@ -831,7 +843,7 @@ function App() {
             {snap === "peek" && (
               <button
                 className="sheet-peek"
-                onClick={tap(poi || selectedJourney ? "half" : "full")}
+                onClick={tap(poi || listed ? "half" : "full")}
               >
                 {peek}
               </button>
@@ -1167,8 +1179,11 @@ function App() {
                               key,
                               top: card.getBoundingClientRect().top,
                             };
-                            if (selected && expanded) setExpanded(false);
-                            else {
+                            // Closing the open card also takes its route off the map.
+                            if (selected && expanded) {
+                              setChosenId(undefined);
+                              setExpanded(false);
+                            } else {
                               setChosenId(key);
                               setExpanded(true);
                             }
