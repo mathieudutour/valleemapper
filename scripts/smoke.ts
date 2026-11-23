@@ -41,11 +41,28 @@ for (const [name, from, to] of [
     journeys.some((j) => j.legs.some((l: any) => l.legGeometry?.points)),
     name + " has no geometry",
   );
-  if (name === "rail")
+  if (name === "rail") {
     assert(
       journeys.some((j) => j.legs.some((l: any) => /RAIL/.test(l.mode))),
       "no rail option returned",
     );
+    // The line page of a train: its whole run, with the rider's stop found in it.
+    const leg = journeys
+      .flatMap((j) => j.legs)
+      .find((l: any) => /RAIL/.test(l.mode));
+    const line = await fetch(
+      base +
+        "/api/line?" +
+        new URLSearchParams({ trip: leg.tripId, at: leg.startTime }),
+    ).then((r) => r.json());
+    assert(line.stops?.length >= 2, "line page has no stops");
+    assert.equal(
+      line.stops[line.board]?.stopId,
+      leg.from.stopId,
+      "boarding stop not found on the line",
+    );
+    assert(line.geometry.length > 0, "line page has no path");
+  }
   if (name === "vertical")
     assert(
       journeys.some((j) =>
@@ -61,5 +78,5 @@ for (const [name, from, to] of [
   );
 }
 console.log(
-  "Input validation, geometry decoding, native engine, journey geometry and lift connectivity verified.",
+  "Input validation, geometry decoding, native engine, journey geometry, line pages and lift connectivity verified.",
 );

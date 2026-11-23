@@ -36,7 +36,13 @@ export function LayerIcon({
   );
 }
 
-function DepartureDetails({ departure }: { departure: StopDeparture }) {
+function DepartureDetails({
+  departure,
+  onLine,
+}: {
+  departure: StopDeparture;
+  onLine?: (departure: StopDeparture) => void;
+}) {
   const delay = departure.scheduledTime
     ? Math.round(
         (Date.parse(departure.time) - Date.parse(departure.scheduledTime)) /
@@ -46,7 +52,18 @@ function DepartureDetails({ departure }: { departure: StopDeparture }) {
   return (
     <div>
       <div className="stop-departure-route">
-        <span className="mode-pill">{departure.line}</span>
+        {onLine ? (
+          <button
+            type="button"
+            className="mode-pill line-link"
+            onClick={() => onLine(departure)}
+          >
+            {departure.line}
+            <span className="sr-only"> : voir la ligne</span>
+          </button>
+        ) : (
+          <span className="mode-pill">{departure.line}</span>
+        )}
         <strong>{stopName({ name: departure.destination })}</strong>
       </div>
       <div className="stop-departure-meta">
@@ -122,7 +139,13 @@ function NearbyStop({
   );
 }
 
-function StopDepartures({ stop }: { stop: string }) {
+function StopDepartures({
+  stop,
+  onLine,
+}: {
+  stop: string;
+  onLine?: (departure: StopDeparture) => void;
+}) {
   const [state, setState] = useState<Board | "loading" | "unavailable">(
     "loading",
   );
@@ -225,7 +248,7 @@ function StopDepartures({ stop }: { stop: string }) {
               </>
             )}
           </div>
-          <DepartureDetails departure={next} />
+          <DepartureDetails departure={next} onLine={onLine} />
         </div>
       ) : (
         <p role="status">
@@ -251,7 +274,7 @@ function StopDepartures({ stop }: { stop: string }) {
                     <strong>{time(departure.time)}</strong>
                     {day !== today && <small>{day}</small>}
                   </time>
-                  <DepartureDetails departure={departure} />
+                  <DepartureDetails departure={departure} onLine={onLine} />
                 </li>
               );
             })}
@@ -380,6 +403,7 @@ export function PlaceCard({
   onSelect,
   onGo,
   onStart,
+  onLine,
 }: {
   poi: Poi;
   pois: Poi[];
@@ -390,6 +414,8 @@ export function PlaceCard({
   onSelect: (p: Poi) => void;
   onGo: (p: Place) => void;
   onStart: (p: Place) => void;
+  /** Opens the page of the line a departure runs on. */
+  onLine?: (departure: StopDeparture) => void;
 }) {
   const layer = layerById[poi.mode];
   const name = poiName(poi);
@@ -435,7 +461,7 @@ export function PlaceCard({
       </div>
       {poi.mode === "montenbus" && <MontenbusRules url={poi.url} />}
       {TRANSIT.includes(poi.mode) && (
-        <StopDepartures key={poi.id} stop={poi.id} />
+        <StopDepartures key={poi.id} stop={poi.id} onLine={onLine} />
       )}
       {poi.mode === "montenvelo" && (
         <BikeAvailability

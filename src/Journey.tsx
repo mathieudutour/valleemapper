@@ -98,7 +98,7 @@ export function legAlerts(l: Leg): MotisAlert[] {
 export const isCancelled = (item: Itinerary) =>
   item.legs.some((l) => l.cancelled);
 
-function Alerts({ alerts }: { alerts: MotisAlert[] }) {
+export function Alerts({ alerts }: { alerts: MotisAlert[] }) {
   return alerts.map((a) => (
     <details className="alert" key={a.headerText + a.descriptionText}>
       <summary>
@@ -165,7 +165,9 @@ function towards(l: Leg) {
     : name;
 }
 
-function fares(legs: Leg[]) {
+export function fares(
+  legs: Pick<Leg, "routeId" | "routeShortName" | "mode">[],
+) {
   const f = new Set<string>();
   for (const l of legs) {
     if (
@@ -184,6 +186,45 @@ function fares(legs: Leg[]) {
     if (shuttle) f.add(shuttle);
   }
   return [...f];
+}
+
+/** How to book a line that only runs on request. */
+export function Reservation({ line }: { line?: string }) {
+  return (
+    <div className="reservation-detail">
+      <strong>Réservation obligatoire</strong>
+      {line === "Y85" && (
+        <>
+          {" · "}
+          <a href="tel:+33480007000">04 8000 7000</a>
+          {" · "}
+          <a
+            href="https://www.laregionvoustransporte.fr/cars-region/cars-region-de-haute-savoie/ligne/y85-sallanches-passy-plaine-joux/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Modalités Y85
+          </a>
+        </>
+      )}
+    </div>
+  );
+}
+
+export function FareBox({ hints }: { hints: string[] }) {
+  if (!hints.length) return null;
+  return (
+    <div className="fare-box">
+      <span className="eyebrow">Repères de prix</span>
+      {hints.map((f) => (
+        <p key={f}>{f}</p>
+      ))}
+      <small>
+        Tarifs publics relevés le 18/11/2026. Conditions et correspondances à
+        vérifier ; ces montants ne constituent pas un devis.
+      </small>
+    </div>
+  );
 }
 
 export function JourneySummary({
@@ -238,6 +279,7 @@ export function Journey({
   selected,
   expanded,
   onClick,
+  onLine,
   lessWalking,
   every,
   day,
@@ -251,6 +293,8 @@ export function Journey({
   /** Showing its timeline. */
   expanded: boolean;
   onClick: (card: HTMLElement) => void;
+  /** Opens the page of the line a leg rides. */
+  onLine?: (leg: Leg) => void;
   /** Minutes between repeats when the card stands for a frequent service. */
   every?: number;
   day?: string;
@@ -381,7 +425,18 @@ export function Journey({
                       </>
                     ) : (
                       <>
-                        <span className="route-tag">{legLabel(l)}</span>{" "}
+                        {onLine && l.tripId && !isLift(l) ? (
+                          <button
+                            type="button"
+                            className="route-tag line-link"
+                            onClick={() => onLine(l)}
+                          >
+                            {legLabel(l)}
+                            <span className="sr-only"> : voir la ligne</span>
+                          </button>
+                        ) : (
+                          <span className="route-tag">{legLabel(l)}</span>
+                        )}{" "}
                         {towards(l) && `vers ${towards(l)}`}
                         <span className="leg-facts">
                           {/* One flex item, so the climb wraps as part of the sentence. */}
@@ -423,23 +478,7 @@ export function Journey({
                           </div>
                         )}
                         {l.reservation === "COMPULSORY" && (
-                          <div className="reservation-detail">
-                            <strong>Réservation obligatoire</strong>
-                            {l.routeShortName === "Y85" && (
-                              <>
-                                {" · "}
-                                <a href="tel:+33480007000">04 8000 7000</a>
-                                {" · "}
-                                <a
-                                  href="https://www.laregionvoustransporte.fr/cars-region/cars-region-de-haute-savoie/ligne/y85-sallanches-passy-plaine-joux/"
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  Modalités Y85
-                                </a>
-                              </>
-                            )}
-                          </div>
+                          <Reservation line={l.routeShortName} />
                         )}
                       </>
                     )}
@@ -487,19 +526,7 @@ export function Journey({
               </span>
             </p>
           )}
-          {fareHints.length > 0 && (
-            <div className="fare-box">
-              <span className="eyebrow">Repères de prix</span>
-              {fareHints.map((f) => (
-                <p key={f}>{f}</p>
-              ))}
-              <small>
-                Tarifs publics relevés le 18/11/2026. Conditions et
-                correspondances à vérifier ; ces montants ne constituent pas un
-                devis.
-              </small>
-            </div>
-          )}
+          <FareBox hints={fareHints} />
         </div>
       )}
     </article>

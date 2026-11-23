@@ -937,6 +937,15 @@ h2 {
   padding: 1px 5px;
   margin-right: 2px;
 }
+/* A tag that opens its line's page. */
+.line-link {
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--accent-ink) 35%, transparent);
+}
+.line-link:hover {
+  background: var(--accent-ink);
+  color: var(--surface);
+}
 .rental-stations,
 .reservation-detail {
   margin-top: 6px;
@@ -1097,6 +1106,146 @@ h2 {
 }
 .poi-card > p strong {
   color: var(--ink);
+}
+/* Line page */
+.line-badge {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  min-width: 46px;
+  height: 38px;
+  padding: 0 10px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 18px;
+  font-weight: 700;
+}
+.line-card .reservation-detail {
+  margin-top: 12px;
+  font-size: 15px;
+}
+.line-section {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.line-section h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.line-passings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.line-passings li {
+  padding: 5px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.line-passings small {
+  margin-left: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.line-passings small.live-dot {
+  color: var(--live);
+}
+.line-stops {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+}
+.line-stops li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding: 5px 0;
+  line-height: 1.3;
+}
+.line-stop-time {
+  width: 40px;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.line-stop-time del {
+  display: block;
+}
+.line-stop-dot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border: 2px solid var(--accent-ink);
+  border-radius: 50%;
+  background: var(--surface);
+  position: relative;
+  z-index: 1;
+}
+/* The line itself, running behind the dots: 40px of time, a 10px gap, then half a dot. */
+.line-stops li::before {
+  content: "";
+  position: absolute;
+  left: 54px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #8db4a0;
+}
+.line-stops:first-of-type li:first-child::before {
+  top: 50%;
+}
+.line-stops:last-of-type li:last-child::before {
+  bottom: 50%;
+}
+.line-stops li.off,
+.line-stops li.off .line-stop-time {
+  color: var(--subtle);
+}
+.line-stops li.off .line-stop-dot {
+  border-color: var(--line-strong);
+}
+.line-stops li.off::before {
+  background: var(--line-strong);
+}
+.line-stops li.end {
+  font-weight: 650;
+}
+.line-stops li.end .line-stop-dot {
+  background: var(--accent-ink);
+  outline: 3px solid var(--accent-soft);
+}
+.line-stops small {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-ink);
+}
+.line-fold {
+  display: block;
+  width: 100%;
+  min-height: 36px;
+  padding-left: 70px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-ink);
+}
+.line-fold:hover {
+  text-decoration: underline;
+}
+.line-section .fine-print {
+  margin-top: 10px;
 }
 .layer-icon {
   --layer: var(--muted);

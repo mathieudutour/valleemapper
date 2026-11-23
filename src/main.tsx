@@ -50,6 +50,7 @@ import {
   type RoutingPreference,
   type Itinerary,
   type Leg,
+  type LineDetails,
 } from "./types";
 import { layerById } from "./layers";
 import {
@@ -64,6 +65,14 @@ import {
 import { groupFrequent } from "./frequent";
 import { localSuggestions, poiName } from "./places";
 import { readLink, writeLink, type LinkState, type TransportMode } from "./url";
+import { LineCard } from "./LineCard";
+import {
+  lineOfDeparture,
+  lineOfLeg,
+  lineTitle,
+  mapLine,
+  type LineRef,
+} from "./lines";
 import { PlaceInput } from "./PlaceInput";
 import { Journey, JourneySummary, isCancelled } from "./Journey";
 import {
@@ -273,6 +282,7 @@ function App() {
   const activeSearch = useRef<AbortController | null>(null);
   const settingsChanged = useRef(false);
   const plannerScroll = useRef(0);
+  const lineScroll = useRef(0);
   const scrollToResults = useRef(false);
   const plannerHeading = useRef<HTMLHeadingElement>(null);
   // The card a click opened or closed, and where it was on screen, so it stays put as cards resize.
@@ -309,6 +319,11 @@ function App() {
     [recent, setRecent] = useState<RecentTrip[]>(readRecent),
     [filters, setFilters] = useState(initial.layers),
     [poi, setPoi] = useState<Poi>(),
+    // The line whose page is open over the journeys or the place card, and what the API said of it.
+    [line, setLine] = useState<LineRef>(),
+    [lineState, setLineState] = useState<
+      { of: LineRef; details?: LineDetails; error?: string } | undefined
+    >(),
     [layersOpen, setLayersOpen] = useState(false),
     [bikeState, setBikeState] = useState<BikeStatus>(),
     [bikeError, setBikeError] = useState(false),
@@ -360,6 +375,7 @@ function App() {
   }, []);
 
   function resetSearch() {
+    setLine(undefined);
     activeSearch.current?.abort();
     activeSearch.current = null;
     setBusy(false);
@@ -398,6 +414,7 @@ function App() {
     setBusy(true);
     setError("");
     setFieldError(undefined);
+    setLine(undefined);
     if (!keepPlace) setPoi(undefined);
     setHideHero(true);
     if (mobile && !keepPlace) setSnap("full");
@@ -600,8 +617,58 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    if (!line) return;
+    const controller = new AbortController();
+    fetch(
+      "/api/line?" + new URLSearchParams({ trip: line.trip, at: line.at }),
+      {
+        signal: controller.signal,
+      },
+    )
+      .then(async (r) => {
+        const body = await r.json();
+        if (!r.ok) throw Error(body.error);
+        setLineState({ of: line, details: body });
+      })
+      .catch((e) => {
+        if (controller.signal.aborted) return;
+        setLineState({
+          of: line,
+          error:
+            e instanceof Error && e.message
+              ? e.message
+              : "Ligne momentanément indisponible.",
+        });
+      });
+    return () => controller.abort();
+  }, [line]);
+  const lineDetails = lineState?.of === line ? lineState?.details : undefined;
+  const lineOnMap = useMemo(
+    () => lineDetails && mapLine(lineDetails),
+    [lineDetails],
+  );
+
+  function openLine(next: LineRef) {
+    if (!line) lineScroll.current = sidebarScroll.current?.scrollTop ?? 0;
+    setLine(next);
+    requestAnimationFrame(() => {
+      sidebarScroll.current?.scrollTo(0, 0);
+      document.getElementById("line-title")?.focus({ preventScroll: true });
+    });
+  }
+  function closeLine() {
+    setLine(undefined);
+    requestAnimationFrame(() =>
+      sidebarScroll.current?.scrollTo(0, lineScroll.current),
+    );
+  }
+
   function selectPoi(p: Poi) {
-    if (!poi) plannerScroll.current = sidebarScroll.current?.scrollTop ?? 0;
+    // A place opened from a line's page takes its place: going back from it leads to the journeys.
+    if (!poi && !line)
+      plannerScroll.current = sidebarScroll.current?.scrollTop ?? 0;
+    setLine(undefined);
     setPoi(p);
     setLayersOpen(false);
     if (mobile) setSnap("half");
@@ -775,7 +842,19 @@ function App() {
       </div>
     );
 
-  const peek = poi ? (
+  const peek = line ? (
+    <>
+      <span className="line-badge">{line.name}</span>
+      <span className="peek-text">
+        <strong>
+          <span className="peek-trip">
+            {lineTitle(lineDetails?.longName) ?? `Ligne ${line.name}`}
+          </span>
+        </strong>
+        <small>Ligne</small>
+      </span>
+    </>
+  ) : poi ? (
     <>
       <LayerIcon mode={poi.mode} />
       <span className="peek-text">
@@ -843,7 +922,7 @@ function App() {
             {snap === "peek" && (
               <button
                 className="sheet-peek"
-                onClick={tap(poi || listed ? "half" : "full")}
+                onClick={tap(line || poi || listed ? "half" : "full")}
               >
                 {peek}
               </button>
@@ -884,7 +963,20 @@ function App() {
           <span className="prototype-tag">Prototype</span>
         </div>
         <div className="sidebar-scroll" ref={sidebarScroll}>
-          {poi ? (
+          {line ? (
+            <section className="place-view">
+              <button className="back-button" onClick={closeLine}>
+                <ArrowLeft size={17} aria-hidden="true" />
+                {poi ? "Retour à l’arrêt" : "Retour au trajet"}
+              </button>
+              <LineCard
+                key={line.trip + line.at}
+                line={line}
+                details={lineDetails}
+                error={lineState?.of === line ? lineState.error : undefined}
+              />
+            </section>
+          ) : poi ? (
             <section className="place-view">
               <button className="back-button" onClick={closePoi}>
                 <ArrowLeft size={17} aria-hidden="true" />
@@ -900,6 +992,7 @@ function App() {
                 onSelect={selectPoi}
                 onGo={(place) => choosePlace(setTo, place)}
                 onStart={(place) => choosePlace(setFrom, place)}
+                onLine={(departure) => openLine(lineOfDeparture(departure))}
               />
             </section>
           ) : (
@@ -1174,6 +1267,7 @@ function App() {
                           }
                           selected={selected}
                           expanded={selected && expanded}
+                          onLine={(leg) => openLine(lineOfLeg(leg))}
                           onClick={(card) => {
                             anchor.current = {
                               key,
@@ -1336,6 +1430,7 @@ function App() {
             data={data}
             filters={filters}
             journey={selectedJourney}
+            line={lineOnMap}
             // With the sheet up, a tap on the map only lowers it: stops sit close together, so a tap
             // meant for the map would often open one.
             onPoi={(p) =>

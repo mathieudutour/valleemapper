@@ -64,6 +64,8 @@ export type Leg = {
     toStationName?: string;
   };
   routeId?: string;
+  /** The vehicle's run, which opens the line's page. */
+  tripId?: string;
   routeShortName?: string;
   routeLongName?: string;
   displayName?: string;
@@ -90,6 +92,8 @@ export type Plan = {
 };
 export type StopDeparture = {
   id: string;
+  /** The vehicle's run, which opens the line's page. */
+  trip: string;
   /** Expected time: realtime when known, otherwise scheduled. */
   time: string;
   /** Set when a realtime update moved the departure away from its scheduled time. */
@@ -99,6 +103,38 @@ export type StopDeparture = {
   realTime: boolean;
   cancelled: boolean;
   requiresReservation: boolean;
+};
+export type LineStop = {
+  name: string;
+  stopId?: string;
+  lat: number;
+  lon: number;
+  /** Expected time at the stop: when the run leaves it, or reaches it at the terminus. */
+  time?: string;
+  /** Set when a realtime update moved that time. */
+  scheduledTime?: string;
+};
+/** A line as one of its runs serves it: every stop of that vehicle, in order. */
+export type LineDetails = {
+  trip: string;
+  /** What the tags show: the line number, or the mode for a line without one. */
+  name: string;
+  longName?: string;
+  mode: string;
+  routeId?: string;
+  operator?: string;
+  operatorUrl?: string;
+  realTime: boolean;
+  cancelled: boolean;
+  requiresReservation: boolean;
+  alerts: MotisAlert[];
+  stops: LineStop[];
+  /** The run's path, one encoded part per line number it carries. */
+  geometry: { points: string; precision: number }[];
+  /** The stop the rider boards at, when the request gave the time they do. */
+  board?: number;
+  /** The line's next runs past that stop in the same direction, the rider's own first. */
+  passings?: { time: string; realTime: boolean }[];
 };
 export type Poi = {
   id: string;

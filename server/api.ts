@@ -1,6 +1,7 @@
 import { planWithWalkingOptions, type MotisFetch } from "./planning.js";
 import { geocode, type AddressFetch } from "./geocoding.js";
 import { retimePlan } from "./slopes.js";
+import { lineDetails, TRIP_ID } from "./line.js";
 import type { Heights } from "./elevation.js";
 import {
   BIKE_CHOICES,
@@ -20,6 +21,8 @@ type MotisStopTime = {
   };
   tripTo: { name: string };
   tripId: string;
+  routeId?: string;
+  directionId?: string;
   headsign: string;
   mode: string;
   displayName: string;
@@ -244,6 +247,7 @@ export async function api(
             : event.tripTo?.name || headsign;
         next.set(id, {
           id,
+          trip: event.tripId,
           time,
           scheduledTime:
             event.realTime && scheduled && scheduled !== time
@@ -269,6 +273,70 @@ export async function api(
         departures.push(d);
       }
       return json({ departures, alerts: [...alerts.values()] });
+    }
+    if (url.pathname === "/api/line") {
+      const trip = p.get("trip") ?? "";
+      if (!TRIP_ID.test(trip)) return json({ error: "Ligne invalide." }, 400);
+      const r = await services.motis(
+        `/api/v6/trip?${new URLSearchParams({ tripId: trip, language: "fr" })}`,
+        request.signal,
+      );
+      if (!r.ok) {
+        await r.body?.cancel().catch(() => {});
+        return r.status === 404
+          ? json({ error: "Cette course n’est plus à l’horaire." }, 404)
+          : json({ error: "Ligne momentanément indisponible." }, 502);
+      }
+      const found = lineDetails(
+        trip,
+        (await r.json()) as Itinerary,
+        Date.parse(p.get("at") ?? ""),
+      );
+      if (!found) return json({ error: "Ligne introuvable." }, 404);
+      const { directionId, ...line } = found;
+      const stop = line.board !== undefined && line.stops[line.board];
+      if (stop && stop.stopId && stop.time) {
+        // The runs that follow at the rider's stop, starting from their own or from now if it has left.
+        const from = Math.max(Date.parse(stop.time), Date.now());
+        const params = new URLSearchParams({
+          stopId: stop.stopId,
+          time: new Date(from).toISOString(),
+          n: "40",
+          language: "fr",
+        });
+        if (!/RAIL|TRAM|SUBURBAN/.test(line.mode)) {
+          // As on departure boards: a one-metre radius keeps the bay apart from the one across the road.
+          params.set("radius", "1");
+          params.set("exactRadius", "true");
+        }
+        // The page is still worth showing without them.
+        const board = await services
+          .motis(`/api/v6/stoptimes?${params}`, request.signal)
+          .then(async (b) => {
+            if (b.ok) return (await b.json()) as { stopTimes: MotisStopTime[] };
+            await b.body?.cancel().catch(() => {});
+          })
+          .catch(() => undefined);
+        line.passings = (board?.stopTimes ?? [])
+          .filter(
+            (e) =>
+              e.routeId === line.routeId &&
+              e.directionId === directionId &&
+              e.pickupDropoffType !== "NOT_ALLOWED" &&
+              !e.cancelled &&
+              !e.tripCancelled,
+          )
+          .flatMap((e) => {
+            const time = e.realTime
+              ? e.place.departure
+              : e.place.scheduledDeparture || e.place.departure;
+            return time && Date.parse(time) >= from
+              ? [{ time, realTime: e.realTime === true }]
+              : [];
+          })
+          .slice(0, 5);
+      }
+      return json(line);
     }
     if (url.pathname === "/api/geocode") {
       const text = p.get("q")?.trim();
@@ -313,7 +381,9 @@ export async function api(
             ? "Disponibilité momentanément indisponible."
             : url.pathname === "/api/departures"
               ? "Horaires momentanément indisponibles."
-              : "Le moteur de calcul est indisponible. Lancez npm run setup puis npm run dev.",
+              : url.pathname === "/api/line"
+                ? "Ligne momentanément indisponible."
+                : "Le moteur de calcul est indisponible. Lancez npm run setup puis npm run dev.",
       },
       503,
     );

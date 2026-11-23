@@ -102,6 +102,7 @@ test("bus boards request the selected bay and show the next three boardable depa
   assert.equal(departures[2].time, liveTime);
   assert.equal(departures[2].scheduledTime, delayedFrom);
   assert.equal(departures[2].line, "Y85");
+  assert.equal(departures[2].trip, "live");
   assert.equal(departures[2].destination, "Plaine Joux");
   assert.equal(departures[2].realTime, true);
   assert.equal(departures[2].cancelled, false);

@@ -16,6 +16,7 @@ import {
 import { layerById } from "./layers";
 import { poiName } from "./places";
 import type { Theme } from "./theme";
+import type { MapLine } from "./lines";
 import { darkenStyle } from "./darkMap";
 
 // One basemap for both themes: the dark one is derived from it, so it keeps the same detail.
@@ -52,14 +53,9 @@ function legCoordinates(leg: Leg): [number, number][] {
       ];
 }
 
-/** Points within 40 m of where a journey starts, ends, boards, alights or stops along the way. */
-function tripPoints(journey: Itinerary, pois: Poi[]) {
-  const places: Place[] = journey.legs.flatMap((l) => [
-    l.from,
-    l.to,
-    ...(l.intermediateStops ?? []),
-  ]);
-  const near = (p: Poi, q: Place) =>
+/** Points within 40 m of the given places. */
+function pointsNear(places: { lat: number; lon: number }[], pois: Poi[]) {
+  const near = (p: Poi, q: { lat: number; lon: number }) =>
     Math.hypot(
       (p.lon - q.lon) * Math.cos((q.lat * Math.PI) / 180),
       p.lat - q.lat,
@@ -70,11 +66,15 @@ function tripPoints(journey: Itinerary, pois: Poi[]) {
     pois.filter((p) => places.some((q) => near(p, q))).map((p) => p.id),
   );
 }
+/** Where a journey starts, ends, boards, alights or stops along the way. */
+const journeyPlaces = (journey: Itinerary): Place[] =>
+  journey.legs.flatMap((l) => [l.from, l.to, ...(l.intermediateStops ?? [])]);
 
 export default function ValleyMap({
   data,
   filters,
   journey,
+  line,
   onPoi,
   onBackgroundClick,
   selected,
@@ -84,6 +84,8 @@ export default function ValleyMap({
   data: ValleyData;
   filters: string[];
   journey?: Itinerary;
+  /** A line whose page is open: drawn whole, in place of the journey. */
+  line?: MapLine;
   onPoi: (p: Poi) => void;
   onBackgroundClick?: () => void;
   selected?: Poi;
@@ -98,6 +100,7 @@ export default function ValleyMap({
       data,
       filters,
       journey,
+      line,
       onPoi,
       onBackgroundClick,
       selected,
@@ -108,6 +111,7 @@ export default function ValleyMap({
     data,
     filters,
     journey,
+    line,
     onPoi,
     onBackgroundClick,
     selected,
@@ -125,7 +129,7 @@ export default function ValleyMap({
   function update() {
     const m = map.current;
     if (!m || !ready.current) return;
-    const { data, filters, journey, selected, theme } = latest.current;
+    const { data, filters, journey, line, selected, theme } = latest.current;
     const colors = palette[theme];
     m.setLayoutProperty(
       "lifts",
@@ -133,7 +137,9 @@ export default function ValleyMap({
       filters.includes("lift") ? "visible" : "none",
     );
     // A drawn route takes the foreground: its stops keep their colour and the other points recede.
-    const onTrip = journey && tripPoints(journey, data.pois);
+    const onTrip = line
+      ? pointsNear(line.stops, data.pois)
+      : journey && pointsNear(journeyPlaces(journey), data.pois);
     (m.getSource("pois") as maplibregl.GeoJSONSource).setData({
       type: "FeatureCollection",
       features: data.pois
@@ -152,7 +158,16 @@ export default function ValleyMap({
     m.setFilter("poi-selected", ["==", ["get", "id"], selected?.id ?? ""]);
 
     const features: GeoJSON.Feature[] = [];
-    for (const leg of journey?.legs || []) {
+    for (const coordinates of line?.paths ?? [])
+      features.push({
+        type: "Feature",
+        geometry: { type: "LineString", coordinates },
+        properties: {
+          kind: line!.approximate ? "approximate" : "transit",
+          color: colors.route,
+        },
+      });
+    for (const leg of line ? [] : journey?.legs || []) {
       const coords = legCoordinates(leg);
       if (coords.length < 2) continue;
       const kind =
@@ -181,9 +196,10 @@ export default function ValleyMap({
       type: "FeatureCollection",
       features,
     });
-    const ends = journey
-      ? [journey.legs[0]?.from, journey.legs.at(-1)?.to].filter(Boolean)
-      : [];
+    const ends =
+      journey && !line
+        ? [journey.legs[0]?.from, journey.legs.at(-1)?.to].filter(Boolean)
+        : [];
     (m.getSource("ends") as maplibregl.GeoJSONSource).setData({
       type: "FeatureCollection",
       features: ends.map((p, i) => ({
@@ -484,7 +500,7 @@ export default function ValleyMap({
     m.setStyle(BASEMAP, { diff: false, transformStyle: transformStyle(theme) });
   }, [theme]);
 
-  useEffect(update, [data, filters, journey, selected]);
+  useEffect(update, [data, filters, journey, line, selected]);
 
   useEffect(() => {
     const m = map.current;
@@ -500,15 +516,17 @@ export default function ValleyMap({
 
   useEffect(() => {
     const m = map.current;
-    if (!m || !journey) return;
-    const all = journey.legs.flatMap(legCoordinates);
-    if (!all.length) return;
+    // An open line is framed whole; closing it frames the journey again.
+    const all = line
+      ? line.paths.flat()
+      : (journey?.legs.flatMap(legCoordinates) ?? []);
+    if (!m || !all.length) return;
     const bounds = all.reduce(
       (b, c) => b.extend(c),
       new maplibregl.LngLatBounds(all[0], all[0]),
     );
     m.fitBounds(bounds, { padding: padding(), maxZoom: 14, duration: 700 });
-  }, [journey, bottomInset]);
+  }, [journey, line, bottomInset]);
 
   return (
     <>
